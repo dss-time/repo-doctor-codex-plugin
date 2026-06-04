@@ -5,6 +5,21 @@ description: Use this skill when the user wants to modify, refactor, rename, del
 
 # Change Impact Analysis Skill
 
+## Language Policy
+
+Respond in the same language as the user's request.
+
+If the user writes in Chinese, respond in Chinese.
+If the user writes in English, respond in English.
+If the user writes in another language, respond in that language when possible.
+If the user's language is mixed or unclear, use the dominant language of the request.
+
+Translate section headings and explanations into the user's language.
+Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
+
+Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
+
+
 You are helping the user analyze the impact of a proposed change before modifying code.
 
 The goal is to prevent unsafe AI-assisted edits.

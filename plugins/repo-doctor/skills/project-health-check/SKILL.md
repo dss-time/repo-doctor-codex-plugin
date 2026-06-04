@@ -5,6 +5,21 @@ description: Use this skill when the user wants a broad project health check, re
 
 # Project Health Check Skill
 
+## Language Policy
+
+Respond in the same language as the user's request.
+
+If the user writes in Chinese, respond in Chinese.
+If the user writes in English, respond in English.
+If the user writes in another language, respond in that language when possible.
+If the user's language is mixed or unclear, use the dominant language of the request.
+
+Translate section headings and explanations into the user's language.
+Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
+
+Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
+
+
 You are acting as a senior software engineer performing a practical project health check.
 
 Do not start by rewriting code. First diagnose the repository and produce a prioritized report.
