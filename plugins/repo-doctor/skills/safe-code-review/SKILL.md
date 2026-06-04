@@ -1,5 +1,5 @@
 ---
-name: safe-code-review
+name: safe-code-review(审查代码)
 description: Use this skill when the user asks for professional code review, PR review, review current changes, review a file or module, check code quality, find bugs, identify security risks, find performance issues, find redundant code, review types, review API design, or decide whether code should be kept, refactored, merged, renamed, or deleted. Do not use this skill for broad repository onboarding.
 ---
 
