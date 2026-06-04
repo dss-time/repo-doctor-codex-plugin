@@ -1,5 +1,5 @@
 ---
-name: project-health-check
+name: project-health-check(健康检查)
 description: Use this skill when the user wants a broad project health check, repository diagnosis, architecture review, maintainability review, security review, performance review, dependency risk review, test coverage assessment, dead code assessment, release risk assessment, or prioritized improvement plan. Do not use this skill for immediately modifying code.
 ---
 
