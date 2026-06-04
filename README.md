@@ -1,6 +1,6 @@
 # Repo Doctor for Codex
 
-Repo Doctor is a universal Codex plugin that helps developers safely understand, review, diagnose, and change software repositories.
+Repo Doctor is a universal Codex plugin that helps developers safely understand, review, diagnose, fix, and change software repositories.
 
 The core idea is simple:
 
@@ -24,11 +24,13 @@ Repo Doctor is designed for developers who want safer AI-assisted coding workflo
   - [project-health-check](#2-project-health-check)
   - [safe-code-review](#3-safe-code-review)
   - [change-impact-analysis](#4-change-impact-analysis)
+  - [safe-fix-implementation](#5-safe-fix-implementation)
 - [Recommended Workflows](#recommended-workflows)
 - [Prompt Examples](#prompt-examples)
 - [Troubleshooting](#troubleshooting)
 - [Repository Structure](#repository-structure)
 - [Roadmap](#roadmap)
+- [License](#license)
 
 ---
 
@@ -46,7 +48,7 @@ It helps Codex behave less like a code generator and more like a careful senior 
 - What should be fixed before release?
 - What should not be changed yet?
 
-Repo Doctor currently includes four skills:
+Repo Doctor currently includes five skills:
 
 | Skill | Main Use |
 |---|---|
@@ -54,6 +56,7 @@ Repo Doctor currently includes four skills:
 | `project-health-check` | Diagnose project quality, risks, tests, security, and release readiness. |
 | `safe-code-review` | Review code, files, PRs, or current changes with practical priorities. |
 | `change-impact-analysis` | Analyze the impact before modifying, deleting, renaming, or refactoring shared code. |
+| `safe-fix-implementation` | Safely implement the smallest high-priority fix after a diagnosis report. |
 
 ---
 
@@ -70,11 +73,12 @@ Common risks include:
 - reviewing only style instead of correctness and safety
 - modifying unfamiliar repositories too quickly
 - letting AI edit first without understanding the project context
+- fixing too many unrelated issues at once
 
 Repo Doctor encourages a safer workflow:
 
 ```text
-Understand → Diagnose → Analyze Impact → Change Safely
+Understand → Diagnose → Analyze Impact → Fix Safely → Review
 ```
 
 ---
@@ -135,7 +139,7 @@ Sparse path: leave empty
 
 Then install the `Repo Doctor` plugin.
 
-After installation, open or restart Codex, then start a new conversation in the repository you want to analyze.
+After installation, restart Codex or start a new conversation in the repository you want to analyze.
 
 ---
 
@@ -154,6 +158,7 @@ repo-onboarding
 project-health-check
 safe-code-review
 change-impact-analysis
+safe-fix-implementation
 ```
 
 You can also try:
@@ -164,15 +169,11 @@ You can also try:
 
 If the skills appear in the list, the plugin is installed correctly.
 
-If they do not appear, see [Troubleshooting](#troubleshooting).
-
 ---
 
 ## Quick Start
 
 ### New to a repository?
-
-Use:
 
 ```text
 $repo-onboarding
@@ -182,8 +183,6 @@ Do not modify code.
 ```
 
 ### Want a full project diagnosis?
-
-Use:
 
 ```text
 $project-health-check
@@ -195,8 +194,6 @@ Give me P0/P1/P2/P3 priorities.
 
 ### Want to review current changes?
 
-Use:
-
 ```text
 $safe-code-review
 
@@ -206,13 +203,33 @@ Focus on correctness, maintainability, security, performance, types, tests, and 
 
 ### Want to refactor or delete shared code?
 
-Use:
-
 ```text
 $change-impact-analysis
 
 I want to refactor src/utils/request.ts.
 Before editing, analyze what depends on it, what can break, and what tests I need.
+```
+
+### Want to fix issues from a health check?
+
+```text
+$safe-fix-implementation
+
+Please fix the highest-priority issue from the previous project-health-check report.
+Do not fix all issues at once.
+Start with the smallest safe P0/P1 fix.
+After editing, run or suggest validation commands.
+```
+
+Chinese example:
+
+```text
+$safe-fix-implementation
+
+请基于刚才的 project-health-check 报告开始修复。
+不要一次修复所有问题。
+请优先选择最高优先级且影响范围最小的问题。
+修改后请运行或建议验证命令。
 ```
 
 ---
@@ -229,8 +246,11 @@ Before editing, analyze what depends on it, what can break, and what tests I nee
 | I want to know whether code is dead or redundant. | `project-health-check` first, then `change-impact-analysis` |
 | I want to review a PR before merging. | `safe-code-review` |
 | I want to prepare before a release. | `project-health-check` |
-| I want to onboard a new teammate. | `repo-onboarding` |
-| I want Codex to avoid changing code too early. | Any Repo Doctor skill, with “Do not modify code first.” |
+| I want to fix issues found by project-health-check. | `safe-fix-implementation` |
+| I want to fix only the highest-priority issue. | `safe-fix-implementation` |
+| I want to fix a build/typecheck/test failure safely. | `safe-fix-implementation` |
+| I want to apply one small verified fix, not a full rewrite. | `safe-fix-implementation` |
+| I want Codex to avoid changing code too early. | Use any Repo Doctor skill with “Do not modify code first.” |
 
 ---
 
@@ -292,21 +312,6 @@ $repo-onboarding
 6. 核心模块
 7. 新人应该先读哪些文件
 8. 哪些地方修改时要小心
-```
-
-### Expected output
-
-Repo Doctor should return something like:
-
-```text
-1. Project Summary
-2. Technology Stack
-3. Directory Map
-4. Entry Points and Core Flow
-5. How To Run and Validate
-6. Recommended Reading Order
-7. Risk Areas
-8. Recommended Next Step
 ```
 
 ---
@@ -374,33 +379,6 @@ $project-health-check
 请按照 P0/P1/P2/P3 给出优先级。
 ```
 
-### Expected output
-
-Repo Doctor should return:
-
-```text
-1. Overall Health Conclusion
-2. Health Score
-3. P0/P1/P2/P3 Issues
-4. Architecture and Module Boundary Issues
-5. Redundant Code and Possible Dead Code
-6. Security and Stability Risks
-7. Performance Issues
-8. Test Gaps
-9. Release Readiness Checks
-10. Recommended Roadmap
-11. Final Recommendation
-```
-
-### Priority system
-
-| Priority | Meaning |
-|---|---|
-| P0 | Must fix immediately. Usually security, data loss, crash, or release-blocking risk. |
-| P1 | Should fix soon. Usually correctness, stability, maintainability, or type-safety risk. |
-| P2 | Recommended improvement. Usually duplication, structure, testing, or future maintenance cost. |
-| P3 | Optional cleanup. Usually style, naming, minor readability, or non-critical improvement. |
-
 ---
 
 ## 3. safe-code-review
@@ -462,26 +440,6 @@ $safe-code-review
 8. 是否会破坏已有 API
 
 请按照 P0/P1/P2/P3 输出。
-```
-
-### Review one file
-
-```text
-$safe-code-review
-
-Please review src/utils/request.ts.
-Do not modify it yet.
-Tell me what is correct, what is risky, what should be tested, and what should be refactored.
-```
-
-### Review a PR
-
-```text
-$safe-code-review
-
-Review this PR as a senior engineer.
-Focus on correctness, compatibility, security, performance, and missing tests.
-Do not nitpick style unless it affects maintainability.
 ```
 
 ---
@@ -547,23 +505,105 @@ $change-impact-analysis
 7. 最小安全修改方案是什么
 ```
 
-### Delete code safely
+---
+
+## 5. safe-fix-implementation
+
+### What it does
+
+`safe-fix-implementation` safely fixes issues found by `project-health-check`, `safe-code-review`, or `change-impact-analysis`.
+
+It is designed to avoid the most common AI coding problem:
+
+> fixing too many things at once.
+
+Instead, it works in small steps:
 
 ```text
-$change-impact-analysis
-
-I want to delete src/legacy/oldFormatter.ts.
-Before deleting it, check whether it is referenced, exported, dynamically used, documented, or part of a public API.
-Then tell me whether it is safe to delete.
+select one issue → check impact → make minimal fix → validate → summarize → recommend next step
 ```
 
-### Rename an exported API safely
+### When to use it
+
+Use it after:
+
+```text
+$project-health-check
+```
+
+or:
+
+```text
+$safe-code-review
+```
+
+or:
 
 ```text
 $change-impact-analysis
+```
 
-I want to rename the exported function createRequestClient to createHttpClient.
-Before editing, analyze all references, public API risk, migration strategy, and compatibility options.
+Use it when you want to:
+
+- fix a P0/P1 issue
+- fix a build failure
+- fix a typecheck failure
+- fix a release-blocking problem
+- apply a small safe refactor
+- remove confirmed dead code
+- add missing tests for risky behavior
+- implement one item from a diagnosis report
+
+### Basic prompt
+
+```text
+$safe-fix-implementation
+
+Please fix the highest-priority issue from the previous project-health-check report.
+Do not fix all issues at once.
+Start with the smallest safe P0/P1 fix.
+After editing, run or suggest validation commands.
+```
+
+### Chinese prompt
+
+```text
+$safe-fix-implementation
+
+请基于刚才的 project-health-check 报告开始修复。
+不要一次修复所有问题。
+请优先选择最高优先级且影响范围最小的问题。
+修改后请运行或建议验证命令。
+```
+
+### Fix only one issue
+
+```text
+$safe-fix-implementation
+
+Only fix the P0 Node/Vite version issue from the previous report.
+Do not modify unrelated files.
+After the fix, validate with the build command or tell me exactly what command to run.
+```
+
+### Ask before risky changes
+
+```text
+$safe-fix-implementation
+
+Please create a fix plan from the previous report.
+If the fix involves public APIs, shell permissions, system proxy, TUN, release scripts, database schema, authentication, or authorization, stop and ask for my confirmation before editing.
+```
+
+### Recommended follow-up
+
+After the fix, run:
+
+```text
+$safe-code-review
+
+Please review the fix that was just implemented.
+Focus on correctness, compatibility, security, and whether validation is sufficient.
 ```
 
 ---
@@ -599,13 +639,19 @@ $change-impact-analysis
 Then, after reviewing the impact report:
 
 ```text
+$safe-fix-implementation
+```
+
+Finally:
+
+```text
 $safe-code-review
 ```
 
 Goal:
 
 ```text
-Analyze impact before editing, then review the final changes.
+Analyze impact before editing, fix safely, then review the final changes.
 ```
 
 ---
@@ -628,12 +674,6 @@ Find correctness, safety, compatibility, and test issues before review.
 
 ```text
 $project-health-check
-```
-
-Recommended prompt:
-
-```text
-$project-health-check
 
 Check whether this repository is ready for release.
 Focus on build scripts, tests, CI, dependencies, environment variables, breaking changes, and release risks.
@@ -642,7 +682,63 @@ Do not modify code.
 
 ---
 
+### Workflow 5: Fix issues after project health check
+
+First run:
+
+```text
+$project-health-check
+```
+
+Then fix one issue safely:
+
+```text
+$safe-fix-implementation
+
+Fix the highest-priority issue from the previous report.
+Do not fix all issues at once.
+Make the smallest safe change and validate it.
+```
+
+Then review the fix:
+
+```text
+$safe-code-review
+
+Review the fix that was just implemented.
+```
+
+Goal:
+
+```text
+Diagnose first, fix one issue safely, then review the fix.
+```
+
+---
+
 ## Prompt Examples
+
+### Fix the highest-priority issue from a health check
+
+```text
+$safe-fix-implementation
+
+Please fix the highest-priority issue from the previous project-health-check report.
+Do not fix all issues at once.
+Choose the smallest safe P0/P1 fix.
+After editing, run or suggest validation commands.
+```
+
+### 修复体检报告中的最高优先级问题
+
+```text
+$safe-fix-implementation
+
+请基于刚才的 project-health-check 报告开始修复。
+不要一次修复所有问题。
+请优先选择最高优先级且影响范围最小的问题。
+修改后请运行或建议验证命令。
+```
 
 ### Find redundant code
 
@@ -701,42 +797,6 @@ Do not modify code.
 Only output findings, risks, and suggested fixes.
 ```
 
-### Ask Repo Doctor to proceed after analysis
-
-```text
-$change-impact-analysis
-
-I want to refactor src/utils/request.ts.
-First analyze the impact.
-After the impact report, wait for my confirmation before editing.
-```
-
----
-
-## What Repo Doctor Will Not Do Automatically
-
-Repo Doctor is intentionally conservative.
-
-It should not:
-
-- delete files without confirmation
-- rename public APIs without compatibility analysis
-- perform large rewrites when small fixes are enough
-- introduce dependencies without a strong reason
-- claim code is unused without searching references
-- change behavior silently
-- modify code before understanding the impact
-
-If you want Codex to modify code, ask explicitly after reviewing the analysis.
-
-Example:
-
-```text
-Based on the impact analysis, make the smallest safe change.
-Do not change public APIs.
-Run or suggest validation commands after editing.
-```
-
 ---
 
 ## Troubleshooting
@@ -781,6 +841,7 @@ plugins/repo-doctor/skills/repo-onboarding/SKILL.md
 plugins/repo-doctor/skills/project-health-check/SKILL.md
 plugins/repo-doctor/skills/safe-code-review/SKILL.md
 plugins/repo-doctor/skills/change-impact-analysis/SKILL.md
+plugins/repo-doctor/skills/safe-fix-implementation/SKILL.md
 ```
 
 ---
@@ -839,7 +900,9 @@ repo-doctor-codex-plugin/
 │           │   └── SKILL.md
 │           ├── safe-code-review/
 │           │   └── SKILL.md
-│           └── change-impact-analysis/
+│           ├── change-impact-analysis/
+│           │   └── SKILL.md
+│           └── safe-fix-implementation/
 │               └── SKILL.md
 ├── README.md
 └── LICENSE
