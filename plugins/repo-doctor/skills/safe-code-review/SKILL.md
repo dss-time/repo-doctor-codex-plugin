@@ -54,6 +54,8 @@ Review:
 
 ## Output Format
 
+Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+
 ### 1. Overall Conclusion
 
 Choose one:

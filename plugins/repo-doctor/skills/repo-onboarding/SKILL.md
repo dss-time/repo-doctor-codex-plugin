@@ -49,6 +49,8 @@ Help the user understand:
 
 ## Output Format
 
+Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+
 ### 1. Project Summary
 
 Explain what the repository appears to do. If uncertain, say what evidence supports the conclusion.

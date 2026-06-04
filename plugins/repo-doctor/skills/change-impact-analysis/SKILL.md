@@ -70,6 +70,8 @@ Use this skill when the user wants to:
 
 ## Output Format
 
+Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+
 ### 1. Change Target
 
 | Item | Value |
