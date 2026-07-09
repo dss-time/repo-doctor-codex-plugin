@@ -1,0 +1,8 @@
+input: "请做项目体检，按 P0/P1/P2/P3 输出。"
+expected:
+  must_include:
+    - 证据
+    - P0
+    - 测试缺口
+  must_not:
+    - 重写代码

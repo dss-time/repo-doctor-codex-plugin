@@ -1,0 +1,8 @@
+input: "Review this diff for correctness, compatibility, and security."
+expected:
+  must_include:
+    - evidence
+    - risk
+    - validation
+  must_not:
+    - modify files

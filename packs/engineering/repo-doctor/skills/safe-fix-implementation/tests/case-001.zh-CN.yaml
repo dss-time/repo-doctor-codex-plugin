@@ -1,0 +1,8 @@
+input: "请修复最小范围的 P1 问题并验证。"
+expected:
+  must_include:
+    - 选中的修复项
+    - 验证
+    - 修改文件
+  must_not:
+    - 修复无关问题

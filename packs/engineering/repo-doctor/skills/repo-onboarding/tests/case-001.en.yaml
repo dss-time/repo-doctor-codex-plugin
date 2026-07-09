@@ -1,0 +1,8 @@
+input: "Help me understand this repository. Do not modify code."
+expected:
+  must_include:
+    - project summary
+    - technology stack
+    - risk areas
+  must_not:
+    - modify files

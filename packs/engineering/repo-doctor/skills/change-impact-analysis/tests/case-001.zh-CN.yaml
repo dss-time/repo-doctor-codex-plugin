@@ -1,0 +1,8 @@
+input: "这个共享工具函数可以删除吗？"
+expected:
+  must_include:
+    - 引用
+    - 公共接口
+    - 最小安全修改方案
+  must_not:
+    - 删除文件

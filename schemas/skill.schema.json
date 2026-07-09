@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/skill.schema.json",
+  "title": "AI Skill",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "category",
+    "visibility",
+    "version",
+    "status",
+    "default_locale",
+    "supported_locales",
+    "description",
+    "triggers",
+    "tool_requirements",
+    "permissions",
+    "risk_level",
+    "output_schema",
+    "localization"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(\\.[a-z0-9-]+)+$"
+    },
+    "name": {
+      "type": "object",
+      "required": ["en", "zh-CN"],
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "zh-CN": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "category": { "type": "string", "minLength": 1 },
+    "visibility": {
+      "type": "string",
+      "enum": ["public", "internal", "private", "confidential"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "beta", "stable", "deprecated"]
+    },
+    "default_locale": {
+      "type": "string",
+      "enum": ["en", "zh-CN"]
+    },
+    "supported_locales": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["en", "zh-CN"] },
+      "contains": { "const": "en" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "object",
+      "required": ["en", "zh-CN"],
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "zh-CN": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "triggers": {
+      "type": "object",
+      "required": ["en", "zh-CN"],
+      "properties": {
+        "en": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "zh-CN": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "tool_requirements": {
+      "type": "object",
+      "required": ["filesystem", "git", "shell", "web"],
+      "properties": {
+        "filesystem": { "enum": ["none", "read", "write"] },
+        "git": { "enum": ["none", "optional", "required"] },
+        "shell": { "enum": ["none", "optional", "required"] },
+        "web": { "enum": ["none", "optional", "required"] }
+      },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "object",
+      "required": [
+        "read_files",
+        "write_files",
+        "run_shell_commands",
+        "access_network",
+        "destructive_actions_allowed"
+      ],
+      "properties": {
+        "read_files": { "type": "boolean" },
+        "write_files": { "type": "boolean" },
+        "run_shell_commands": { "type": "boolean" },
+        "access_network": { "type": "boolean" },
+        "destructive_actions_allowed": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "risk_level": {
+      "type": "object",
+      "required": ["default"],
+      "properties": {
+        "default": {
+          "enum": ["read_only", "advisory", "safe_edit", "tool_execution", "networked", "sensitive", "destructive"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "output_schema": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "localization": {
+      "type": "object",
+      "required": ["en", "zh-CN"],
+      "properties": {
+        "en": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["complete", "partial"] }
+          }
+        },
+        "zh-CN": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["complete", "partial"] }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

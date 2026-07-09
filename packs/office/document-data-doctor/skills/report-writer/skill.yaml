@@ -1,0 +1,42 @@
+id: office.report-writer
+name:
+  en: Report Writer
+  zh-CN: 报告编写
+category: office
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Draft evidence-based public-safe reports from provided sources and clearly separate facts, assumptions, and recommendations.
+  zh-CN: 基于用户提供的来源编写公开安全的证据型报告，并区分事实、假设和建议。
+triggers:
+  en:
+    - write a report
+    - draft a report from these sources
+  zh-CN:
+    - 写一份报告
+    - 根据这些材料起草报告
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: advisory
+output_schema:
+  type: report_draft
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

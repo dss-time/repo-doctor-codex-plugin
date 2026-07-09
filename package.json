@@ -1,0 +1,16 @@
+{
+  "name": "ai-skills-engineering-framework",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public-safe framework for engineering, validating, and adapting AI skills across agent platforms.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node scripts/validate-skills.mjs",
+    "build": "node scripts/build-skills.mjs",
+    "create:skill": "node scripts/create-skill.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

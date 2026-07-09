@@ -1,0 +1,44 @@
+id: repo.change-impact-analysis
+name:
+  en: Change Impact Analysis
+  zh-CN: 变更影响分析
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Analyze dependency and compatibility impact before changing shared code.
+  zh-CN: 在修改共享代码前分析依赖关系和兼容性影响。
+triggers:
+  en:
+    - what will this change affect
+    - can I rename this
+    - change impact analysis
+  zh-CN:
+    - 这个改动会影响什么
+    - 可以重命名这个吗
+    - 变更影响分析
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: impact_analysis_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

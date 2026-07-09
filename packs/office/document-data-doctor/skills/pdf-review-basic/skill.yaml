@@ -1,0 +1,42 @@
+id: office.pdf-review-basic
+name:
+  en: Basic PDF Review
+  zh-CN: PDF 基础审查
+category: office
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Review PDF content for structure, completeness, evidence, and manual confirmation items.
+  zh-CN: 审查 PDF 内容的结构、完整性、证据和人工确认项。
+triggers:
+  en:
+    - review this PDF
+    - PDF review
+  zh-CN:
+    - 审查 PDF
+    - PDF 基础审查
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: document_review_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

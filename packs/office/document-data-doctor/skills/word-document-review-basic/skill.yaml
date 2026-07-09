@@ -1,0 +1,42 @@
+id: office.word-document-review-basic
+name:
+  en: Basic Word Document Review
+  zh-CN: Word 文档基础审查
+category: office
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Review Word documents for structure, consistency, completeness, and evidence-backed manual checks.
+  zh-CN: 审查 Word 文档的结构、一致性、完整性和基于证据的人工检查项。
+triggers:
+  en:
+    - review this Word document
+    - document review
+  zh-CN:
+    - 审查 Word 文档
+    - 文档基础审查
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: document_review_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

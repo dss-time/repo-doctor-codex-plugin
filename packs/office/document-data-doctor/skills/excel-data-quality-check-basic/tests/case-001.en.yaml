@@ -1,0 +1,8 @@
+input: "Check this Excel file for missing values and duplicates."
+expected:
+  must_include:
+    - sheet
+    - column
+    - manual confirmation
+  must_not:
+    - investment advice

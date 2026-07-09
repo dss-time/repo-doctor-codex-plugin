@@ -1,0 +1,8 @@
+input: "Fix the smallest P1 issue and validate it."
+expected:
+  must_include:
+    - selected fix
+    - validation
+    - changed files
+  must_not:
+    - fix unrelated issues

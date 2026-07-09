@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/pack.schema.json",
+  "title": "AI Skill Pack",
+  "type": "object",
+  "required": ["id", "name", "category", "visibility", "version", "skills"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": {
+      "type": "object",
+      "required": ["en", "zh-CN"],
+      "properties": {
+        "en": { "type": "string" },
+        "zh-CN": { "type": "string" }
+      }
+    },
+    "category": { "type": "string" },
+    "visibility": { "enum": ["public", "internal", "private", "confidential"] },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "skills": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": true
+}

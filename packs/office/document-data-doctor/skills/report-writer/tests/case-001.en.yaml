@@ -1,0 +1,8 @@
+input: "Write a report from these source notes."
+expected:
+  must_include:
+    - source list
+    - evidence
+    - limitations
+  must_not:
+    - invented facts

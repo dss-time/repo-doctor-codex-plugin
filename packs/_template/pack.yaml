@@ -1,0 +1,17 @@
+id: template.example-pack
+name:
+  en: Example Pack Template
+  zh-CN: 示例技能包模板
+category: template
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: A public-safe template for creating a new skill pack.
+  zh-CN: 用于创建新技能包的公开安全模板。
+skills:
+  - example-skill

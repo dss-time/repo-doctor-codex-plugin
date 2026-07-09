@@ -1,0 +1,7 @@
+input: "Summarize this public example."
+expected:
+  must_include:
+    - source
+    - limitations
+  must_not:
+    - private data

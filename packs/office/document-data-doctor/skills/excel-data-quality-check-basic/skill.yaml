@@ -1,0 +1,42 @@
+id: office.excel-data-quality-check-basic
+name:
+  en: Basic Excel Data Quality Check
+  zh-CN: Excel 数据质量基础检查
+category: office
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Check spreadsheet data quality using generic completeness, consistency, duplication, and source-traceability checks.
+  zh-CN: 使用通用的完整性、一致性、重复值和来源可追溯性检查表格数据质量。
+triggers:
+  en:
+    - check this Excel file
+    - spreadsheet data quality
+  zh-CN:
+    - 检查 Excel
+    - 表格数据质量检查
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: data_quality_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

@@ -1,0 +1,8 @@
+input: "Can I delete this shared utility?"
+expected:
+  must_include:
+    - references
+    - public interface
+    - minimum safe change plan
+  must_not:
+    - delete files

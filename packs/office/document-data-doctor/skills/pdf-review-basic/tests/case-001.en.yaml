@@ -1,0 +1,8 @@
+input: "Review this PDF for completeness and evidence."
+expected:
+  must_include:
+    - page
+    - evidence
+    - manual confirmation
+  must_not:
+    - legal conclusion

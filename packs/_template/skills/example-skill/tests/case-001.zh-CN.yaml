@@ -1,0 +1,7 @@
+input: "请总结这个公开示例。"
+expected:
+  must_include:
+    - 来源
+    - 限制
+  must_not:
+    - 私有数据

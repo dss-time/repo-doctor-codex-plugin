@@ -1,0 +1,45 @@
+id: repo.safe-code-review
+name:
+  en: Safe Code Review
+  zh-CN: 安全代码审查
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Review code changes for correctness, compatibility, security, maintainability, and test coverage.
+  zh-CN: 审查代码改动中的正确性、兼容性、安全性、可维护性和测试覆盖。
+triggers:
+  en:
+    - review this code
+    - check this diff
+    - safe code review
+  zh-CN:
+    - 审查代码
+    - 检查当前 diff
+    - 安全代码审查
+    - 帮我 review 一下
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: review_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

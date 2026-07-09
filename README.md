@@ -1,929 +1,256 @@
-# Repo Doctor for Codex
+# AI Skills Engineering Framework
 
-Repo Doctor is a universal Codex plugin that helps developers safely understand, review, diagnose, fix, and change software repositories.
+Build public-safe AI skills that are reviewable, testable, distributable, and adaptable across Agent platforms.
 
-The core idea is simple:
+This repository is an early open-source framework for turning expert workflows into structured AI Skill packs. It includes a canonical `packs/` source format, validation scripts, build adapters, and a legacy Codex plugin for existing Repo Doctor users.
 
-> Let Codex understand and diagnose the repository before modifying code.
+## What This Project Can Do
 
-Repo Doctor is designed for developers who want safer AI-assisted coding workflows across different programming languages, frameworks, teams, and natural languages.
+- Define skills with metadata, permissions, localization, examples, and tests.
+- Validate public skills before they are published.
+- Build platform outputs for generic Markdown prompts, Codex / CodeX, and Claude Code.
+- Keep public-safe packs separate from private or internal implementations.
+- Preserve the original Repo Doctor Codex plugin while introducing a cross-platform source layout.
 
----
+## What This Project Is Not
 
-## Table of Contents
+- It is not a loose prompt collection.
+- It is not a private workflow repository.
+- It is not a finance, stock, or investment strategy library.
+- It does not include company templates, customer cases, secrets, or private data connectors.
 
-- [What is Repo Doctor?](#what-is-repo-doctor)
-- [Why use it?](#why-use-it)
-- [Language Support](#language-support)
-- [Installation](#installation)
-- [How to Verify Installation](#how-to-verify-installation)
-- [Quick Start](#quick-start)
-- [Which Skill Should I Use?](#which-skill-should-i-use)
-- [Skill Tutorials](#skill-tutorials)
-  - [repo-onboarding](#1-repo-onboarding)
-  - [project-health-check](#2-project-health-check)
-  - [safe-code-review](#3-safe-code-review)
-  - [change-impact-analysis](#4-change-impact-analysis)
-  - [safe-fix-implementation](#5-safe-fix-implementation)
-- [Recommended Workflows](#recommended-workflows)
-- [Prompt Examples](#prompt-examples)
-- [Troubleshooting](#troubleshooting)
-- [Repository Structure](#repository-structure)
-- [Roadmap](#roadmap)
-- [License](#license)
+## Who This Is For
 
----
-
-## What is Repo Doctor?
-
-Repo Doctor is a Codex plugin that provides a set of reusable skills for repository-level software engineering work.
-
-It helps Codex behave less like a code generator and more like a careful senior engineer who first asks:
-
-- What is this repository?
-- What are the important files?
-- What can break if I change this?
-- Is this code actually unused?
-- What should be tested before refactoring?
-- What should be fixed before release?
-- What should not be changed yet?
-
-Repo Doctor currently includes five skills:
-
-| Skill | Main Use |
-|---|---|
-| `repo-onboarding` | Understand an unfamiliar repository before changing it. |
-| `project-health-check` | Diagnose project quality, risks, tests, security, and release readiness. |
-| `safe-code-review` | Review code, files, PRs, or current changes with practical priorities. |
-| `change-impact-analysis` | Analyze the impact before modifying, deleting, renaming, or refactoring shared code. |
-| `safe-fix-implementation` | Safely implement the smallest high-priority fix after a diagnosis report. |
-
----
-
-## Why use it?
-
-AI coding tools are powerful, but unsafe code changes can create serious problems.
-
-Common risks include:
-
-- changing shared code without understanding who depends on it
-- deleting code that is still used
-- refactoring public APIs without compatibility checks
-- missing tests around risky behavior
-- reviewing only style instead of correctness and safety
-- modifying unfamiliar repositories too quickly
-- letting AI edit first without understanding the project context
-- fixing too many unrelated issues at once
-
-Repo Doctor encourages a safer workflow:
-
-```text
-Understand → Diagnose → Analyze Impact → Fix Safely → Review
-```
-
----
-
-## Language Support
-
-Repo Doctor follows the user's language by default.
-
-If you ask in English, it should respond in English.
-
-If you ask in Chinese, it should respond in Chinese.
-
-If you ask in another language, it will try to respond in that language.
-
-Code identifiers, file paths, package names, commands, API names, configuration keys, and error messages are kept unchanged.
-
-Example in Chinese:
-
-```text
-$project-health-check
-
-请帮我检查这个项目，先不要修改代码。
-```
-
-Expected response language: Chinese.
-
-Example in English:
-
-```text
-$project-health-check
-
-Please check this repository before I make changes.
-```
-
-Expected response language: English.
-
----
-
-## Installation
-
-Open Codex plugin marketplace and add this repository as a marketplace source.
-
-Use:
-
-```text
-Source: dss-time/repo-doctor-codex-plugin
-Git ref: main
-Sparse path: leave empty
-```
-
-You can also use the full Git URL:
-
-```text
-Source: https://github.com/dss-time/repo-doctor-codex-plugin.git
-Git ref: main
-Sparse path: leave empty
-```
-
-Then install the `Repo Doctor` plugin.
-
-After installation, restart Codex or start a new conversation in the repository you want to analyze.
-
----
-
-## How to Verify Installation
-
-After installing the plugin, open Codex in any repository and type:
-
-```text
-$
-```
-
-You should be able to search for these skills:
-
-```text
-repo-onboarding
-project-health-check
-safe-code-review
-change-impact-analysis
-safe-fix-implementation
-```
-
-You can also try:
-
-```text
-/skills
-```
-
-If the skills appear in the list, the plugin is installed correctly.
-
----
+- Developers building reusable Agent workflows.
+- Open-source maintainers who want public-safe skill packs.
+- Teams that need a clean split between public skills and private internal packs.
+- Users who want to run Repo Doctor as a Codex plugin today and later build cross-platform outputs from the same source model.
 
 ## Quick Start
 
-### New to a repository?
+Clone the repository and run validation:
 
-```text
-$repo-onboarding
-
-Help me understand this repository before I make changes.
-Do not modify code.
+```bash
+git clone https://github.com/dss-time/repo-doctor-codex-plugin.git
+cd repo-doctor-codex-plugin
+npm run validate
 ```
 
-### Want a full project diagnosis?
+Build all supported outputs:
 
-```text
-$project-health-check
-
-Run a project health check.
-Do not modify code.
-Give me P0/P1/P2/P3 priorities.
+```bash
+npm run build
 ```
 
-### Want to review current changes?
+Build one target:
 
-```text
-$safe-code-review
-
-Review my current changes.
-Focus on correctness, maintainability, security, performance, types, tests, and redundant code.
+```bash
+node scripts/build-skills.mjs --target generic-zh-CN
+node scripts/build-skills.mjs --target generic-en
+node scripts/build-skills.mjs --target codex-zh-CN
+node scripts/build-skills.mjs --target claude-code-zh-CN
 ```
 
-### Want to refactor or delete shared code?
+Generated files are written to `dist/`. The generated output is ignored by Git; only `dist/.gitkeep` is kept.
+
+For a step-by-step guide, see [docs/QUICK_START.md](docs/QUICK_START.md).
+
+## Two Ways To Use This Repository
+
+### 1. Use the Legacy Codex / CodeX Plugin Directly
+
+If you only want the original Repo Doctor Codex plugin, use:
 
 ```text
-$change-impact-analysis
-
-I want to refactor src/utils/request.ts.
-Before editing, analyze what depends on it, what can break, and what tests I need.
+plugins/repo-doctor/
 ```
 
-### Want to fix issues from a health check?
+The plugin exposes the original five skills:
+
+- `repo-onboarding`
+- `project-health-check`
+- `safe-code-review`
+- `change-impact-analysis`
+- `safe-fix-implementation`
+
+Installation and marketplace setup are documented in [docs/LEGACY_CODEX_PLUGIN.md](docs/LEGACY_CODEX_PLUGIN.md).
+
+### 2. Use This As a Cross-Platform Skills Source Repository
+
+If you want to build skills for multiple platforms, edit canonical sources under:
 
 ```text
-$safe-fix-implementation
-
-Please fix the highest-priority issue from the previous project-health-check report.
-Do not fix all issues at once.
-Start with the smallest safe P0/P1 fix.
-After editing, run or suggest validation commands.
+packs/
 ```
 
-Chinese example:
+Then run:
+
+```bash
+npm run validate
+npm run build
+```
+
+Use adapter output from `dist/`:
+
+- `dist/generic-zh-CN/` for Chinese generic Markdown prompts
+- `dist/generic-en/` for English generic Markdown prompts
+- `dist/codex-zh-CN/AGENTS.md` for Codex / CodeX-style usage
+- `dist/claude-code-zh-CN/.claude/skills/<skill-name>/SKILL.md` for Claude Code
+
+## `plugins/` vs `packs/`
+
+| Path | Purpose | Edit First? |
+|---|---|---|
+| `plugins/` | Legacy Codex plugin compatibility. Existing users can install Repo Doctor from here. | No, unless maintaining the legacy plugin. |
+| `packs/` | Canonical cross-platform skill source. New skills and updates should start here. | Yes. |
+| `adapters/` | Platform-specific guidance for rendering skills. | Only when adapter behavior changes. |
+| `dist/` | Generated output from `scripts/build-skills.mjs`. | Never edit directly. |
+
+## Supported Platforms
+
+- Codex / CodeX: legacy plugin under `plugins/`, or generated `dist/codex-zh-CN/AGENTS.md`
+- Claude Code: generated `.claude/skills/<skill-name>/SKILL.md`
+- Cursor: adapter guidance under `adapters/cursor/`
+- Generic Prompt Pack: generated Markdown prompts
+- Chinese LLM environments: adapter guidance under `adapters/chinese-llm/`
+
+## Supported Languages
+
+The public core supports:
+
+- `en`
+- `zh-CN`
+
+`skill.yaml` is the metadata source of truth. English and Chinese instructions must keep the same permissions, risk boundaries, and workflow behavior.
+
+## Repository Layout
 
 ```text
-$safe-fix-implementation
-
-请基于刚才的 project-health-check 报告开始修复。
-不要一次修复所有问题。
-请优先选择最高优先级且影响范围最小的问题。
-修改后请运行或建议验证命令。
+docs/       Standards, quick starts, safety model, localization, and adapter docs
+schemas/    JSON schemas for skills and packs
+adapters/   Platform-specific adapter notes
+packs/      Canonical public skill packs and templates
+examples/   Public-safe examples and sample outputs
+tests/      Validation fixtures
+scripts/    Validation and build scripts
+dist/       Generated adapter outputs, ignored except .gitkeep
+plugins/    Legacy Codex plugin compatibility structure
 ```
 
----
+## Validate Skills
 
-## Which Skill Should I Use?
+```bash
+npm run validate
+```
 
-| Situation | Recommended Skill |
-|---|---|
-| I just opened an unfamiliar project. | `repo-onboarding` |
-| I want to know whether this project is healthy. | `project-health-check` |
-| I want a senior-style review of my code changes. | `safe-code-review` |
-| I want to refactor a module safely. | `change-impact-analysis` |
-| I want to delete a function or file. | `change-impact-analysis` |
-| I want to know whether code is dead or redundant. | `project-health-check` first, then `change-impact-analysis` |
-| I want to review a PR before merging. | `safe-code-review` |
-| I want to prepare before a release. | `project-health-check` |
-| I want to fix issues found by project-health-check. | `safe-fix-implementation` |
-| I want to fix only the highest-priority issue. | `safe-fix-implementation` |
-| I want to fix a build/typecheck/test failure safely. | `safe-fix-implementation` |
-| I want to apply one small verified fix, not a full rewrite. | `safe-fix-implementation` |
-| I want Codex to avoid changing code too early. | Use any Repo Doctor skill with “Do not modify code first.” |
+The validator checks required files, required metadata, locale coverage, permissions, read-only boundaries, and obvious sensitive terms in public skills.
 
----
+## Build Platform Outputs
 
-# Skill Tutorials
+```bash
+npm run build
+```
 
-## 1. repo-onboarding
+Or build a single target:
 
-### What it does
+```bash
+node scripts/build-skills.mjs --target generic-zh-CN
+node scripts/build-skills.mjs --target generic-en
+node scripts/build-skills.mjs --target codex-zh-CN
+node scripts/build-skills.mjs --target claude-code-zh-CN
+```
 
-`repo-onboarding` helps you understand an unfamiliar repository before changing code.
+## Add a Skill
 
-It identifies:
+New skills should start in `packs/`, not `plugins/` or `dist/`.
 
-- project purpose
-- technology stack
-- package manager
-- build tools
-- test tools
-- directory structure
-- entry points
-- important modules
-- development commands
-- risk areas
-- recommended reading order
-
-### When to use it
-
-Use it when:
-
-- you clone a new repository
-- you join a new team
-- you inherit a legacy project
-- you want Codex to understand the project before coding
-- you want a project map before refactoring
-
-### Basic prompt
+Use the template:
 
 ```text
-$repo-onboarding
-
-Help me understand this repository.
-Do not modify code.
-Tell me the tech stack, directory structure, entry points, scripts, core modules, and recommended reading order.
+packs/_template/
 ```
 
-### Chinese prompt
+Every skill should include:
 
 ```text
-$repo-onboarding
-
-请帮我理解当前项目。
-先不要修改任何代码。
-请输出：
-1. 项目是做什么的
-2. 技术栈
-3. 目录结构
-4. 入口文件
-5. 启动、测试、构建命令
-6. 核心模块
-7. 新人应该先读哪些文件
-8. 哪些地方修改时要小心
+skill.yaml
+instructions.en.md
+instructions.zh-CN.md
+output.en.md
+output.zh-CN.md
+examples.en.md
+examples.zh-CN.md
+tests/case-001.en.yaml
+tests/case-001.zh-CN.yaml
 ```
 
----
+After adding or editing a skill:
 
-## 2. project-health-check
-
-### What it does
-
-`project-health-check` performs a broad diagnosis of repository health.
-
-It checks:
-
-- architecture
-- correctness
-- maintainability
-- type safety
-- security
-- performance
-- dependencies
-- test gaps
-- release readiness
-- redundant code
-- possible dead code
-
-### When to use it
-
-Use it when:
-
-- you want to know whether a project is healthy
-- you want a prioritized improvement plan
-- you want to find risky modules
-- you want to prepare for release
-- you want to clean up technical debt
-- you want to decide what to fix first
-
-### Basic prompt
-
-```text
-$project-health-check
-
-Run a project health check.
-Do not modify code.
-Give me P0/P1/P2/P3 priorities.
-Focus on architecture, correctness, security, performance, type safety, tests, redundant code, and release readiness.
+```bash
+npm run validate
+npm run build
 ```
 
-### Chinese prompt
+## Create a New Skill
 
-```text
-$project-health-check
+Use the scaffold script:
 
-请对当前项目做一次项目体检。
-先不要修改代码。
-重点检查：
-1. 架构问题
-2. 逻辑错误
-3. 冗余代码
-4. 疑似死代码
-5. 安全风险
-6. 性能问题
-7. 类型问题
-8. 测试缺失
-9. 发布风险
-
-请按照 P0/P1/P2/P3 给出优先级。
+```bash
+npm run create:skill -- --pack engineering/repo-doctor --name bug-diagnosis --id repo.bug-diagnosis --category engineering
 ```
 
----
+The new skill is created under `packs/`. Do not edit `dist/` directly, and do not start by changing the legacy `plugins/` structure. After creating the skill, update its generated files, then run:
 
-## 3. safe-code-review
-
-### What it does
-
-`safe-code-review` reviews a file, module, PR, or current changes.
-
-It focuses on:
-
-- logic errors
-- edge cases
-- maintainability
-- security risks
-- performance issues
-- type safety
-- public API compatibility
-- redundant code
-- missing tests
-- safe refactoring suggestions
-
-### When to use it
-
-Use it when:
-
-- you want to review your current changes
-- you want to review a PR
-- you want a second opinion before committing
-- you want to check a file or module
-- you want to find bugs before release
-- you want practical code review instead of style-only comments
-
-### Basic prompt
-
-```text
-$safe-code-review
-
-Review my current changes.
-Do not modify code first.
-Focus on correctness, maintainability, security, performance, types, tests, and redundant code.
-Use P0/P1/P2/P3 priorities.
+```bash
+npm run validate
+npm run build
 ```
 
-### Chinese prompt
-
-```text
-$safe-code-review
-
-请审查我当前的代码改动。
-先不要修改代码。
-重点看：
-1. 逻辑错误
-2. 边界条件
-3. 类型问题
-4. 安全风险
-5. 性能问题
-6. 冗余代码
-7. 是否缺少测试
-8. 是否会破坏已有 API
-
-请按照 P0/P1/P2/P3 输出。
-```
-
----
-
-## 4. change-impact-analysis
-
-### What it does
-
-`change-impact-analysis` analyzes what could break before modifying shared code.
-
-It checks:
-
-- what the target does
-- where it is imported
-- whether it is exported
-- whether it is public API
-- whether it is used dynamically
-- which tests protect it
-- what behavior must be preserved
-- what can break
-- the safest change plan
-
-### When to use it
-
-Use it before:
-
-- deleting a file
-- deleting a function
-- renaming an exported function
-- moving a module
-- changing a shared utility
-- refactoring request logic
-- changing routing
-- changing package exports
-- changing database models
-- changing build configuration
-- modifying a core component
-
-### Basic prompt
-
-```text
-$change-impact-analysis
-
-I want to modify src/utils/request.ts.
-Do not edit code first.
-Analyze who depends on it, whether it is public API, what can break, and what tests are needed.
-```
-
-### Chinese prompt
-
-```text
-$change-impact-analysis
-
-我想修改 src/utils/request.ts。
-请先不要修改代码。
-请分析：
-1. 这个文件当前负责什么
-2. 它被哪些地方引用
-3. 是否属于 public API
-4. 修改后可能影响哪些模块
-5. 哪些行为必须保持兼容
-6. 修改前应该补哪些测试
-7. 最小安全修改方案是什么
-```
-
----
-
-## 5. safe-fix-implementation
-
-### What it does
-
-`safe-fix-implementation` safely fixes issues found by `project-health-check`, `safe-code-review`, or `change-impact-analysis`.
-
-It is designed to avoid the most common AI coding problem:
-
-> fixing too many things at once.
-
-Instead, it works in small steps:
-
-```text
-select one issue → check impact → make minimal fix → validate → summarize → recommend next step
-```
-
-### When to use it
-
-Use it after:
-
-```text
-$project-health-check
-```
-
-or:
-
-```text
-$safe-code-review
-```
-
-or:
-
-```text
-$change-impact-analysis
-```
-
-Use it when you want to:
-
-- fix a P0/P1 issue
-- fix a build failure
-- fix a typecheck failure
-- fix a release-blocking problem
-- apply a small safe refactor
-- remove confirmed dead code
-- add missing tests for risky behavior
-- implement one item from a diagnosis report
-
-### Basic prompt
-
-```text
-$safe-fix-implementation
-
-Please fix the highest-priority issue from the previous project-health-check report.
-Do not fix all issues at once.
-Start with the smallest safe P0/P1 fix.
-After editing, run or suggest validation commands.
-```
-
-### Chinese prompt
-
-```text
-$safe-fix-implementation
-
-请基于刚才的 project-health-check 报告开始修复。
-不要一次修复所有问题。
-请优先选择最高优先级且影响范围最小的问题。
-修改后请运行或建议验证命令。
-```
-
-### Fix only one issue
-
-```text
-$safe-fix-implementation
-
-Only fix the P0 Node/Vite version issue from the previous report.
-Do not modify unrelated files.
-After the fix, validate with the build command or tell me exactly what command to run.
-```
-
-### Ask before risky changes
-
-```text
-$safe-fix-implementation
-
-Please create a fix plan from the previous report.
-If the fix involves public APIs, shell permissions, system proxy, TUN, release scripts, database schema, authentication, or authorization, stop and ask for my confirmation before editing.
-```
-
-### Recommended follow-up
-
-After the fix, run:
-
-```text
-$safe-code-review
-
-Please review the fix that was just implemented.
-Focus on correctness, compatibility, security, and whether validation is sufficient.
-```
-
----
-
-## Recommended Workflows
-
-### Workflow 1: First time opening a repository
-
-```text
-$repo-onboarding
-```
-
-Then:
-
-```text
-$project-health-check
-```
-
-Goal:
-
-```text
-Understand the project before making changes.
-```
-
----
-
-### Workflow 2: Before refactoring shared code
-
-```text
-$change-impact-analysis
-```
-
-Then, after reviewing the impact report:
-
-```text
-$safe-fix-implementation
-```
-
-Finally:
-
-```text
-$safe-code-review
-```
-
-Goal:
-
-```text
-Analyze impact before editing, fix safely, then review the final changes.
-```
-
----
-
-### Workflow 3: Before opening a pull request
-
-```text
-$safe-code-review
-```
-
-Goal:
-
-```text
-Find correctness, safety, compatibility, and test issues before review.
-```
-
----
-
-### Workflow 4: Before release
-
-```text
-$project-health-check
-
-Check whether this repository is ready for release.
-Focus on build scripts, tests, CI, dependencies, environment variables, breaking changes, and release risks.
-Do not modify code.
-```
-
----
-
-### Workflow 5: Fix issues after project health check
-
-First run:
-
-```text
-$project-health-check
-```
-
-Then fix one issue safely:
-
-```text
-$safe-fix-implementation
-
-Fix the highest-priority issue from the previous report.
-Do not fix all issues at once.
-Make the smallest safe change and validate it.
-```
-
-Then review the fix:
-
-```text
-$safe-code-review
-
-Review the fix that was just implemented.
-```
-
-Goal:
-
-```text
-Diagnose first, fix one issue safely, then review the fix.
-```
-
----
-
-## Prompt Examples
-
-### Fix the highest-priority issue from a health check
-
-```text
-$safe-fix-implementation
-
-Please fix the highest-priority issue from the previous project-health-check report.
-Do not fix all issues at once.
-Choose the smallest safe P0/P1 fix.
-After editing, run or suggest validation commands.
-```
-
-### 修复体检报告中的最高优先级问题
-
-```text
-$safe-fix-implementation
-
-请基于刚才的 project-health-check 报告开始修复。
-不要一次修复所有问题。
-请优先选择最高优先级且影响范围最小的问题。
-修改后请运行或建议验证命令。
-```
-
-### Find redundant code
-
-```text
-$project-health-check
-
-Find redundant code and possible dead code in this repository.
-Do not delete anything.
-For each item, explain what must be verified before deletion.
-```
-
-### Check a TypeScript utility library
-
-```text
-$project-health-check
-
-This is a TypeScript utility library.
-Check public exports, type safety, package exports, dependency risks, test gaps, and API compatibility.
-Do not modify code.
-```
-
-### Check a frontend project
-
-```text
-$project-health-check
-
-This is a frontend project.
-Check routing, state management, request logic, component structure, rendering performance, XSS risks, localStorage usage, and test gaps.
-```
-
-### Check a backend project
-
-```text
-$project-health-check
-
-This is a backend project.
-Check API boundaries, authentication, authorization, database access, input validation, error handling, logging, performance, and test gaps.
-```
-
-### Ask for a safe refactor plan
-
-```text
-$change-impact-analysis
-
-I want to refactor the authentication module.
-Before editing, analyze dependencies, public API risk, behavior that must stay compatible, tests needed, and a phased refactor plan.
-```
-
-### Review current changes without editing
-
-```text
-$safe-code-review
-
-Review my current changes.
-Do not modify code.
-Only output findings, risks, and suggested fixes.
-```
-
----
-
-## Troubleshooting
-
-### I cannot find the skills with `$`
-
-Try:
-
-```text
-/skills
-```
-
-If the skills still do not appear:
-
-1. Make sure the plugin is installed.
-2. Restart Codex.
-3. Start a new Codex conversation.
-4. Confirm you added the correct marketplace source:
-
-```text
-dss-time/repo-doctor-codex-plugin
-```
-
-5. Confirm the Git ref is correct:
-
-```text
-main
-```
-
-6. Leave sparse path empty.
-
----
-
-### The plugin was added but no skills appear
-
-Check that the repository contains this structure:
-
-```text
-.agents/plugins/marketplace.json
-plugins/repo-doctor/.codex-plugin/plugin.json
-plugins/repo-doctor/skills/repo-onboarding/SKILL.md
-plugins/repo-doctor/skills/project-health-check/SKILL.md
-plugins/repo-doctor/skills/safe-code-review/SKILL.md
-plugins/repo-doctor/skills/change-impact-analysis/SKILL.md
-plugins/repo-doctor/skills/safe-fix-implementation/SKILL.md
-```
-
----
-
-### The response language is not what I expected
-
-Tell Codex explicitly:
-
-```text
-Please respond in Chinese.
-```
-
-or:
-
-```text
-Please respond in English.
-```
-
-Repo Doctor is designed to follow the language of your request, but explicit language instructions are always safer.
-
----
-
-### Codex starts editing too early
-
-Use this phrase:
-
-```text
-Do not modify code. Only analyze first.
-```
-
-or:
-
-```text
-先不要修改代码，只输出分析报告。
-```
-
----
-
-## Repository Structure
-
-This plugin follows the Codex plugin structure:
-
-```text
-repo-doctor-codex-plugin/
-├── .agents/
-│   └── plugins/
-│       └── marketplace.json
-├── plugins/
-│   └── repo-doctor/
-│       ├── .codex-plugin/
-│       │   └── plugin.json
-│       └── skills/
-│           ├── repo-onboarding/
-│           │   └── SKILL.md
-│           ├── project-health-check/
-│           │   └── SKILL.md
-│           ├── safe-code-review/
-│           │   └── SKILL.md
-│           ├── change-impact-analysis/
-│           │   └── SKILL.md
-│           └── safe-fix-implementation/
-│               └── SKILL.md
-├── README.md
-└── LICENSE
-```
-
----
-
-## Roadmap
-
-Possible future skills:
-
-- `dead-code-finder`
-- `test-gap-analyzer`
-- `release-readiness-check`
-- `dependency-risk-audit`
-- `api-contract-review`
-- `frontend-quality-check`
-- `backend-stability-check`
-
----
+Detailed guidance is in [docs/ADDING_SKILLS.md](docs/ADDING_SKILLS.md).
+
+## Public / Private Boundary
+
+This public repository may include:
+
+- Skill standards
+- Generic workflows
+- Platform adapters
+- Repo Doctor base skills
+- Basic PDF, Word, Excel, and report skills
+- Public-safe examples and tests
+- Finance skill interface and safety boundaries
+
+This public repository must not include:
+
+- Company-internal templates or workflows
+- Customer cases
+- Private data sources
+- API keys, tokens, or secrets
+- Stock screening rules
+- Buy, sell, or hold logic
+- Technical indicator strategy combinations
+- Valuation model weights
+- Portfolio construction rules
+- Paid data source integration logic
+
+See [docs/PUBLIC_PRIVATE_BOUNDARY.md](docs/PUBLIC_PRIVATE_BOUNDARY.md).
+
+## Current Status
+
+This project is early and experimental. The public structure, schemas, and adapters are intentionally conservative and may change as real platform integration work matures.
+
+## Related Docs
+
+- [Quick Start](docs/QUICK_START.md)
+- [Adding Skills](docs/ADDING_SKILLS.md)
+- [Legacy Codex Plugin](docs/LEGACY_CODEX_PLUGIN.md)
+- [Skill Specification](docs/SKILL_SPEC.md)
+- [Platform Adapters](docs/PLATFORM_ADAPTERS.md)
+- [Security Model](docs/SECURITY_MODEL.md)
+- [Localization Policy](docs/LOCALIZATION_POLICY.md)
+- [Public / Private Boundary](docs/PUBLIC_PRIVATE_BOUNDARY.md)
+- [Glossary](docs/GLOSSARY.md)
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).

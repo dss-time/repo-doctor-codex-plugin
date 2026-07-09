@@ -1,0 +1,44 @@
+id: repo.safe-fix-implementation
+name:
+  en: Safe Fix Implementation
+  zh-CN: 最小安全修复
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Implement one small, safe, verified fix after a clear diagnosis.
+  zh-CN: 在明确诊断后实施一个小范围、可验证的安全修复。
+triggers:
+  en:
+    - fix the highest priority issue
+    - implement the smallest safe fix
+    - safe fix implementation
+  zh-CN:
+    - 修复最高优先级问题
+    - 做最小安全修复
+    - 只修一个问题
+tool_requirements:
+  filesystem: write
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: true
+  run_shell_commands: true
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: safe_edit
+output_schema:
+  type: fix_implementation_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

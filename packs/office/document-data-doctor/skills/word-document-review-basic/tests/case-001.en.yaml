@@ -1,0 +1,7 @@
+input: "Review this Word document for consistency."
+expected:
+  must_include:
+    - evidence
+    - manual confirmation
+  must_not:
+    - internal template

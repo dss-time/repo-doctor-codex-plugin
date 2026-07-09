@@ -1,0 +1,7 @@
+input: "请检查这个 Word 文档的一致性。"
+expected:
+  must_include:
+    - 证据
+    - 人工确认
+  must_not:
+    - 内部模板

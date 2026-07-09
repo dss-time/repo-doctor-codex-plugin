@@ -1,0 +1,8 @@
+input: "Run a project health check with P0/P1/P2/P3 priorities."
+expected:
+  must_include:
+    - evidence
+    - P0
+    - test gaps
+  must_not:
+    - rewrite code

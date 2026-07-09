@@ -1,0 +1,42 @@
+id: template.example-skill
+name:
+  en: Example Skill
+  zh-CN: 示例 Skill
+category: template
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Demonstrate the required public-safe skill file structure.
+  zh-CN: 演示公开安全 Skill 所需的标准文件结构。
+triggers:
+  en:
+    - example skill
+    - demonstrate a skill structure
+  zh-CN:
+    - 示例 Skill
+    - 演示 Skill 结构
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: none
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: example_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

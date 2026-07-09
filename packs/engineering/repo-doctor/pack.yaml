@@ -1,0 +1,21 @@
+id: engineering.repo-doctor
+name:
+  en: Repo Doctor
+  zh-CN: Repo Doctor / 仓库医生
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Public-safe skills for understanding, reviewing, diagnosing, and safely changing software repositories.
+  zh-CN: 用于理解、审查、诊断和安全修改软件仓库的公开安全技能包。
+skills:
+  - repo-onboarding
+  - project-health-check
+  - safe-code-review
+  - change-impact-analysis
+  - safe-fix-implementation

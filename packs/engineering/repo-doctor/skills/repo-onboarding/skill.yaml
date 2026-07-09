@@ -1,0 +1,44 @@
+id: repo.repo-onboarding
+name:
+  en: Repo Onboarding
+  zh-CN: 仓库理解
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Understand an unfamiliar software repository before making changes.
+  zh-CN: 在修改代码前理解一个陌生软件仓库。
+triggers:
+  en:
+    - understand this repository
+    - repo onboarding
+    - explain this project
+  zh-CN:
+    - 理解这个项目
+    - 帮我看一下仓库结构
+    - 仓库理解
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: onboarding_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

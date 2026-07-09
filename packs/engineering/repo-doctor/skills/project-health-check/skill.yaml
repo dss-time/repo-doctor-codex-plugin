@@ -1,0 +1,44 @@
+id: repo.project-health-check
+name:
+  en: Project Health Check
+  zh-CN: 项目体检
+category: engineering
+visibility: public
+version: 0.1.0
+status: draft
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Diagnose repository health across architecture, correctness, security, performance, dependencies, tests, and release readiness.
+  zh-CN: 从架构、正确性、安全、性能、依赖、测试和发布准备度等方面诊断项目健康度。
+triggers:
+  en:
+    - project health check
+    - diagnose this repository
+    - architecture review
+  zh-CN:
+    - 项目体检
+    - 检查项目健康度
+    - 架构审查
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: health_check_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

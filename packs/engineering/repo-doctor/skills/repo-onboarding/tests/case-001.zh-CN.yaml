@@ -1,0 +1,8 @@
+input: "请帮我理解当前项目，先不要修改代码。"
+expected:
+  must_include:
+    - 项目总结
+    - 技术栈
+    - 风险区域
+  must_not:
+    - 修改文件
