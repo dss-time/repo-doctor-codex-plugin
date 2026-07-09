@@ -1,8 +1,10 @@
-# AI Skills Engineering Framework
+# Repo Doctor Skills
 
-Build public-safe AI skills that are reviewable, testable, distributable, and adaptable across Agent platforms.
+A bilingual, cross-platform AI Skills framework for repository diagnosis, code review, document review, and safe agent workflows.
 
-This repository is an early open-source framework for turning expert workflows into structured AI Skill packs. It includes a canonical `packs/` source format, validation scripts, build adapters, and a legacy Codex plugin for existing Repo Doctor users.
+Repo Doctor Skills is an early open-source framework for turning expert workflows into structured AI Skill packs. It includes a canonical `packs/` source format, validation scripts, build adapters, and a legacy Codex plugin for existing Repo Doctor users.
+
+This project was originally published as `repo-doctor-codex-plugin` and still preserves the legacy Codex plugin structure.
 
 ## What This Project Can Do
 
@@ -31,8 +33,8 @@ This repository is an early open-source framework for turning expert workflows i
 Clone the repository and run validation:
 
 ```bash
-git clone https://github.com/dss-time/repo-doctor-codex-plugin.git
-cd repo-doctor-codex-plugin
+git clone https://github.com/dss-time/repo-doctor-skills.git
+cd repo-doctor-skills
 npm run validate
 ```
 

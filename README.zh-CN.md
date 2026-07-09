@@ -1,8 +1,10 @@
-# AI Skills 工程化框架
+# Repo Doctor Skills
 
-把公开安全的专家工作流封装成可审查、可测试、可分发、可适配多平台 Agent 的 AI Skills。
+Repo Doctor Skills 是一个双语、跨平台的 AI Skills 工程化框架，用于仓库诊断、代码审查、文档审查和安全 Agent 工作流。
 
 这是一个早期的开源框架，用于把专家工作流整理成结构化 Skill packs。它包含 canonical `packs/` 源结构、校验脚本、构建适配器，以及兼容已有用户的旧版 Repo Doctor Codex 插件。
+
+本项目最初以 `repo-doctor-codex-plugin` 发布，现在已扩展为跨平台 Skills 工程化框架，并继续保留 legacy Codex 插件结构。
 
 ## 这个项目能做什么
 
@@ -31,8 +33,8 @@
 克隆仓库并运行校验：
 
 ```bash
-git clone https://github.com/dss-time/repo-doctor-codex-plugin.git
-cd repo-doctor-codex-plugin
+git clone https://github.com/dss-time/repo-doctor-skills.git
+cd repo-doctor-skills
 npm run validate
 ```
 

@@ -1,6 +1,6 @@
 # Legacy Codex Plugin
 
-This document preserves the original Repo Doctor Codex plugin installation and usage path.
+This document preserves the original Repo Doctor Codex plugin installation and usage path for Repo Doctor Skills.
 
 ## `plugins/` vs `packs/`
 
@@ -16,7 +16,7 @@ packs/
 
 This is the newer cross-platform canonical source structure. Use it if you want to validate and build skills for multiple platforms through `scripts/build-skills.mjs`.
 
-The legacy plugin is kept for existing users. In the future, the build script can be extended to generate plugin structures from `packs/`.
+The legacy plugin is kept for existing users. Repo Doctor Skills was originally published as `repo-doctor-codex-plugin`; the recommended repository name is now `repo-doctor-skills`. In the future, the build script can be extended to generate plugin structures from `packs/`.
 
 ## Existing Plugin Structure
 
@@ -49,7 +49,7 @@ Open Codex plugin marketplace and add this repository as a marketplace source.
 Use:
 
 ```text
-Source: dss-time/repo-doctor-codex-plugin
+Source: dss-time/repo-doctor-skills
 Git ref: main
 Sparse path: leave empty
 ```
@@ -57,7 +57,7 @@ Sparse path: leave empty
 Or use the full Git URL:
 
 ```text
-Source: https://github.com/dss-time/repo-doctor-codex-plugin.git
+Source: https://github.com/dss-time/repo-doctor-skills.git
 Git ref: main
 Sparse path: leave empty
 ```

@@ -1,8 +1,8 @@
 # Product Positioning
 
-AI Skills Engineering Framework packages expert workflows into auditable, testable, distributable skills.
+Repo Doctor Skills packages expert workflows into auditable, testable, distributable skills.
 
-The project is not a prompt collection. It treats each skill as a maintained artifact with:
+Repo Doctor Skills is a bilingual, cross-platform AI Skills framework for repository diagnosis, code review, document review, and safe agent workflows. The project is not a prompt collection. It treats each skill as a maintained artifact with:
 
 - Metadata
 - Permissions

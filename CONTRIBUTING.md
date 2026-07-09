@@ -1,6 +1,6 @@
 # Contributing
 
-This project accepts public-safe contributions only.
+Repo Doctor Skills accepts public-safe contributions only.
 
 ## Before Adding a Skill
 

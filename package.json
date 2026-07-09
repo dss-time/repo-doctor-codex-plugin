@@ -1,8 +1,8 @@
 {
-  "name": "ai-skills-engineering-framework",
+  "name": "repo-doctor-skills",
   "version": "0.1.0",
   "private": true,
-  "description": "Public-safe framework for engineering, validating, and adapting AI skills across agent platforms.",
+  "description": "A bilingual, cross-platform AI Skills framework for repository diagnosis, code review, document review, and safe agent workflows.",
   "type": "module",
   "license": "MIT",
   "scripts": {

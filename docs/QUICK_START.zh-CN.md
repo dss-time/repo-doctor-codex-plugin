@@ -4,7 +4,7 @@
 
 ## 你正在看的是什么
 
-这个仓库有两种实际用途：
+Repo Doctor Skills 有两种实际用途：
 
 1. 直接使用 `plugins/repo-doctor/` 下已有的 Repo Doctor Codex 插件。
 2. 把 `packs/` 作为跨平台 AI Skills 的 canonical 源码，再构建到 `dist/`。
@@ -14,8 +14,8 @@
 ## 克隆仓库
 
 ```bash
-git clone https://github.com/dss-time/repo-doctor-codex-plugin.git
-cd repo-doctor-codex-plugin
+git clone https://github.com/dss-time/repo-doctor-skills.git
+cd repo-doctor-skills
 ```
 
 ## 运行校验

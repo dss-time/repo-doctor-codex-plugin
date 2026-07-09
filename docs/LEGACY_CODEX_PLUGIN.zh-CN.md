@@ -1,6 +1,6 @@
 # 旧版 Codex 插件
 
-本文档说明原 Repo Doctor Codex 插件结构，以及它和新 `packs/` 结构的关系。
+本文档说明 Repo Doctor Skills 中原 Repo Doctor Codex 插件结构，以及它和新 `packs/` 结构的关系。
 
 ## 两套结构的区别
 
@@ -18,7 +18,7 @@ packs/
 
 ## 为什么保留 `plugins/`
 
-保留旧结构是为了兼容已有 Codex 插件用户。当前 `plugins/repo-doctor/.codex-plugin/plugin.json` 仍然指向：
+保留旧结构是为了兼容已有 Codex 插件用户。本项目最初以 `repo-doctor-codex-plugin` 发布，推荐仓库名现在是 `repo-doctor-skills`。当前 `plugins/repo-doctor/.codex-plugin/plugin.json` 仍然指向：
 
 ```json
 {
@@ -45,7 +45,7 @@ plugins/repo-doctor/
 在 Codex plugin marketplace 中添加仓库来源：
 
 ```text
-Source: dss-time/repo-doctor-codex-plugin
+Source: dss-time/repo-doctor-skills
 Git ref: main
 Sparse path: leave empty
 ```
@@ -53,7 +53,7 @@ Sparse path: leave empty
 也可以使用完整 Git URL：
 
 ```text
-Source: https://github.com/dss-time/repo-doctor-codex-plugin.git
+Source: https://github.com/dss-time/repo-doctor-skills.git
 Git ref: main
 Sparse path: leave empty
 ```

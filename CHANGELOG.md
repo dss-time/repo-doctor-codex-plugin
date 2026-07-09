@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-This project is early / experimental. The public structure, schemas, adapters, and scripts may change as the framework matures.
+Repo Doctor Skills is early / experimental. The public structure, schemas, adapters, and scripts may change as the framework matures.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Renamed the project direction to Repo Doctor Skills.
 - Expanded the project from a single Codex plugin into a cross-platform Skills engineering repository.
 - Preserved the legacy Codex plugin structure for existing users.
 

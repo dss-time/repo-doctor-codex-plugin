@@ -1,6 +1,6 @@
 # Security Policy
 
-This repository is public and must only contain public-safe skill specifications, workflows, examples, and adapter logic.
+Repo Doctor Skills is public and must only contain public-safe skill specifications, workflows, examples, and adapter logic.
 
 ## Reporting Security Issues
 

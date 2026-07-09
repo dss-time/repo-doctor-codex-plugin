@@ -4,7 +4,7 @@ This guide is for first-time users.
 
 ## What You Are Looking At
 
-This repository has two practical uses:
+Repo Doctor Skills has two practical uses:
 
 1. Use the existing Repo Doctor Codex plugin under `plugins/repo-doctor/`.
 2. Use `packs/` as the canonical source for cross-platform AI skills and build outputs into `dist/`.
@@ -14,8 +14,8 @@ If you only want to try the existing Codex plugin, read [LEGACY_CODEX_PLUGIN.md]
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/dss-time/repo-doctor-codex-plugin.git
-cd repo-doctor-codex-plugin
+git clone https://github.com/dss-time/repo-doctor-skills.git
+cd repo-doctor-skills
 ```
 
 ## Validate Skills

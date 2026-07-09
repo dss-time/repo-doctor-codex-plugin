@@ -1,6 +1,6 @@
 # Platform Adapters
 
-Canonical skills live under `packs/`. Adapters render them into platform-specific formats.
+Repo Doctor Skills canonical skills live under `packs/`. Adapters render them into platform-specific formats.
 
 ## Claude Code
 
