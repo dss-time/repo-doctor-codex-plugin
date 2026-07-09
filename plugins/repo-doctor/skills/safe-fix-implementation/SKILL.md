@@ -1,5 +1,5 @@
 ---
-name: safe-fix-implementation
+name: safe-fix-implementation(只修一个问题)
 description: Use this skill when the user wants to safely fix issues found by project-health-check, safe-code-review, or change-impact-analysis. Trigger this skill for implementing P0/P1/P2 fixes, fixing build failures, fixing type errors, reducing security risks, removing confirmed dead code, adding missing tests, applying small refactors, or executing a prioritized fix plan. This skill must make small, safe, verifiable changes and must not attempt to fix all issues at once.
 ---
 
@@ -152,24 +152,24 @@ Localize all section headings according to the user's language. The following En
 
 ### 1. Selected Fix
 
-| Item | Value |
-|---|---|
-| Source Report |  |
-| Selected Issue |  |
-| Priority |  |
-| Reason for Choosing This First |  |
-| Expected Risk |  |
-| Validation Target |  |
+| Item                           | Value |
+| ------------------------------ | ----- |
+| Source Report                  |       |
+| Selected Issue                 |       |
+| Priority                       |       |
+| Reason for Choosing This First |       |
+| Expected Risk                  |       |
+| Validation Target              |       |
 
 ### 2. Impact Check
 
-| Area | Result |
-|---|---|
-| Direct References |  |
-| Public API Risk |  |
-| Config / Build Impact |  |
-| Test Impact |  |
-| Runtime Risk |  |
+| Area                  | Result |
+| --------------------- | ------ |
+| Direct References     |        |
+| Public API Risk       |        |
+| Config / Build Impact |        |
+| Test Impact           |        |
+| Runtime Risk          |        |
 
 ### 3. Fix Plan
 
@@ -186,7 +186,7 @@ If the change is risky, stop here and ask for confirmation.
 ### 5. Validation
 
 | Command | Result | Notes |
-|---|---|---|
+| ------- | ------ | ----- |
 
 If validation was not run, explain why and provide the command.
 

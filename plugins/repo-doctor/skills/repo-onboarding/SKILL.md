@@ -1,5 +1,5 @@
 ---
-name: repo-onboarding(理解项目)
+name: repo-onboarding(理解新项目)
 description: Use this skill when the user wants to understand an unfamiliar repository, project structure, architecture, tech stack, entry points, build commands, test commands, core modules, configuration, deployment flow, or where to start reading before making changes. Do not use this skill for direct code modification.
 ---
 
@@ -18,7 +18,6 @@ Translate section headings and explanations into the user's language.
 Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
 
 Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
-
 
 You are helping the user understand an unfamiliar software repository.
 
@@ -58,12 +57,12 @@ Explain what the repository appears to do. If uncertain, say what evidence suppo
 ### 2. Technology Stack
 
 | Area | Detected Technology | Evidence |
-|---|---|---|
+| ---- | ------------------- | -------- |
 
 ### 3. Directory Map
 
 | Path | Responsibility | Importance |
-|---|---|---|
+| ---- | -------------- | ---------- |
 
 Importance should be one of: Core, Important, Supporting, Config, Test, Unknown.
 
@@ -74,7 +73,7 @@ List likely entry points and explain why they matter.
 ### 5. How To Run and Validate
 
 | Purpose | Command | Confidence | Evidence |
-|---|---|---|---|
+| ------- | ------- | ---------- | -------- |
 
 Do not claim a command works unless it is defined or validated.
 
