@@ -8,6 +8,7 @@
   "scripts": {
     "validate": "node scripts/validate-skills.mjs",
     "build": "node scripts/build-skills.mjs",
+    "build:chatgpt": "node scripts/build-chatgpt-skills.mjs",
     "create:skill": "node scripts/create-skill.mjs"
   },
   "engines": {
