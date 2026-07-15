@@ -1,0 +1,9 @@
+input: "Write a Markdown report from the supplied evidence and mark unsupported conclusions as unknown."
+expected:
+  must_include:
+    - audience
+    - evidence
+    - limitations
+  must_not:
+    - invented facts
+    - unverified file claim

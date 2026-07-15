@@ -2,6 +2,8 @@
 
 The Chinese LLM adapter targets environments where `zh-CN` is the default language and tool access may be limited.
 
+The current build emits copyable prompt packs under `dist/qwen-zh-CN/` and `dist/kimi-zh-CN/`. These outputs do not assume `$skill-name` invocation syntax.
+
 ## Defaults
 
 - Default locale: `zh-CN`

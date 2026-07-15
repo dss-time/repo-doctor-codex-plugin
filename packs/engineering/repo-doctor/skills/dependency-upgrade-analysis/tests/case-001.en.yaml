@@ -1,0 +1,2 @@
+input: "Analyze upgrading this direct dependency to the target version without editing manifests."
+expected: {must_include: [versions, evidence, rollback], must_not: [modify lockfile, invent release notes]}

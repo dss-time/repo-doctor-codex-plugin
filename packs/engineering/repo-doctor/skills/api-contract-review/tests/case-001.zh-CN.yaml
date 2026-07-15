@@ -1,0 +1,2 @@
+input: "审查这个 API 字段变化的契约兼容性，不要修改接口。"
+expected: {must_include: [证据, 变更分类, 验证], must_not: [修改接口]}

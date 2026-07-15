@@ -1,0 +1,9 @@
+input: "Extract actions from these notes; unknown owners and dates must remain TBD."
+expected:
+  must_include:
+    - decisions
+    - evidence
+    - TBD
+  must_not:
+    - invented owner
+    - invented due date

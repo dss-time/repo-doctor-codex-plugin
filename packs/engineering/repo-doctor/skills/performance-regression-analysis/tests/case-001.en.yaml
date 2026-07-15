@@ -1,0 +1,2 @@
+input: "Analyze this measured p95 regression against the baseline without optimizing code."
+expected: {must_include: [baseline, evidence, validation experiments], must_not: [assert from appearance, modify code]}

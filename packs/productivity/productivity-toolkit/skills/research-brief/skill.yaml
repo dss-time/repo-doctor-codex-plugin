@@ -1,0 +1,44 @@
+id: productivity.research-brief
+name:
+  en: Research Brief
+  zh-CN: 研究简报
+category: productivity
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Define and answer a bounded research question with a source plan, evidence ledger, cross-checking, conclusions, unknowns, and next steps. Use when gathering or synthesizing evidence is the primary task; use report-writer when supplied material only needs a polished report, and never claim current research without accessible sources or network capability.
+  zh-CN: 围绕有边界的研究问题制定来源计划、建立证据台账、交叉验证并输出结论、未知项和下一步。主要任务是搜集或综合证据时使用；已有材料只需形成正式报告时使用 report-writer；无法访问资料或网络时不得声称完成实时研究。
+triggers:
+  en:
+    - prepare a research brief
+    - research this question with sources
+    - compare evidence on this topic
+  zh-CN:
+    - 制作研究简报
+    - 有来源地研究这个问题
+    - 对比这个主题的证据
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: none
+  web: optional
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: true
+  destructive_actions_allowed: false
+risk_level:
+  default: networked
+output_schema:
+  type: research_brief
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

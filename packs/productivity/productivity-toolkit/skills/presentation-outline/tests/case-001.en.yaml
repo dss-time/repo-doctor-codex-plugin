@@ -1,0 +1,9 @@
+input: "Create only a slide outline for this fifteen-minute talk and mark missing data as placeholders."
+expected:
+  must_include:
+    - audience
+    - slide purpose
+    - placeholder
+  must_not:
+    - generated PPTX claim
+    - invented data

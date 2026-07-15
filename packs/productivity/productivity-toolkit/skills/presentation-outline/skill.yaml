@@ -1,0 +1,44 @@
+id: productivity.presentation-outline
+name:
+  en: Presentation Outline
+  zh-CN: 演示文稿大纲
+category: productivity
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Design an audience-specific presentation story and slide-by-slide outline with each slide's purpose, title, key points, evidence, and suggested visual. Use when the default deliverable is an outline; generate PPTX only when the user explicitly requests it and capable presentation tools are available, and do not invent missing data or turn a report into dense slides.
+  zh-CN: 针对受众设计演示故事线和逐页大纲，包含每页目的、标题、要点、证据和建议视觉。默认交付物是大纲时使用；仅在用户明确要求且平台具备演示工具时生成 PPTX；不得编造缺失数据，也不得把报告机械切成高密度幻灯片。
+triggers:
+  en:
+    - create a presentation outline
+    - design a slide story
+    - turn this topic into a slide-by-slide plan
+  zh-CN:
+    - 创建演示文稿大纲
+    - 设计幻灯片故事线
+    - 把主题整理成逐页计划
+tool_requirements:
+  filesystem: write
+  git: none
+  shell: optional
+  web: optional
+permissions:
+  read_files: true
+  write_files: true
+  run_shell_commands: true
+  access_network: true
+  destructive_actions_allowed: false
+risk_level:
+  default: safe_edit
+output_schema:
+  type: presentation_outline
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

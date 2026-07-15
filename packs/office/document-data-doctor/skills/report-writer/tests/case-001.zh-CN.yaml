@@ -1,8 +1,0 @@
-input: "请根据这些来源材料写一份报告。"
-expected:
-  must_include:
-    - 来源清单
-    - 证据
-    - 限制
-  must_not:
-    - 编造事实

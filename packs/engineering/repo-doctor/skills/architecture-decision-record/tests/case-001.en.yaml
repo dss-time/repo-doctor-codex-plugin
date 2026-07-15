@@ -1,0 +1,2 @@
+input: "Create a Proposed ADR for this architecture choice; edit architecture docs only."
+expected: {must_include: [status, options, consequences], must_not: [claim consensus, modify business code]}

@@ -1,0 +1,34 @@
+id: repo.configuration-audit
+name:
+  en: Configuration Audit
+  zh-CN: 配置审计
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Audit configuration sources, precedence, environment overrides, defaults, required fields, types, validation, drift, obsolete settings, dangerous defaults, undocumented variables, and credential-commit risk using repository evidence. Use for configuration-specific risk; do not perform a broad health check, read or display sensitive values, connect to external environments, or modify configuration.
+  zh-CN: 基于仓库证据审计配置来源、优先级、环境覆盖、默认值、必填、类型、校验、漂移、过期项、危险默认值、未文档化变量和凭证误提交风险。用于配置专项风险；不替代广泛体检，不读取或显示敏感值、不连接外部环境，也不修改配置。
+triggers:
+  en: [audit this configuration system, compare environment configuration drift, configuration audit]
+  zh-CN: [审计这个配置系统, 比较环境配置漂移, 配置审计]
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level: {default: read_only}
+output_schema: {type: configuration_audit_report}
+localization:
+  en: {status: complete}
+  zh-CN: {status: complete}

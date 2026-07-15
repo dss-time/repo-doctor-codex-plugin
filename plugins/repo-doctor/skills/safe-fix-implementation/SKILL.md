@@ -1,237 +1,80 @@
 ---
-name: safe-fix-implementation(只修一个问题)
-description: Use this skill when the user wants to safely fix issues found by project-health-check, safe-code-review, or change-impact-analysis. Trigger this skill for implementing P0/P1/P2 fixes, fixing build failures, fixing type errors, reducing security risks, removing confirmed dead code, adding missing tests, applying small refactors, or executing a prioritized fix plan. This skill must make small, safe, verifiable changes and must not attempt to fix all issues at once.
+name: safe-fix-implementation
+description: Implement one small, safe, verified production fix after a clear diagnosis. Use safe-test-implementation for test-only changes and documentation-sync for documentation-only changes. 在明确诊断后实施一个小范围、可验证的生产代码修复。仅测试修改使用 safe-test-implementation，仅文档修改使用 documentation-sync。
 ---
 
-# Safe Fix Implementation Skill
+# Safe Fix Implementation（最小安全修复）
 
-You are acting as a senior engineer implementing safe, focused, verifiable fixes.
+Use the section matching the user's language. 使用与用户输入语言一致的章节。
 
-This skill is used after a diagnosis skill such as project-health-check, safe-code-review, or change-impact-analysis.
+# Safe Fix Implementation
 
-The goal is not to fix everything at once.
+Use this skill only after a clear diagnosis from a health check, code review, impact analysis, build failure, type error, or test failure.
 
-The goal is to safely fix one issue or one small group of closely related issues, validate the result, and explain what changed.
+## Safety Boundary
 
-## Language Policy
-
-Respond in the same language as the user's request.
-
-If the user writes in Chinese, respond in Chinese.
-If the user writes in English, respond in English.
-If the user writes in another language, respond in that language when possible.
-If the user's language is mixed or unclear, use the dominant language of the request.
-
-Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
-
-## Core Principles
-
-1. Fix the smallest safe unit first.
-2. Prefer P0 and P1 issues before P2 and P3.
-3. Do not fix unrelated issues in the same change.
-4. Do not perform broad rewrites unless the user explicitly asks.
-5. Do not delete code unless usage has been checked.
-6. Do not rename or change public APIs without compatibility analysis.
-7. Do not introduce dependencies unless clearly necessary.
-8. Preserve existing behavior unless the user explicitly asks to change it.
-9. Run or suggest validation commands after changes.
-10. If risk is high, stop and ask for confirmation before editing.
-
-## When To Use
-
-Use this skill when the user says things like:
-
-- Fix the P0 issue from the health check.
-- Fix the build failure.
-- Fix the type errors.
-- Fix the release-blocking issue.
-- Apply the recommended safe fixes.
-- Implement the smallest safe change.
-- Start with P0/P1 fixes.
-- Remove confirmed dead code.
-- Add missing tests for risky behavior.
-- 修复刚才 project-health-check 里的问题。
-- 根据刚才的体检报告开始修复。
-- 只修复最高优先级问题。
-- 不要一次修复所有问题。
-
-## Input Handling
-
-The user may provide:
-
-- a project-health-check report
-- a safe-code-review report
-- a change-impact-analysis report
-- a specific priority such as P0 or P1
-- a specific file path
-- a specific failing command
-- a build error
-- a test error
-- a desired fix target
-
-If the user does not specify what to fix, choose the highest-priority, smallest, safest issue from the latest report.
-
-If multiple issues have the same priority, choose the issue with:
-
-1. the lowest blast radius
-2. the clearest validation command
-3. the least public API risk
-4. the highest release impact
-
-## Fix Selection Rules
-
-Fix immediately if:
-
-- the issue is P0
-- the issue blocks build, test, typecheck, or release
-- the issue has a clear fix
-- the issue affects only a small number of files
-- validation is straightforward
-
-Ask for confirmation before editing if:
-
-- the change affects public APIs
-- the change deletes files
-- the change changes data formats
-- the change changes database schema
-- the change changes routing
-- the change changes authentication or authorization
-- the change changes system proxy, TUN, VPN, shell, or process execution behavior
-- the change modifies release scripts or CI in a risky way
-- the change requires broad refactoring
-
-Do not automatically:
-
-- fix all reported issues at once
-- rewrite large modules in one step
-- remove compatibility layers without confirmation
-- delete code based only on appearance
-- change package exports without checking consumers
-- weaken security to make tests pass
-- ignore failing validation
+- Fix one highest-priority issue at a time.
+- Do not perform unrelated refactors.
+- Do not reformat unrelated files.
+- Do not delete files unless usage has been checked and the user confirms when risk is high.
+- Do not change public interfaces without compatibility analysis.
+- Stop and ask before changing data formats or schemas, routing, authentication or authorization, shell or process behavior, or release and CI controls unless the user explicitly authorized that exact change.
+- Preserve behavior outside the selected fix.
+- Do not execute destructive actions.
+- Route test-only implementation to `safe-test-implementation` and documentation-only updates to `documentation-sync`.
 
 ## Workflow
 
-### Step 1: Restate the selected fix
+1. Restate the selected issue, priority, affected files, and validation target.
+2. Check impact before editing.
+3. Confirm or identify the smallest test seam or validation method.
+4. Make the smallest practical fix.
+5. Run or suggest the minimum relevant validation command.
+6. Summarize changed files, validation result, remaining risk, and next recommended step.
 
-Identify the selected issue, priority, source report, likely affected files, reason for choosing it first, and expected validation command.
+# Output Format
 
-### Step 2: Check impact
+1. Selected fix
+2. Impact check
+3. Fix plan
+4. Implementation summary
+5. Validation result
+6. Remaining risks
+7. Next recommended step
 
-Before editing, inspect direct references, exported APIs, config usage, tests, scripts, and build or release impact.
+---
 
-For high-risk changes, recommend running change-impact-analysis first.
+# 最小安全修复
 
-### Step 3: Create a minimal fix plan
+仅在已有明确诊断后使用，例如项目体检、代码审查、影响分析、构建失败、类型错误或测试失败。
 
-Explain what will be changed, what will not be changed, why the change is safe, and how it will be validated.
+## 安全边界
 
-### Step 4: Implement the fix
+- 一次只修一个最高优先级问题。
+- 不做无关重构。
+- 不顺手格式化无关文件。
+- 未检查使用情况前不删除文件；高风险删除需要用户确认。
+- 没有兼容性分析前不修改公共接口。
+- 修改数据格式或 Schema、路由、认证或授权、Shell 或进程行为、发布或 CI 控制前必须停止并询问，除非用户已明确授权该项具体修改。
+- 保持所选修复范围之外的行为不变。
+- 不执行破坏性操作。
+- 仅测试实施交给 `safe-test-implementation`，仅文档更新交给 `documentation-sync`。
 
-Make the smallest practical change.
+## 工作流程
 
-Avoid unrelated formatting changes.
+1. 重述选中的问题、优先级、影响文件和验证目标。
+2. 修改前检查影响范围。
+3. 确认或识别最小测试切入点或验证方式。
+4. 做最小可行修复。
+5. 运行或建议最小相关验证命令。
+6. 总结修改文件、验证结果、剩余风险和下一步建议。
 
-Do not modify files that are not required for the selected fix.
+# 输出格式
 
-### Step 5: Validate
-
-Run or suggest relevant commands based on the repository, such as npm run build, npm run typecheck, npm test, npm run lint, cargo check, cargo test, cargo clippy, go test ./..., pytest, mvn test, or gradle test.
-
-Use commands actually present in the repository when possible.
-
-If a command cannot be run, explain why and suggest the exact command the user should run.
-
-### Step 6: Summarize
-
-Explain what was fixed, what files changed, why the fix is safe, what validation passed, what validation still needs to be run, and what issue should be fixed next.
-
-## Output Format
-
-Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
-
-### 1. Selected Fix
-
-| Item                           | Value |
-| ------------------------------ | ----- |
-| Source Report                  |       |
-| Selected Issue                 |       |
-| Priority                       |       |
-| Reason for Choosing This First |       |
-| Expected Risk                  |       |
-| Validation Target              |       |
-
-### 2. Impact Check
-
-| Area                  | Result |
-| --------------------- | ------ |
-| Direct References     |        |
-| Public API Risk       |        |
-| Config / Build Impact |        |
-| Test Impact           |        |
-| Runtime Risk          |        |
-
-### 3. Fix Plan
-
-List the minimal planned changes.
-
-Be clear about what will not be changed.
-
-### 4. Implementation
-
-If editing is safe and the user asked to fix it, implement the fix.
-
-If the change is risky, stop here and ask for confirmation.
-
-### 5. Validation
-
-| Command | Result | Notes |
-| ------- | ------ | ----- |
-
-If validation was not run, explain why and provide the command.
-
-### 6. Summary
-
-Explain changed files, fixed issue, remaining risks, and next recommended step.
-
-### 7. Next Recommended Skill
-
-After fixing, recommend one of:
-
-- $safe-code-review to review the fix
-- $project-health-check to re-check the project
-- $change-impact-analysis before a risky follow-up change
-- another $safe-fix-implementation run for the next P0/P1 issue
-
-## Safety Rules
-
-If the fix involves security-sensitive areas, be conservative.
-
-Security-sensitive areas include:
-
-- authentication
-- authorization
-- secrets
-- tokens
-- shell execution
-- process spawning
-- file system access
-- system proxy
-- TUN / VPN / network routing
-- database migration
-- package publishing
-- CI/CD release scripts
-
-For these areas:
-
-1. inspect references first
-2. propose the smallest safe change
-3. ask for confirmation before high-risk edits
-4. validate carefully
-5. recommend a follow-up review
-
-## Final Rule
-
-Never try to fix the entire project in one response.
-
-Always prefer one small fix, then validate, then review, then move to the next fix.
+1. 选中的修复项
+2. 影响检查
+3. 修复计划
+4. 实施摘要
+5. 验证结果
+6. 剩余风险
+7. 下一步建议

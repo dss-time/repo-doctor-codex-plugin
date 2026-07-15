@@ -1,0 +1,37 @@
+{
+  "name": "skill-maintainer",
+  "version": "0.1.0",
+  "description": "Bilingual maintainer workflows for engineering AI Skills and auditing their release quality.",
+  "author": {
+    "name": "dss-time"
+  },
+  "homepage": "https://github.com/dss-time/repo-doctor-skills",
+  "repository": "https://github.com/dss-time/repo-doctor-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "skill-authoring",
+    "quality-audit",
+    "prompt-engineering",
+    "evaluation",
+    "maintainer-tools"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Skill Maintainer",
+    "shortDescription": "Create repository-standard Skills and audit them before release.",
+    "longDescription": "Skill Maintainer provides a controlled workflow for creating one repository-standard bilingual AI Skill and a strictly read-only workflow for auditing Skill, Pack, plugin, activation, safety, and generated-output quality before release.",
+    "developerName": "dss-time",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/dss-time/repo-doctor-skills",
+    "defaultPrompt": [
+      "Create one repository-standard bilingual AI Skill.",
+      "Audit this Skill for release quality without editing it."
+    ],
+    "brandColor": "#7C3AED"
+  }
+}

@@ -1,100 +1,76 @@
 ---
-name: repo-onboarding(理解新项目)
-description: Use this skill when the user wants to understand an unfamiliar repository, project structure, architecture, tech stack, entry points, build commands, test commands, core modules, configuration, deployment flow, or where to start reading before making changes. Do not use this skill for direct code modification.
+name: repo-onboarding
+description: Understand an unfamiliar software repository before making changes. 在修改代码前理解一个陌生软件仓库。
 ---
 
-# Repo Onboarding Skill
+# Repo Onboarding（仓库理解）
 
-## Language Policy
+Use the section matching the user's language. 使用与用户输入语言一致的章节。
 
-Respond in the same language as the user's request.
+# Repo Onboarding
 
-If the user writes in Chinese, respond in Chinese.
-If the user writes in English, respond in English.
-If the user writes in another language, respond in that language when possible.
-If the user's language is mixed or unclear, use the dominant language of the request.
+Use this skill to understand an unfamiliar repository before editing code.
 
-Translate section headings and explanations into the user's language.
-Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
+## Safety Boundary
 
-Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
-
-You are helping the user understand an unfamiliar software repository.
-
-Do not modify code during onboarding unless the user explicitly asks.
-
-## Goals
-
-Help the user understand:
-
-- what the project does
-- what technologies it uses
-- how the repository is structured
-- where the entry points are
-- how to run, test, build, and release it
-- which modules are most important
-- which files a new contributor should read first
-- which areas should be treated carefully before editing
+- Read-only by default.
+- Do not modify files.
+- Do not run commands unless the environment and user request allow it.
+- Separate facts from assumptions.
 
 ## Workflow
 
-1. Inspect the repository root.
-2. Identify the main language, framework, package manager, and build tools.
-3. Read important metadata files such as README files, manifests, lockfiles, config files, CI files, Docker files, and test configs.
-4. Identify entry points and core modules.
-5. Identify scripts for development, test, build, lint, typecheck, and release.
-6. Identify likely risk areas.
-7. Produce a practical onboarding map.
+1. Inspect repository metadata and top-level structure.
+2. Identify the language, framework, package manager, and build tools.
+3. Read important README, manifest, config, CI, test, and plugin files.
+4. Identify entry points, core modules, scripts, and validation commands.
+5. Identify risky areas such as public interfaces, shared utilities, authentication, data migrations, generated files, release scripts, or build config.
+6. Produce a practical onboarding map and reading order.
 
-## Output Format
+# Output Format
 
-Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+1. Project summary
+2. Technology stack
+3. Directory map
+4. Entry points and core flow
+5. How to run and validate
+6. Recommended reading order
+7. Risk areas
+8. Recommended next step
 
-### 1. Project Summary
+Use tables where they improve scanability. Include evidence for commands and file roles.
 
-Explain what the repository appears to do. If uncertain, say what evidence supports the conclusion.
+---
 
-### 2. Technology Stack
+# 仓库理解
 
-| Area | Detected Technology | Evidence |
-| ---- | ------------------- | -------- |
+用于在修改代码前理解一个陌生仓库。
 
-### 3. Directory Map
+## 安全边界
 
-| Path | Responsibility | Importance |
-| ---- | -------------- | ---------- |
+- 默认只读。
+- 不修改文件。
+- 除非环境和用户明确允许，否则不运行命令。
+- 区分事实和推断。
 
-Importance should be one of: Core, Important, Supporting, Config, Test, Unknown.
+## 工作流程
 
-### 4. Entry Points and Core Flow
+1. 检查仓库元数据和顶层目录结构。
+2. 识别语言、框架、包管理器和构建工具。
+3. 阅读重要的 README、manifest、配置、CI、测试和插件文件。
+4. 识别入口文件、核心模块、脚本和验证命令。
+5. 识别风险区域，例如公共接口、共享工具、认证、数据迁移、生成文件、发布脚本或构建配置。
+6. 输出实用的仓库理解地图和新人阅读顺序。
 
-List likely entry points and explain why they matter.
+# 输出格式
 
-### 5. How To Run and Validate
+1. 项目总结
+2. 技术栈
+3. 目录地图
+4. 入口文件和核心流程
+5. 运行与验证方式
+6. 推荐阅读顺序
+7. 风险区域
+8. 下一步建议
 
-| Purpose | Command | Confidence | Evidence |
-| ------- | ------- | ---------- | -------- |
-
-Do not claim a command works unless it is defined or validated.
-
-### 6. Recommended Reading Order
-
-Give a numbered reading order for a new developer.
-
-### 7. Risk Areas
-
-List areas that deserve caution before editing, such as public APIs, shared utilities, authentication, routing, database migrations, package exports, build config, or generated files.
-
-### 8. Recommended Next Step
-
-Recommend whether to run project-health-check, safe-code-review, or change-impact-analysis next.
-
-## Rules
-
-Separate facts from assumptions.
-
-Do not invent missing documentation.
-
-Do not modify files.
-
-Do not recommend large refactors during onboarding.
+能提升可读性时使用表格。命令和文件职责需要给出证据。

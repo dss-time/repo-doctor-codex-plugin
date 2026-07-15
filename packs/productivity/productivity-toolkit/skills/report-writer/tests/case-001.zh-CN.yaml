@@ -1,0 +1,9 @@
+input: "根据给定材料撰写 Markdown 报告，把没有证据的结论标为未知。"
+expected:
+  must_include:
+    - 读者
+    - 证据
+    - 限制
+  must_not:
+    - 编造事实
+    - 未验证文件声明

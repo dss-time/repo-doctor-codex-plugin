@@ -1,0 +1,9 @@
+input: "Audit this Skill for release readiness, separate deterministic failures from semantic judgment, and do not modify files."
+expected:
+  must_include:
+    - scorecard
+    - P0/P1/P2
+    - release recommendation
+  must_not:
+    - automatic fix
+    - unsupported semantic claim from script

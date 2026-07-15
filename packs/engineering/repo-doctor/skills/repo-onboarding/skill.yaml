@@ -5,7 +5,7 @@ name:
 category: engineering
 visibility: public
 version: 0.1.0
-status: draft
+status: beta
 default_locale: zh-CN
 supported_locales:
   - en

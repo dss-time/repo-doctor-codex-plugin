@@ -8,6 +8,8 @@ Use this checklist before release, merge, or major documentation updates.
 - [ ] `docs/QUICK_START.md` and `docs/QUICK_START.zh-CN.md` still match the current commands and outputs.
 - [ ] `docs/ADDING_SKILLS.md` and `docs/ADDING_SKILLS.zh-CN.md` still match the current skill structure.
 - [ ] `CHANGELOG.md` includes the relevant public changes.
+- [ ] `docs/VERSIONING.md` and `docs/VERSIONING.zh-CN.md` still match the project/component version model and maturity policy.
+- [ ] `packs/` remains the only canonical source; no Skill logic was maintained directly in generated `plugins/` or `dist/` copies.
 
 ## Skill Structure
 
@@ -29,6 +31,12 @@ For each new or changed skill, confirm these files exist:
 - [ ] `visibility` is correct for a public repository.
 - [ ] `supported_locales` includes `en` and `zh-CN`.
 - [ ] Permissions explicitly declare file write, shell, network, and destructive-action behavior.
+- [ ] The project release version agrees across `package.json`, the intended Git tag/GitHub Release, `CHANGELOG.md`, and release-candidate notes.
+- [ ] Every Pack version matches its corresponding generated plugin manifest; Pack/plugin versions are not mechanically forced to equal the project version.
+- [ ] Each Skill keeps an independently justified semantic version rather than inheriting its Pack or project version automatically.
+- [ ] Pack and Skill maturity statuses have evidence; a Pack is not more mature than its least mature active Skill.
+- [ ] `beta` is described as repository-validated and usable with limited broad-use/live-model evidence; `stable` is not described as bug-free.
+- [ ] Template content remains `draft` and excluded from active/plugin/ZIP counts; deprecated content is not reactivated.
 
 ## Public Safety
 
@@ -39,14 +47,31 @@ For each new or changed skill, confirm these files exist:
 
 ## Validation
 
+- [ ] `find scripts -type f -name '*.mjs' -exec node --check {} \;` passes.
 - [ ] `npm run validate` passes.
+- [ ] `npm test` passes, including activation, maintainer, synchronization, and build-integrity contracts.
 - [ ] `npm run build` passes.
+- [ ] `npm run docs:generate` refreshes the generated Skill Catalogs and `npm run docs:check` passes.
+- [ ] `node scripts/check-skill-quality.mjs --check-dist` passes after the build.
+- [ ] Repeating `npm run build` produces the same generated-tree fingerprint with no stale or extra artifacts.
+- [ ] `git diff --check` passes.
 - [ ] `dist/` generated files are not committed.
 - [ ] Only `dist/.gitkeep` is kept.
 
-## Compatibility
+There are intentionally no standalone `format` or `lint` scripts at this stage. Do not add empty scripts, repository-wide mechanical formatting, or new formatter/linter dependencies merely to fill that label. The syntax, Schema, validation, test, build, generated-output, whitespace, deterministic-build, and review gates above cover the current baseline. Revisit a unified formatter or linter if the executable codebase grows enough to justify one.
 
-- [ ] `plugins/repo-doctor/` still exists.
-- [ ] `plugins/repo-doctor/.codex-plugin/plugin.json` still points to the legacy skills directory.
-- [ ] The original legacy Repo Doctor skill files still exist.
+## Generated Compatibility
+
+- [ ] `plugins/repo-doctor/`, `plugins/productivity-toolkit/`, and `plugins/skill-maintainer/` match their canonical Pack manifests.
+- [ ] Each plugin manifest still points to its generated `./skills/` directory.
+- [ ] Plugin and ChatGPT package sets contain no manual drift from canonical sources.
+- [ ] The three Document Data Doctor Basic Skills remain Pack/cross-platform-only and have no standalone plugin or ChatGPT ZIP unless that architecture is intentionally changed.
 - [ ] Adapter documentation still matches generated output behavior.
+
+## Release Candidate
+
+- [ ] `CHANGELOG.md` keeps an empty `Unreleased` section and has a dated section for the candidate project version.
+- [ ] Changelog comparison links, release notes, and version-policy links are valid.
+- [ ] The candidate is described as not yet published until commit, push, tag, and external release actions actually succeed.
+- [ ] Live-model routing accuracy is reported as `UNKNOWN` unless an evidence-backed online evaluation was actually run.
+- [ ] Commit, push, tag creation, GitHub Release creation, npm publication, and marketplace publication remain separate explicit authorizations.

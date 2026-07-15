@@ -2,17 +2,17 @@
 
 A bilingual, cross-platform AI Skills framework for repository diagnosis, code review, document review, and safe agent workflows.
 
-Repo Doctor Skills is an early open-source framework for turning expert workflows into structured AI Skill packs. It includes a canonical `packs/` source format, validation scripts, build adapters, and a legacy Codex plugin for existing Repo Doctor users.
+Repo Doctor Skills is an early open-source framework for turning expert workflows into structured AI Skill packs. It includes a canonical `packs/` source format, validation scripts, build adapters, and synchronized plugin compatibility outputs for existing Repo Doctor users.
 
-This project was originally published as `repo-doctor-codex-plugin` and still preserves the legacy Codex plugin structure.
+This project was originally published as `repo-doctor-codex-plugin`. The public repository is now named `repo-doctor-skills`; the historical Codex plugin path remains available as a generated compatibility output.
 
 ## What This Project Can Do
 
 - Define skills with metadata, permissions, localization, examples, and tests.
 - Validate public skills before they are published.
-- Build platform outputs for generic Markdown prompts, Codex / CodeX, and Claude Code.
+- Build seven cross-platform targets for generic Markdown, Codex / CodeX, Claude Code, Cursor, Qwen, and Kimi.
 - Keep public-safe packs separate from private or internal implementations.
-- Preserve the original Repo Doctor Codex plugin while introducing a cross-platform source layout.
+- Synchronize Repo Doctor, Productivity Toolkit, and Skill Maintainer plugin distributions from the same canonical sources.
 
 ## What This Project Is Not
 
@@ -26,9 +26,18 @@ This project was originally published as `repo-doctor-codex-plugin` and still pr
 - Developers building reusable Agent workflows.
 - Open-source maintainers who want public-safe skill packs.
 - Teams that need a clean split between public skills and private internal packs.
-- Users who want to run Repo Doctor as a Codex plugin today and later build cross-platform outputs from the same source model.
+- Users who want a Codex-compatible plugin and cross-platform outputs from the same canonical source model.
 
 ## Quick Start
+
+Choose the shortest guide for your goal:
+
+- [5-minute Quick Start](docs/QUICK_START.md) for cloning, validating, and building.
+- [User Manual](docs/USER_MANUAL.md) for installation, invocation syntax, permissions, and troubleshooting.
+- [Complete Skill Catalog](docs/SKILL_CATALOG.md) for choosing among all active Skills.
+- [Workflow Cookbook](docs/WORKFLOW_COOKBOOK.md) for chaining Skills into real tasks.
+- [Versioning and Lifecycle Policy](docs/VERSIONING.md) for project releases, component versions, and maturity status.
+- [Adding Skills](docs/ADDING_SKILLS.md) for maintainers working from canonical sources.
 
 Clone the repository and run validation:
 
@@ -36,6 +45,7 @@ Clone the repository and run validation:
 git clone https://github.com/dss-time/repo-doctor-skills.git
 cd repo-doctor-skills
 npm run validate
+npm test
 ```
 
 Build all supported outputs:
@@ -51,33 +61,76 @@ node scripts/build-skills.mjs --target generic-zh-CN
 node scripts/build-skills.mjs --target generic-en
 node scripts/build-skills.mjs --target codex-zh-CN
 node scripts/build-skills.mjs --target claude-code-zh-CN
+node scripts/build-skills.mjs --target cursor-zh-CN
+node scripts/build-skills.mjs --target qwen-zh-CN
+node scripts/build-skills.mjs --target kimi-zh-CN
 ```
 
 Generated files are written to `dist/`. The generated output is ignored by Git; only `dist/.gitkeep` is kept.
 
 For a step-by-step guide, see [docs/QUICK_START.md](docs/QUICK_START.md).
 
-## Two Ways To Use This Repository
+## Four Ways To Use This Repository
 
-### 1. Use the Legacy Codex / CodeX Plugin Directly
+### 1. Use the Repo Doctor Codex / CodeX Compatibility Plugin
 
-If you only want the original Repo Doctor Codex plugin, use:
+If you want the Repo Doctor Codex-compatible distribution, use:
 
 ```text
 plugins/repo-doctor/
 ```
 
-The plugin exposes the original five skills:
+This generated compatibility distribution is synchronized from `packs/engineering/repo-doctor/`. It contains the original five skills plus sixteen scoped workflow and specialized review skills, for 21 total:
 
 - `repo-onboarding`
 - `project-health-check`
 - `safe-code-review`
 - `change-impact-analysis`
 - `safe-fix-implementation`
+- `requirements-to-spec`
+- `bug-root-cause-analysis`
+- `safe-change-plan`
+- `test-gap-analysis`
+- `safe-test-implementation`
+- `ci-failure-diagnosis`
+- `documentation-sync`
+- `release-readiness-check`
+- `dependency-upgrade-analysis`
+- `api-contract-review`
+- `database-migration-review`
+- `dead-code-verification`
+- `security-focused-review`
+- `performance-regression-analysis`
+- `architecture-decision-record`
+- `configuration-audit`
 
 Installation and marketplace setup are documented in [docs/LEGACY_CODEX_PLUGIN.md](docs/LEGACY_CODEX_PLUGIN.md).
 
-### 2. Use This As a Cross-Platform Skills Source Repository
+### 2. Use the Productivity Toolkit Plugin
+
+The generated `plugins/productivity-toolkit/` distribution provides eight cross-industry office and research workflows:
+
+- `report-writer`
+- `research-brief`
+- `spreadsheet-data-cleaning`
+- `document-review`
+- `pdf-review`
+- `meeting-notes-to-actions`
+- `presentation-outline`
+- `content-consistency-check`
+
+Its canonical source is `packs/productivity/productivity-toolkit/`. The plugin does not contain investment strategy, valuation, stock selection, trading advice, private templates, or organization-specific rules.
+
+### 3. Use the Skill Maintainer Plugin
+
+The generated `plugins/skill-maintainer/` distribution provides two maintainer-only workflows:
+
+- `skill-authoring` engineers one repository-standard bilingual Skill through the existing scaffold, activation contracts, and build system.
+- `skill-quality-audit` performs a strictly read-only pre-release audit of a Skill, Pack, plugin, or Skills repository.
+
+Its canonical source is `packs/engineering/skill-maintainer/`. Deterministic checks remain in repository scripts; semantic trigger and workflow judgment remains in the audit Skill.
+
+### 4. Use This As a Cross-Platform Skills Source Repository
 
 If you want to build skills for multiple platforms, edit canonical sources under:
 
@@ -98,23 +151,38 @@ Use adapter output from `dist/`:
 - `dist/generic-en/` for English generic Markdown prompts
 - `dist/codex-zh-CN/AGENTS.md` for Codex / CodeX-style usage
 - `dist/claude-code-zh-CN/.claude/skills/<skill-name>/SKILL.md` for Claude Code
+- `dist/cursor-zh-CN/.cursor/rules/<skill-name>.mdc` for Cursor
+- `dist/qwen-zh-CN/` and `dist/kimi-zh-CN/` for Chinese prompt packs
+- `dist/chatgpt-skills/rd-*.zip` for ChatGPT Repo Doctor Skill uploads
+- `dist/chatgpt-skills/pt-*.zip` for ChatGPT productivity-skill uploads
+- `dist/chatgpt-skills/sm-*.zip` for ChatGPT Skill-maintainer uploads
 
-## `plugins/` vs `packs/`
+## ChatGPT ZIP Packages
+
+`npm run build` writes each plugin-backed Skill twice under `dist/chatgpt-skills/`: an expanded directory for inspection and a same-named ZIP for upload. For example, `rd-api-contract-review.zip` and `rd-api-contract-review/` both represent the canonical `api-contract-review` Skill.
+
+| Prefix | Plugin | Current Count | Purpose |
+|---|---|---:|---|
+| `rd-*` | Repo Doctor | 21 | Software engineering diagnosis, analysis, planning, safe changes, and verification. |
+| `pt-*` | Productivity Toolkit | 8 | Reports, research, spreadsheet cleaning, PDF/Word review, meetings, and presentations. |
+| `sm-*` | Skill Maintainer | 2 | Skill authoring and read-only quality audits. |
+
+The three Document Data Doctor Basic Skills participate in the canonical Packs and all seven regular cross-platform targets, but they do not have a standalone plugin or ChatGPT ZIP. See the [User Manual](docs/USER_MANUAL.md) for verified ChatGPT and Codex installation and invocation differences.
+
+## Canonical Source and Generated Outputs
 
 | Path | Purpose | Edit First? |
 |---|---|---|
-| `plugins/` | Legacy Codex plugin compatibility. Existing users can install Repo Doctor from here. | No, unless maintaining the legacy plugin. |
-| `packs/` | Canonical cross-platform skill source. New skills and updates should start here. | Yes. |
+| `packs/` | The only canonical source for Skill logic, bilingual content, permissions, risk, tests, resources, and output contracts. | Yes. |
+| `plugins/` | Generated compatibility and distribution output for Repo Doctor, Productivity Toolkit, and Skill Maintainer. | No; synchronize from canonical packs. |
 | `adapters/` | Platform-specific guidance for rendering skills. | Only when adapter behavior changes. |
-| `dist/` | Generated output from `scripts/build-skills.mjs`. | Never edit directly. |
+| `dist/` | Cross-platform artifacts and ChatGPT packages generated by the build pipeline. | Never edit directly. |
+
+The current canonical inventory is 4 active Packs with 34 active Skills, plus 1 template Pack containing 1 template Skill. Three plugin distributions contain 31 Skills in total; the build emits 31 matching ChatGPT ZIPs and 7 regular cross-platform targets. Validation discovers the Pack and Skill sets from manifests rather than relying on these documentation counts.
 
 ## Supported Platforms
 
-- Codex / CodeX: legacy plugin under `plugins/`, or generated `dist/codex-zh-CN/AGENTS.md`
-- Claude Code: generated `.claude/skills/<skill-name>/SKILL.md`
-- Cursor: adapter guidance under `adapters/cursor/`
-- Generic Prompt Pack: generated Markdown prompts
-- Chinese LLM environments: adapter guidance under `adapters/chinese-llm/`
+The seven regular build targets are `generic-zh-CN`, `generic-en`, `codex-zh-CN`, `claude-code-zh-CN`, `cursor-zh-CN`, `qwen-zh-CN`, and `kimi-zh-CN`. ChatGPT ZIP packaging is an additional plugin-backed distribution step in `npm run build`.
 
 ## Supported Languages
 
@@ -135,8 +203,8 @@ packs/      Canonical public skill packs and templates
 examples/   Public-safe examples and sample outputs
 tests/      Validation fixtures
 scripts/    Validation and build scripts
-dist/       Generated adapter outputs, ignored except .gitkeep
-plugins/    Legacy Codex plugin compatibility structure
+dist/       Generated cross-platform artifacts, ignored except .gitkeep
+plugins/    Generated plugin compatibility and distribution outputs
 ```
 
 ## Validate Skills
@@ -145,7 +213,7 @@ plugins/    Legacy Codex plugin compatibility structure
 npm run validate
 ```
 
-The validator checks required files, required metadata, locale coverage, permissions, read-only boundaries, and obvious sensitive terms in public skills.
+The validators check required files and metadata, locale coverage, permissions, canonical/plugin integration, direct resource links, UI metadata, line limits, and obvious secret or machine-path patterns. Semantic trigger accuracy and workflow quality still require model review and activation evaluation.
 
 ## Build Platform Outputs
 
@@ -160,17 +228,16 @@ node scripts/build-skills.mjs --target generic-zh-CN
 node scripts/build-skills.mjs --target generic-en
 node scripts/build-skills.mjs --target codex-zh-CN
 node scripts/build-skills.mjs --target claude-code-zh-CN
+node scripts/build-skills.mjs --target cursor-zh-CN
+node scripts/build-skills.mjs --target qwen-zh-CN
+node scripts/build-skills.mjs --target kimi-zh-CN
 ```
 
 ## Add a Skill
 
 New skills should start in `packs/`, not `plugins/` or `dist/`.
 
-Use the template:
-
-```text
-packs/_template/
-```
+Use `npm run create:skill` as shown below; `packs/_template/` remains a reference template, not a competing creation path.
 
 Every skill should include:
 
@@ -190,6 +257,7 @@ After adding or editing a skill:
 
 ```bash
 npm run validate
+npm test
 npm run build
 ```
 
@@ -201,10 +269,11 @@ Use the scaffold script:
 npm run create:skill -- --pack engineering/repo-doctor --name bug-diagnosis --id repo.bug-diagnosis --category engineering
 ```
 
-The new skill is created under `packs/`. Do not edit `dist/` directly, and do not start by changing the legacy `plugins/` structure. After creating the skill, update its generated files, then run:
+The new Skill is created under `packs/`. Complete the canonical files and required Pack/integration metadata there; do not edit synchronized `plugins/` or generated `dist/` copies. Then run:
 
 ```bash
 npm run validate
+npm test
 npm run build
 ```
 
@@ -237,13 +306,19 @@ This public repository must not include:
 
 See [docs/PUBLIC_PRIVATE_BOUNDARY.md](docs/PUBLIC_PRIVATE_BOUNDARY.md).
 
-## Current Status
+## Release Candidate Status
 
-This project is early and experimental. The public structure, schemas, and adapters are intentionally conservative and may change as real platform integration work matures.
+This checkout is preparing the **0.2.0 Release Candidate**; repository changes alone do not mean it has been tagged or published. Project release version, component versions, and maturity status are separate layers. All 4 active Packs and 34 active Skills are marked `beta` for this candidate: they are repository-validated and suitable for real tasks, but broad public-use and Live-model routing evidence is still limited. Beta does not mean unusable, and a future `stable` label would not mean bug-free.
+
+Live-model routing accuracy remains **UNKNOWN**. See [Versioning and Lifecycle Policy](docs/VERSIONING.md) for the component baselines and the historical `v0.0.1` tag-label exception, and [CHANGELOG.md](CHANGELOG.md) for the candidate change record.
 
 ## Related Docs
 
 - [Quick Start](docs/QUICK_START.md)
+- [User Manual](docs/USER_MANUAL.md)
+- [Complete Skill Catalog](docs/SKILL_CATALOG.md)
+- [Workflow Cookbook](docs/WORKFLOW_COOKBOOK.md)
+- [Versioning and Lifecycle Policy](docs/VERSIONING.md)
 - [Adding Skills](docs/ADDING_SKILLS.md)
 - [Legacy Codex Plugin](docs/LEGACY_CODEX_PLUGIN.md)
 - [Skill Specification](docs/SKILL_SPEC.md)

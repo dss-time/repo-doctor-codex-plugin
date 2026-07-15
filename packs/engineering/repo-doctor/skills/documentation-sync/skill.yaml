@@ -1,0 +1,46 @@
+id: repo.documentation-sync
+name:
+  en: Documentation Sync
+  zh-CN: 文档同步维护
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Synchronize documentation with a confirmed code, configuration, API, or behavior change by updating only evidence-backed README, API, configuration, example, migration, and changelog content while preserving style and language. Use for documentation-only edits; do not modify production behavior, invent undocumented facts, or use as a general code fix.
+  zh-CN: 根据已确认的代码、配置、API 或行为变更，只更新有证据支持的 README、API、配置、示例、迁移和 CHANGELOG 内容，并保留原有风格与语言。用于仅文档修改；不得改变生产行为、编造未证实内容，也不作为通用代码修复。
+triggers:
+  en:
+    - sync the documentation with this confirmed change
+    - update affected docs from this diff
+    - refresh README API docs and changelog
+    - documentation sync
+  zh-CN:
+    - 根据已确认变更同步文档
+    - 根据这个 diff 更新受影响文档
+    - 同步 README API 文档和 CHANGELOG
+    - 文档同步维护
+tool_requirements:
+  filesystem: write
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: true
+  run_shell_commands: true
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: safe_edit
+output_schema:
+  type: documentation_sync_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

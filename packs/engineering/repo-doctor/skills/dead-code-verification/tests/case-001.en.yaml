@@ -1,0 +1,2 @@
+input: "Verify whether this exported module is dead code without deleting it."
+expected: {must_include: [evidence, classification, restoration], must_not: [delete code]}

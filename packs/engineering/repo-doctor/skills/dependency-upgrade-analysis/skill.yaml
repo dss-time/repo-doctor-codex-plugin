@@ -1,0 +1,44 @@
+id: repo.dependency-upgrade-analysis
+name:
+  en: Dependency Upgrade Analysis
+  zh-CN: 依赖升级分析
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Analyze a specific dependency upgrade using manifests, lockfiles, repository usage, and verified official release evidence, including breaking changes, runtime requirements, security, licensing, ecosystem compatibility, validation, and rollback. Use before changing dependency versions; do not perform general impact analysis or modify manifests or lockfiles.
+  zh-CN: 基于 manifest、锁文件、仓库用法和已验证官方发布资料分析具体依赖升级，覆盖破坏性变更、运行时要求、安全、许可证、生态兼容、验证和回滚。用于修改依赖版本前；不替代通用影响分析，也不修改 manifest 或锁文件。
+triggers:
+  en:
+    - analyze this dependency upgrade
+    - assess upgrading this package
+    - dependency upgrade analysis
+  zh-CN:
+    - 分析这个依赖升级
+    - 评估升级这个包
+    - 依赖升级分析
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: optional
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: dependency_upgrade_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

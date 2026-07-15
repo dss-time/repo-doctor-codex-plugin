@@ -1,0 +1,9 @@
+input: "Sync affected README, API docs, examples, and CHANGELOG from this confirmed diff. Modify docs only."
+expected:
+  must_include:
+    - change basis
+    - updated documentation files
+    - validation
+  must_not:
+    - modify production code
+    - invent behavior

@@ -1,5 +1,6 @@
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { walkFiles } from "./deterministic-files.mjs";
 
 const args = process.argv.slice(2);
 
@@ -30,10 +31,13 @@ if (!category) fail("missing required --category");
 if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
   fail("--name must use lowercase hyphen-case, for example bug-diagnosis");
 }
+if (name.length > 64) fail("--name must be 64 characters or fewer");
 
 if (!/^[a-z0-9]+(?:\.[a-z0-9]+(?:-[a-z0-9]+)*)+$/.test(id)) {
   fail("--id must be dot-namespaced, for example repo.bug-diagnosis");
 }
+if (!id.endsWith(`.${name}`)) fail("--id must end with the exact --name slug");
+if (id.length > 128) fail("--id must be 128 characters or fewer");
 
 if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(category)) {
   fail("--category must use lowercase hyphen-case, for example engineering");
@@ -48,12 +52,34 @@ const packDir = path.join(root, "packs", pack);
 const skillsDir = path.join(packDir, "skills");
 const targetDir = path.join(skillsDir, name);
 
+function walk(dir, predicate, results = []) {
+  return walkFiles(dir, predicate, results);
+}
+
 if (!existsSync(packDir)) {
   fail(`pack does not exist: packs/${pack}`);
 }
 
 if (!existsSync(skillsDir)) {
   fail(`pack has no skills directory: packs/${pack}/skills`);
+}
+
+const packMetadata = readFileSync(path.join(packDir, "pack.yaml"), "utf8");
+const packCategory = packMetadata.match(/^category:\s*(.+)$/m)?.[1]?.trim() ?? "";
+if (packCategory && category !== packCategory) {
+  fail(`--category must match pack category ${packCategory}`);
+}
+
+for (const metadataPath of walk(path.join(root, "packs"), (file) => path.basename(file) === "skill.yaml")) {
+  const existingDir = path.dirname(metadataPath);
+  const existingName = path.basename(existingDir);
+  const existingId = readFileSync(metadataPath, "utf8").match(/^id:\s*(.+)$/m)?.[1]?.trim() ?? "";
+  if (existingName === name) {
+    fail(`skill name already exists at ${path.relative(root, existingDir)}; flat adapters require globally unique slugs`);
+  }
+  if (existingId === id) {
+    fail(`skill id already exists at ${path.relative(root, existingDir)}: ${id}`);
+  }
 }
 
 if (existsSync(targetDir)) {
@@ -192,10 +218,17 @@ expected:
 `
 };
 
-mkdirSync(path.join(targetDir, "tests"), { recursive: true });
-
-for (const [relativePath, content] of Object.entries(files)) {
-  writeFileSync(path.join(targetDir, relativePath), content);
+const temporaryDir = `${targetDir}.tmp-${process.pid}`;
+if (existsSync(temporaryDir)) fail(`temporary scaffold path already exists: ${path.relative(root, temporaryDir)}`);
+try {
+  mkdirSync(path.join(temporaryDir, "tests"), { recursive: true });
+  for (const [relativePath, content] of Object.entries(files)) {
+    writeFileSync(path.join(temporaryDir, relativePath), content);
+  }
+  renameSync(temporaryDir, targetDir);
+} catch (error) {
+  rmSync(temporaryDir, { recursive: true, force: true });
+  fail(`could not create scaffold atomically: ${error.message}`);
 }
 
 console.log(`Created skill at packs/${pack}/skills/${name}`);

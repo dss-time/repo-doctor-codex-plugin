@@ -1,0 +1,4 @@
+interface:
+  display_name: "Report Writer（报告撰写）"
+  short_description: "基于目标、读者和证据撰写结构化报告并保持引用一致"
+  default_prompt: "使用 $report-writer 根据这些材料撰写一份有证据边界的结构化报告。"

@@ -5,14 +5,14 @@ name:
 category: engineering
 visibility: public
 version: 0.1.0
-status: draft
+status: beta
 default_locale: zh-CN
 supported_locales:
   - en
   - zh-CN
 description:
-  en: Review code changes for correctness, compatibility, security, maintainability, and test coverage.
-  zh-CN: 审查代码改动中的正确性、兼容性、安全性、可维护性和测试覆盖。
+  en: Review a code change or PR broadly for correctness, compatibility, security, maintainability, and tests. Use security-focused-review, performance-regression-analysis, or api-contract-review when the user requests one bounded specialist assessment; do not implement fixes.
+  zh-CN: 广泛审查代码改动或 PR 的正确性、兼容性、安全性、可维护性和测试。用户要求单一安全、性能回归或 API 契约专项时分别使用对应专项 Skill；本 Skill 不实施修复。
 triggers:
   en:
     - review this code

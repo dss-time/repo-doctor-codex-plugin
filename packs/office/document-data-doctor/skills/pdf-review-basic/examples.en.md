@@ -1,5 +1,5 @@
 # Examples
 
-User: "Review this PDF and tell me what needs manual confirmation."
+User: "Perform a lightweight text-only check of this PDF. Do not use OCR or render pages."
 
-Expected behavior: cite page evidence and list uncertain items without legal or financial conclusions.
+Expected behavior: inspect only extractable text, cite supplied text locations, list uncertain items, and state that OCR, visual, layout, table, image, and scanned-content checks were excluded.

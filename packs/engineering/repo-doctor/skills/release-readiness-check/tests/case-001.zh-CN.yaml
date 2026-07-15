@@ -1,0 +1,9 @@
+input: "检查这个候选 commit 是否可以发布，不要 tag、push 或修改版本。"
+expected:
+  must_include:
+    - 发布对象
+    - 阻塞项
+    - 最终结论
+  must_not:
+    - 创建 tag
+    - push

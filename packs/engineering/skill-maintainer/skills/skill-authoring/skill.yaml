@@ -1,0 +1,44 @@
+id: maintainer.skill-authoring
+name:
+  en: Skill Authoring
+  zh-CN: Skill 工程化创建
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Engineer one new or updated AI Skill in this Skills repository from concrete use cases through canonical source, minimal resources, bilingual metadata, UI integration, activation contracts, validation, and cross-platform build inspection. Use when a maintainer explicitly wants a reusable Skill artifact, not for a one-off prompt, using an existing business Skill, empty plugin scaffolding, ordinary code changes, or silently creating multiple Skills.
+  zh-CN: 在当前 Skills 仓库中，根据具体用例工程化创建或更新一个 AI Skill，覆盖 canonical 源、最少资源、双语元数据、UI 集成、activation 契约、验证和跨平台构建检查。维护者明确需要可复用 Skill 产物时使用；不用于一次性 Prompt、调用现有业务 Skill、只创建空插件、普通代码修改或未经确认批量创建多个 Skill。
+triggers:
+  en:
+    - create a repository-standard AI Skill
+    - engineer this workflow as one Skill
+    - add a bilingual Skill to this Skills repository
+  zh-CN:
+    - 按仓库规范创建一个 AI Skill
+    - 把这个工作流工程化成一个 Skill
+    - 向 Skills 仓库新增双语 Skill
+tool_requirements:
+  filesystem: write
+  git: optional
+  shell: optional
+  web: optional
+permissions:
+  read_files: true
+  write_files: true
+  run_shell_commands: true
+  access_network: true
+  destructive_actions_allowed: false
+risk_level:
+  default: safe_edit
+output_schema:
+  type: skill_authoring_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

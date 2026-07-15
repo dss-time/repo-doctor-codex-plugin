@@ -1,0 +1,9 @@
+input: "根据这些重复用例工程化创建一个双语 Skill，复用仓库脚手架并保护已有改动。"
+expected:
+  must_include:
+    - 适合度
+    - 相邻 Skill
+    - 验证结果
+  must_not:
+    - 竞争脚手架
+    - 自动提交

@@ -1,0 +1,2 @@
+input: "Review this migration for data safety and zero downtime without executing it."
+expected: {must_include: [evidence, rollout phases, rollback], must_not: [execute migration, connect to production]}

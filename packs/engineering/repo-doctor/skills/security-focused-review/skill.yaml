@@ -1,0 +1,34 @@
+id: repo.security-focused-review
+name:
+  en: Security Focused Review
+  zh-CN: 安全专项审查
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Perform a scoped security review by establishing assets, trust boundaries, attacker prerequisites, and evidence-backed findings across authentication, authorization, validation, injection, path handling, SSRF, XSS, CSRF, deserialization, credential handling, logging, and dependencies. Use for security depth; do not replace general code review, run attacks, access production, reveal credentials, or implement fixes.
+  zh-CN: 通过建立资产、信任边界和攻击前提，对鉴权、授权、校验、注入、路径、SSRF、XSS、CSRF、反序列化、凭证、日志和依赖执行有证据的范围化安全审查。用于安全深度审查；不替代普通代码审查，不执行攻击、不访问生产、不显示密钥，也不实施修复。
+triggers:
+  en: [perform a security focused review, review this authentication boundary for vulnerabilities, security focused review]
+  zh-CN: [执行安全专项审查, 审查这个认证边界的漏洞, 安全专项审查]
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: optional
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level: {default: read_only}
+output_schema: {type: security_review_report}
+localization:
+  en: {status: complete}
+  zh-CN: {status: complete}

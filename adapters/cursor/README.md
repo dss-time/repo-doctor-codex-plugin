@@ -8,6 +8,8 @@ Cursor adapter output should render skills into:
 
 or `AGENTS.md` when a project prefers a single agent instruction file.
 
+The current build writes `.cursor/rules/<skill-name>.mdc` under `dist/cursor-zh-CN/`.
+
 ## Guidance
 
 - Keep rules short because Cursor rules may be loaded broadly.

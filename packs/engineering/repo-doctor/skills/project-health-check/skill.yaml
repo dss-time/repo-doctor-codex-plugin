@@ -5,14 +5,14 @@ name:
 category: engineering
 visibility: public
 version: 0.1.0
-status: draft
+status: beta
 default_locale: zh-CN
 supported_locales:
   - en
   - zh-CN
 description:
-  en: Diagnose repository health across architecture, correctness, security, performance, dependencies, tests, and release readiness.
-  zh-CN: 从架构、正确性、安全、性能、依赖、测试和发布准备度等方面诊断项目健康度。
+  en: Diagnose broad repository health across architecture, correctness, security, performance, dependencies, tests, and general release risk. Use a specialized review for one bounded dependency upgrade, API contract, database migration, dead-code candidate, security surface, performance regression, or configuration scope; use release-readiness-check for a specific release gate.
+  zh-CN: 从架构、正确性、安全、性能、依赖、测试和一般发布风险等方面广泛诊断项目健康度。单一依赖升级、API 契约、数据库迁移、死代码候选、安全边界、性能回归或配置范围应交给相应专项审查；具体候选版本门禁使用 release-readiness-check。
 triggers:
   en:
     - project health check

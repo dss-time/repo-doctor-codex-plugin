@@ -1,0 +1,4 @@
+interface:
+  display_name: "Valid Skill（有效测试 Skill）"
+  short_description: "验证确定性质量检查器的成功输入"
+  default_prompt: "使用 $valid-skill 验证这个公开安全测试输入。"

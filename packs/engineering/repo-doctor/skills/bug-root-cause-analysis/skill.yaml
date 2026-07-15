@@ -1,0 +1,46 @@
+id: repo.bug-root-cause-analysis
+name:
+  en: Bug Root Cause Analysis
+  zh-CN: Bug 根因分析
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Reproduce and locate a specific runtime bug by tracing the first trustworthy failure through code, logs, configuration, existing tests, and minimal experiments into an evidence-backed causal chain. Use for non-CI symptom-to-root-cause diagnosis; do not absorb CI pipeline failures, general code review, broad health checks, requests to add or modify tests, or requests to implement a fix.
+  zh-CN: 针对具体运行时 Bug，从第一个可信错误出发，结合代码、日志、配置、现有测试和最小实验复现并建立有证据的因果链。用于非 CI 的症状到根因分析；不要吸收 CI 流水线失败、普通代码审查、项目体检、新增或修改测试请求或直接修复请求。
+triggers:
+  en:
+    - find the root cause of this bug
+    - reproduce and diagnose this failure
+    - why does this error happen
+    - bug root cause analysis
+  zh-CN:
+    - 分析这个 Bug 的根因
+    - 复现并定位这个故障
+    - 这个错误为什么发生
+    - Bug 根因分析
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: true
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: tool_execution
+output_schema:
+  type: root_cause_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

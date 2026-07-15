@@ -3,7 +3,7 @@
   "$id": "https://example.org/schemas/pack.schema.json",
   "title": "AI Skill Pack",
   "type": "object",
-  "required": ["id", "name", "category", "visibility", "version", "skills"],
+  "required": ["id", "name", "category", "visibility", "version", "status", "skills"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "name": {
@@ -17,6 +17,10 @@
     "category": { "type": "string" },
     "visibility": { "enum": ["public", "internal", "private", "confidential"] },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "beta", "stable", "deprecated"]
+    },
     "skills": {
       "type": "array",
       "items": { "type": "string" },

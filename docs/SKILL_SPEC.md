@@ -15,10 +15,15 @@ skill-name/
 ├── output.zh-CN.md
 ├── examples.en.md
 ├── examples.zh-CN.md
+├── references/             # optional, first-level detailed rules
+├── assets/                 # optional, reusable output templates
+├── scripts/                # optional, deterministic logic with tests
 └── tests/
     ├── case-001.en.yaml
     └── case-001.zh-CN.yaml
 ```
+
+Create this structure with `npm run create:skill`; do not maintain a second scaffold. Optional resource directories must be non-empty, directly referenced by both applicable workflows, and limited to the minimum needed. Do not add Skill-local README, CHANGELOG, or installation files.
 
 ## Metadata
 
@@ -75,6 +80,9 @@ localization:
 - English and Chinese versions must carry the same permissions and safety boundaries.
 - Skill instructions should be specific enough to produce repeatable process, not fixed answers.
 - Long reference material should be split into separate files only when needed by a specific skill.
+- Keep the core executable workflow concise. Generated plugin `SKILL.md` files use lowercase hyphen-case `name`, a bilingual `description`, no other frontmatter fields, and a 500-line limit.
+- Keep platform invocation syntax out of canonical instructions. Adapters and plugin sync own platform-specific rendering.
+- Put reusable templates in `assets/`; put only deterministic, validated, tested logic in `scripts/`.
 - Skills should separate facts, assumptions, and recommendations.
 
 ## Status Values

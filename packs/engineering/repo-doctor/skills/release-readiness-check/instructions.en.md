@@ -1,0 +1,23 @@
+# Release Readiness Check
+
+Evaluate a specific release candidate and return an evidence-backed `GO`, `GO WITH CONDITIONS`, or `NO-GO`. Keep the check read-only.
+
+## Boundary
+
+- Require a release object such as a version, branch, commit, tag candidate, build artifact, or explicit change range. Route broad repository diagnosis to `project-health-check`.
+- Do not publish, deploy, commit, tag, push, change versions, edit files, or approve despite unresolved blockers.
+- Use only repository-provided validation commands and actual results. Mark checks not run and explain why.
+- Do not expose credential values or private data when scanning evidence.
+- A checklist without reproducible evidence is insufficient.
+
+## Workflow
+
+1. Define the release object, target environment, change range, included artifacts, and comparison baseline.
+2. Inspect workspace status, version consistency, change scope, dependency lockfiles, generated outputs, and untracked or temporary files.
+3. Identify repository-provided test, build, lint, typecheck, schema, package, and release verification commands. Record actual results or `not run`.
+4. Check API, database, configuration, permission, runtime, and platform compatibility; migration ordering; rollback feasibility; and forward/backward compatibility where applicable.
+5. Check documentation, CHANGELOG, release notes, deprecations, migration guidance, and operator/user communication against the actual change.
+6. Scan for credential-like material, private data, debug code, disabled checks, temporary files, absolute machine paths, and unexpected generated artifacts without revealing sensitive values.
+7. Classify findings as blockers, pre-release conditions, recommendations, or post-release observations. Attach evidence and an owner/action when available.
+8. Evaluate rollback readiness, observability, monitoring signals, and stop or rollback thresholds.
+9. Return exactly one decision: `GO`, `GO WITH CONDITIONS`, or `NO-GO`, with conditions and next steps tied to evidence.

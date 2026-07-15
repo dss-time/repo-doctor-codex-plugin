@@ -1,0 +1,2 @@
+input: "审查这个迁移的数据安全和零停机风险，不要执行。"
+expected: {must_include: [证据, 发布阶段, 回滚], must_not: [执行迁移, 连接生产]}

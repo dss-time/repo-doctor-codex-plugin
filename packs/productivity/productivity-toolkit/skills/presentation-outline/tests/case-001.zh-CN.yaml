@@ -1,0 +1,9 @@
+input: "只创建十五分钟演示的大纲，把缺失数据标为占位，不要生成 PPTX。"
+expected:
+  must_include:
+    - 受众
+    - 每页目的
+    - 占位
+  must_not:
+    - 生成 PPTX 声明
+    - 编造数据

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Broken Skill"
+  short_description: "触发质量检查器失败路径"
+  default_prompt: "Run the broken fixture."

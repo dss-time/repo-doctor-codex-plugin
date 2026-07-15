@@ -22,9 +22,17 @@ Add new skills under `packs/<category>/<pack-name>/skills/<skill-name>/`.
 Do not start by editing:
 
 - `dist/`: generated output, never edited directly.
-- `plugins/`: legacy Codex plugin compatibility structure.
+- `plugins/`: synchronized plugin compatibility and distribution output; never maintain canonical Skill logic here.
 
 If a skill should support multiple platforms, add it to `packs/` first and let build scripts generate platform outputs.
+
+Create the canonical skeleton with the repository's single scaffold:
+
+```bash
+npm run create:skill -- --pack engineering/repo-doctor --name example-skill --id repo.example-skill --category engineering
+```
+
+Use `skill-authoring` when the suitability, neighboring Skills, resource plan, plugin integration, and activation design also need to be worked through.
 
 ## Standard Skill Structure
 
@@ -156,6 +164,14 @@ npm run validate
 
 Fix every reported issue before opening a pull request.
 
+The deterministic checker covers names, frontmatter, required files, direct references, UI metadata, Pack/plugin integration, permissions, line limits, and obvious secret or machine-path patterns. It does not judge whether the Skill is worth creating, whether triggers are semantically accurate, or whether the workflow is well designed. Use the read-only `skill-quality-audit` workflow for those model judgments.
+
+Run activation and maintainer-tool contracts too:
+
+```bash
+npm test
+```
+
 ## Build
 
 ```bash
@@ -189,22 +205,4 @@ If the content depends on private business rules, keep it in a private pack.
 
 ## Complete Example
 
-Copy:
-
-```text
-packs/_template/
-```
-
-Then rename:
-
-```text
-packs/_template/skills/example-skill/
-```
-
-to your target:
-
-```text
-packs/<category>/<pack-name>/skills/<new-skill-name>/
-```
-
-Update `skill.yaml`, localized instruction files, output files, examples, tests, and the pack README.
+Run the scaffold command for the target Pack, then replace every placeholder in `skill.yaml`, localized instruction files, output files, examples, and tests. Update `pack.yaml`, Pack documentation, plugin synchronization, UI metadata, activation cases, and repository documentation only where the new Skill requires them. Never edit generated copies as the source of truth.

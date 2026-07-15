@@ -1,0 +1,2 @@
+input: "为这个架构选择创建 Proposed ADR，只修改架构文档。"
+expected: {must_include: [状态, 候选方案, 后果], must_not: [虚构共识, 修改业务代码]}

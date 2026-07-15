@@ -1,0 +1,9 @@
+input: "Analyze test gaps for this diff and existing suite without writing tests."
+expected:
+  must_include:
+    - existing test system
+    - behavior-risk-test matrix
+    - priorities
+  must_not:
+    - generate test code
+    - modify files

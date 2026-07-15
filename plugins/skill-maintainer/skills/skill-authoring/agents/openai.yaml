@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Authoring（Skill 工程化创建）"
+  short_description: "按仓库唯一脚手架工程化创建一个双语可发布 Skill"
+  default_prompt: "使用 $skill-authoring 按当前仓库规范创建一个边界明确的双语 Skill。"

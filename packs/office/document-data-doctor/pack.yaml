@@ -5,7 +5,7 @@ name:
 category: office
 visibility: public
 version: 0.1.0
-status: draft
+status: beta
 default_locale: zh-CN
 supported_locales:
   - en
@@ -17,4 +17,3 @@ skills:
   - pdf-review-basic
   - word-document-review-basic
   - excel-data-quality-check-basic
-  - report-writer

@@ -1,0 +1,9 @@
+input: "Use the confirmed spec and impact report to create a rollback-ready change plan. Do not edit files."
+expected:
+  must_include:
+    - plan basis
+    - atomic steps
+    - rollback plan
+  must_not:
+    - modify files
+    - unrelated refactor

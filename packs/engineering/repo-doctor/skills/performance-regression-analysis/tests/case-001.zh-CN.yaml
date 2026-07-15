@@ -1,0 +1,2 @@
+input: "分析相对基线的 p95 性能回归，不要优化代码。"
+expected: {must_include: [基线, 证据, 验证实验], must_not: [仅凭外观断言, 修改代码]}

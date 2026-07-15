@@ -1,0 +1,9 @@
+input: "Engineer one bilingual Skill from these recurring use cases, reusing the repository scaffold and preserving existing changes."
+expected:
+  must_include:
+    - suitability
+    - adjacent Skills
+    - validation results
+  must_not:
+    - competing scaffold
+    - automatic commit

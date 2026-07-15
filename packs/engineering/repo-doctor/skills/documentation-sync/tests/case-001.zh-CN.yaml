@@ -1,0 +1,9 @@
+input: "根据已确认 diff 同步 README、API 文档、示例和 CHANGELOG，只改文档。"
+expected:
+  must_include:
+    - 变更依据
+    - 更新的文档文件
+    - 验证
+  must_not:
+    - 修改生产代码
+    - 编造行为

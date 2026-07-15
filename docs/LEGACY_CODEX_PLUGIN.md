@@ -1,6 +1,6 @@
 # Legacy Codex Plugin
 
-This document preserves the original Repo Doctor Codex plugin installation and usage path for Repo Doctor Skills.
+This document preserves the historical Repo Doctor Codex plugin installation path and explains its current generated compatibility role in Repo Doctor Skills.
 
 ## `plugins/` vs `packs/`
 
@@ -8,17 +8,17 @@ This document preserves the original Repo Doctor Codex plugin installation and u
 plugins/repo-doctor/
 ```
 
-This is the original Codex plugin structure. Use it if you only want to install and run the existing Repo Doctor plugin.
+This is the historical Codex plugin path. Its current contents are synchronized from `packs/engineering/repo-doctor/` for compatibility and distribution. It may be installed or inspected, but it is not the primary editing surface.
 
 ```text
 packs/
 ```
 
-This is the newer cross-platform canonical source structure. Use it if you want to validate and build skills for multiple platforms through `scripts/build-skills.mjs`.
+This is the only canonical source structure. Maintain Skill logic, bilingual content, permissions, risk, tests, resources, and output contracts here.
 
-The legacy plugin is kept for existing users. Repo Doctor Skills was originally published as `repo-doctor-codex-plugin`; the recommended repository name is now `repo-doctor-skills`. In the future, the build script can be extended to generate plugin structures from `packs/`.
+The compatibility path remains for existing users. Repo Doctor Skills was originally published as `repo-doctor-codex-plugin`; the current public repository name is `repo-doctor-skills`. Do not edit generated plugin copies as a second source of truth.
 
-## Existing Plugin Structure
+## Generated Plugin Structure
 
 ```text
 .agents/plugins/marketplace.json
@@ -34,17 +34,47 @@ plugins/repo-doctor/skills/
 }
 ```
 
-The original five skills remain available:
+The generated Repo Doctor distribution contains the original five Skills plus sixteen scoped workflow and specialized review Skills, for 21 total:
 
 - `repo-onboarding`
 - `project-health-check`
 - `safe-code-review`
 - `change-impact-analysis`
 - `safe-fix-implementation`
+- `requirements-to-spec`
+- `bug-root-cause-analysis`
+- `safe-change-plan`
+- `test-gap-analysis`
+- `safe-test-implementation`
+- `ci-failure-diagnosis`
+- `documentation-sync`
+- `release-readiness-check`
+- `dependency-upgrade-analysis`
+- `api-contract-review`
+- `database-migration-review`
+- `dead-code-verification`
+- `security-focused-review`
+- `performance-regression-analysis`
+- `architecture-decision-record`
+- `configuration-audit`
+
+## Maintain and Regenerate the Plugin
+
+Create or update Repo Doctor Skills in the canonical Pack, then use the repository scripts:
+
+```bash
+npm run sync:plugin
+npm run validate
+npm test
+npm run build
+node scripts/check-skill-quality.mjs --check-dist
+```
+
+`npm run sync:plugin` refreshes the Repo Doctor compatibility distribution only. The full build creates all seven regular cross-platform targets, synchronizes the three plugin distributions through the build pipeline, creates the `rd-*`, `pt-*`, and `sm-*` ChatGPT packages, and checks generated output for drift.
 
 ## Marketplace Source
 
-Open Codex plugin marketplace and add this repository as a marketplace source.
+In a Codex host that supports plugin marketplace sources, add this repository. Host UI labels and installation behavior may vary, so verify them against the host version you use.
 
 Use:
 
@@ -85,7 +115,7 @@ It points to the local plugin path:
 
 ## Verify Installation
 
-After installing the plugin, restart Codex or start a new conversation in the target repository.
+After installing the plugin, follow the host's refresh or new-conversation behavior.
 
 Type:
 
@@ -93,7 +123,7 @@ Type:
 $
 ```
 
-You should be able to search for:
+If that host supports `$` Skill discovery, search for examples such as:
 
 ```text
 repo-onboarding
@@ -101,6 +131,24 @@ project-health-check
 safe-code-review
 change-impact-analysis
 safe-fix-implementation
+```
+
+## Cross-Platform Build
+
+Use the canonical `packs/` source and run:
+
+```bash
+npm run validate
+npm test
+npm run build
+```
+
+The generated artifacts include, for example:
+
+```text
+dist/codex-zh-CN/AGENTS.md
+dist/claude-code-zh-CN/.claude/skills/<skill-name>/SKILL.md
+dist/generic-zh-CN/
 ```
 
 ## Quick Start
@@ -130,7 +178,7 @@ Focus on correctness, maintainability, security, performance, types, tests, and 
 ```text
 $change-impact-analysis
 
-I want to refactor src/utils/request.ts.
+I want to refactor a shared request utility.
 Before editing, analyze what depends on it, what can break, and what tests I need.
 ```
 
@@ -141,30 +189,4 @@ Please fix the highest-priority issue from the previous project-health-check rep
 Do not fix all issues at once.
 Start with the smallest safe P0/P1 fix.
 After editing, run or suggest validation commands.
-```
-
-## 中文快速开始
-
-```text
-$repo-onboarding
-
-请帮我理解当前项目。
-先不要修改任何代码。
-```
-
-```text
-$project-health-check
-
-请对当前项目做一次项目体检。
-先不要修改代码。
-请按照 P0/P1/P2/P3 给出优先级。
-```
-
-```text
-$safe-fix-implementation
-
-请基于刚才的 project-health-check 报告开始修复。
-不要一次修复所有问题。
-请优先选择最高优先级且影响范围最小的问题。
-修改后请运行或建议验证命令。
 ```

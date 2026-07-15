@@ -6,7 +6,7 @@ Codex adapter output may target:
 AGENTS.md
 ```
 
-or a plugin-compatible skill directory. This repository keeps the existing `plugins/repo-doctor/.codex-plugin/` structure for compatibility.
+or a plugin-compatible Skill directory. This repository synchronizes compatibility distributions under `plugins/` from canonical Packs.
 
 ## Mapping
 
@@ -17,4 +17,4 @@ or a plugin-compatible skill directory. This repository keeps the existing `plug
 
 ## Compatibility
 
-The current `plugins/repo-doctor` directory remains available for Codex plugin installation while the new pack model matures.
+The generated `plugins/repo-doctor` distribution preserves the historical Codex installation path. Maintain its Skill logic in `packs/engineering/repo-doctor/`, then regenerate it with repository scripts.

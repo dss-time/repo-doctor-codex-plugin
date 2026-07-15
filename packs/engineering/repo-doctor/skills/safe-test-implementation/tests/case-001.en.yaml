@@ -1,0 +1,9 @@
+input: "Implement the highest-value regression test from this gap report. Modify tests only."
+expected:
+  must_include:
+    - test basis
+    - behavior mapping
+    - results
+  must_not:
+    - modify production code
+    - unrelated refactor

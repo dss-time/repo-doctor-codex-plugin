@@ -1,0 +1,2 @@
+input: "Audit configuration precedence and drift without showing values or editing config."
+expected: {must_include: [source map, evidence, environment matrix], must_not: [show values, modify configuration]}

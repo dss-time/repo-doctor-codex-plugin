@@ -1,23 +1,43 @@
-# v0.1.0 - Initial Cross-Platform Skills Framework
+# v0.2.0 Release Candidate — Repo Doctor Skills
+
+> Candidate date: 2026-07-15. This document describes a prepared Release Candidate; it does not mean that a commit, `v0.2.0` tag, GitHub Release, npm publication, or plugin-marketplace publication has occurred.
 
 ## Highlights
 
-- Renames the project direction from a Codex-only plugin to Repo Doctor Skills.
-- Adds bilingual English and Chinese documentation.
-- Adds cross-platform skills source structure under `packs/`.
-- Preserves the legacy Codex plugin under `plugins/repo-doctor/`.
-- Adds Repo Doctor engineering skills.
-- Adds Office / Document Data Doctor basic skills.
-- Adds adapters for Claude Code, Codex / CodeX, Cursor, generic prompts, and Chinese LLMs.
-- Adds validation, build, and create-skill scripts.
-- Adds public/private boundary documentation.
-- Keeps finance and investment content interface-only and public-safe.
+- Expands Repo Doctor to 21 bilingual engineering Skills covering orientation, specification, diagnosis, review, impact analysis, planning, controlled implementation, test work, CI, documentation, release gates, and specialist engineering risk.
+- Adds Productivity Toolkit with 8 general office and research Skills.
+- Adds Skill Maintainer with 2 maintainer workflows for controlled Skill authoring and read-only quality auditing.
+- Retains 3 Document Data Doctor Basic Skills in the regular cross-platform build without giving them standalone plugins or ChatGPT ZIPs.
+- Builds 7 regular platform targets and 31 plugin-backed ChatGPT single-Skill ZIP packages.
+- Adds bilingual User Manuals, complete generated Skill Catalogs, Workflow Cookbooks, and deterministic documentation checks.
+- Uses `packs/` as the only canonical Skill source and regenerates synchronized `plugins/` and `dist/` outputs.
 
-## Validation
+## Version model
 
-- `npm run validate`
-- `npm run build`
+- **Project Release Candidate:** 0.2.0.
+- **Component versions:** independent of the project release. Repo Doctor Pack/plugin is 0.5.0; Productivity Toolkit Pack/plugin and Skill Maintainer Pack/plugin are 0.1.0; Document Data Doctor Pack is 0.1.0; individual Skills keep their own versions.
+- **Maturity:** independent of both version layers. All 4 active Packs and 34 active Skills are `beta`; the template Pack and template Skill remain `draft`. Beta means repository-validated and usable for real tasks while broader public-use or Live-model routing evidence is still limited; it does not mean unusable. Stable would not mean bug-free.
+- **Live-model routing accuracy:** **UNKNOWN**. Activation contracts and deterministic validation do not replace an online model evaluation.
 
-## Notes
+See [Versioning and Lifecycle Policy](VERSIONING.md) for the full policy and the historical `v0.0.1` tag-label exception.
 
-This is an early experimental release. APIs, schemas, and adapter output formats may change.
+## Compatibility and safety
+
+- Public invocation slugs for the original Repo Doctor Skills remain available.
+- Generated plugin and platform content comes from canonical `packs/`; generated copies are not maintained independently.
+- Every active Skill continues to disallow destructive actions. Writable Skills remain limited to their documented scopes and still require host and user authorization.
+- Document Data Doctor Basic Skills remain regular-build-only; this is an intentional distribution boundary.
+- The repository does not include private investment strategies, customer data, secrets, or organization-specific workflows.
+
+## Release-candidate gate
+
+Before any separate publication authorization, the final read-only acceptance must confirm:
+
+- project and component version consistency under the two-layer policy;
+- valid Pack and Skill maturity states, with templates excluded;
+- current generated Catalogs, plugin distributions, platform targets, and ChatGPT ZIPs;
+- Schema validation, activation contracts, tests, documentation checks, and two consecutive deterministic builds;
+- no stale generated files, duplicate descriptions, machine paths, credentials, customer data, or private investment logic;
+- an empty `Unreleased` section and a complete 0.2.0 section in [CHANGELOG.md](../CHANGELOG.md).
+
+Passing these gates makes the checkout eligible for final read-only acceptance. It does not authorize commit, push, tag creation, GitHub Release creation, npm publication, or marketplace publication.

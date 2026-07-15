@@ -1,0 +1,44 @@
+id: productivity.meeting-notes-to-actions
+name:
+  en: Meeting Notes to Actions
+  zh-CN: 会议纪要转行动项
+category: productivity
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Convert supplied meeting notes or transcripts into a summary, decisions, action items, owners, due dates, dependencies, and open questions while distinguishing discussion, proposals, decisions, and commitments. Use when the source is meeting material; do not invent owners, dates, decisions, or task-system updates, and mark missing fields TBD.
+  zh-CN: 将给定会议记录或转写整理为摘要、决定、行动项、负责人、截止日期、依赖和待确认问题，并区分讨论、建议、决定和承诺。来源是会议材料时使用；不得虚构负责人、日期、决定或任务系统更新，缺失字段标记 TBD。
+triggers:
+  en:
+    - turn these meeting notes into actions
+    - extract decisions and owners from this transcript
+    - summarize meeting actions
+  zh-CN:
+    - 把会议纪要转成行动项
+    - 从转写中提取决定和负责人
+    - 整理会议行动项
+tool_requirements:
+  filesystem: read
+  git: none
+  shell: none
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: advisory
+output_schema:
+  type: meeting_actions
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

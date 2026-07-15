@@ -1,0 +1,2 @@
+input: "Review this API field change for contract compatibility without editing it."
+expected: {must_include: [evidence, change classification, validation], must_not: [modify interface]}

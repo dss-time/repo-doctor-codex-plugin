@@ -1,0 +1,44 @@
+id: maintainer.skill-quality-audit
+name:
+  en: Skill Quality Audit
+  zh-CN: Skill 质量审计
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Perform a strictly read-only, pre-release quality audit of one AI Skill, a Pack, a plugin, or a Skills repository across structure, triggering, workflow, progressive resources, bilingual cross-platform output, safety, and publishing integration. Use when maintainers want findings, severity, evidence, and a release recommendation; do not audit ordinary application code or PRs, run a broad project health check, gate a product release candidate, or automatically fix files.
+  zh-CN: 对一个 AI Skill、Pack、插件或 Skills 仓库执行严格只读的发布前质量审计，覆盖结构、触发、工作流、渐进资源、双语跨平台产物、安全和发布集成。维护者需要发现、严重度、证据和发布建议时使用；不用于普通应用代码或 PR 审查、广泛项目体检、产品候选版本门禁，也不自动修复文件。
+triggers:
+  en:
+    - audit this Skill before release
+    - review this Pack for Skill quality
+    - assess this Skills repository for publishing
+  zh-CN:
+    - 发布前审计这个 Skill
+    - 审查这个 Pack 的 Skill 质量
+    - 评估 Skills 仓库是否可发布
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: true
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: tool_execution
+output_schema:
+  type: skill_quality_audit_report
+localization:
+  en:
+    status: complete
+  zh-CN:
+    status: complete

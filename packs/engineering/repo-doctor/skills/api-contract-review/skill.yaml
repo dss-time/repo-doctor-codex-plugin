@@ -1,0 +1,42 @@
+id: repo.api-contract-review
+name:
+  en: API Contract Review
+  zh-CN: API 契约审查
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Review a specific REST, GraphQL, RPC, event, SDK, or internal-module contract across server, client, schema, documentation, and tests, classifying breaking, non-breaking, and behavioral changes. Use for API contract compatibility; do not perform a general code review, generic impact analysis, or modify the interface.
+  zh-CN: 审查具体 REST、GraphQL、RPC、事件、SDK 或内部模块契约在服务端、客户端、Schema、文档和测试间的一致性，并分类破坏性、非破坏性和行为变化。用于 API 契约兼容性；不替代普通代码审查或通用影响分析，也不修改接口。
+triggers:
+  en:
+    - review this API contract change
+    - check client server schema compatibility
+    - API contract review
+  zh-CN:
+    - 审查这个 API 契约变更
+    - 检查客户端服务端 Schema 兼容性
+    - API 契约审查
+tool_requirements:
+  filesystem: read
+  git: optional
+  shell: optional
+  web: none
+permissions:
+  read_files: true
+  write_files: false
+  run_shell_commands: false
+  access_network: false
+  destructive_actions_allowed: false
+risk_level:
+  default: read_only
+output_schema:
+  type: api_contract_report
+localization:
+  en: {status: complete}
+  zh-CN: {status: complete}

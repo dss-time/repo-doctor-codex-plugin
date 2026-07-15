@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Quality Audit（Skill 质量审计）"
+  short_description: "只读审计 Skill、Pack 或插件的结构、触发、安全与发布质量"
+  default_prompt: "使用 $skill-quality-audit 只读审计这个 Skill 的发布质量，不要自动修改文件。"

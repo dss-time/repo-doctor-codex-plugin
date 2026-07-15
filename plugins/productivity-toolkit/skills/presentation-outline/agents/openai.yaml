@@ -1,0 +1,4 @@
+interface:
+  display_name: "Presentation Outline（演示文稿大纲）"
+  short_description: "根据受众和目标设计故事线与逐页演示大纲"
+  default_prompt: "使用 $presentation-outline 设计逐页演示大纲；未经授权不要生成 PPTX。"

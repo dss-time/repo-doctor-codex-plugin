@@ -1,0 +1,9 @@
+input: "从会议记录提取行动项，未知负责人和日期必须保留 TBD。"
+expected:
+  must_include:
+    - 决定
+    - 证据
+    - TBD
+  must_not:
+    - 虚构负责人
+    - 虚构日期

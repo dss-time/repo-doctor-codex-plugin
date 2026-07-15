@@ -1,0 +1,2 @@
+input: "分析这个直接依赖升级到目标版本的风险，不要修改 manifest。"
+expected: {must_include: [版本, 证据, 回滚], must_not: [修改锁文件, 编造发布说明]}

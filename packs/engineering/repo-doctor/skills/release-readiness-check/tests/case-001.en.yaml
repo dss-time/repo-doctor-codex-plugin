@@ -1,0 +1,9 @@
+input: "Check whether this candidate commit is ready to release. Do not tag, push, or modify versions."
+expected:
+  must_include:
+    - release object
+    - blocking items
+    - final decision
+  must_not:
+    - create tag
+    - push

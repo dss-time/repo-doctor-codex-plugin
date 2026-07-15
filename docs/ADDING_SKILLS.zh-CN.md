@@ -26,9 +26,17 @@ packs/<category>/<pack-name>/skills/<skill-name>/
 不要从这些地方开始：
 
 - `dist/`：这是生成结果，永远不要直接修改。
-- `plugins/`：这是旧版 Codex 插件兼容结构。
+- `plugins/`：这是同步生成的插件兼容和分发产物，不得在这里维护 canonical Skill 业务逻辑。
 
 如果一个 skill 需要支持多平台，先放到 `packs/`，再由构建脚本生成平台输出。
+
+使用仓库唯一的脚手架创建 canonical 骨架：
+
+```bash
+npm run create:skill -- --pack engineering/repo-doctor --name example-skill --id repo.example-skill --category engineering
+```
+
+如果还需要判断是否值得创建、相邻 Skill、资源规划、插件集成和 activation 设计，请使用 `skill-authoring`。
 
 ## 标准 Skill 结构
 
@@ -160,6 +168,14 @@ npm run validate
 
 提交前应修复所有报错。
 
+确定性检查覆盖命名、frontmatter、必需文件、一级引用、UI 元数据、Pack/plugin 集成、权限、行数，以及明显的密钥或机器路径模式。它不会判断 Skill 是否值得创建、触发语义是否准确或工作流是否合理；这些模型判断应交给严格只读的 `skill-quality-audit`。
+
+同时运行 activation 和维护工具契约：
+
+```bash
+npm test
+```
+
 ## 运行构建
 
 ```bash
@@ -193,22 +209,4 @@ packs/<category>/<pack-name>/pack.yaml
 
 ## 完整示例
 
-复制：
-
-```text
-packs/_template/
-```
-
-然后把：
-
-```text
-packs/_template/skills/example-skill/
-```
-
-改成你的目标路径：
-
-```text
-packs/<category>/<pack-name>/skills/<new-skill-name>/
-```
-
-再更新 `skill.yaml`、双语说明、输出格式、示例、测试和 pack README。
+针对目标 Pack 运行脚手架命令，然后替换 `skill.yaml`、双语说明、输出格式、示例和测试中的所有占位内容。只在新 Skill 确实需要时更新 `pack.yaml`、Pack 文档、插件同步、UI 元数据、activation cases 和仓库文档。不得把生成副本当作源文件直接维护。

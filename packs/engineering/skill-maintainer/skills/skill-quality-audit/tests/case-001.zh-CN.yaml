@@ -1,0 +1,9 @@
+input: "只读审计这个 Skill 的发布质量，区分确定性失败与模型判断，不修改文件。"
+expected:
+  must_include:
+    - 评分卡
+    - P0/P1/P2
+    - 发布建议
+  must_not:
+    - 自动修复
+    - 脚本伪装语义判断

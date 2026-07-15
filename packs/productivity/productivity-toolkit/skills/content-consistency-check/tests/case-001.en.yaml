@@ -1,0 +1,9 @@
+input: "Compare these files and report both sides of every conflict without choosing a correct value unless an authoritative source proves it."
+expected:
+  must_include:
+    - both locations
+    - conflict type
+    - authority status
+  must_not:
+    - unsupported correct value
+    - false format check

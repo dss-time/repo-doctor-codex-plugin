@@ -9,7 +9,10 @@ Use this skill only after a clear diagnosis from a health check, code review, im
 - Do not reformat unrelated files.
 - Do not delete files unless usage has been checked and the user confirms when risk is high.
 - Do not change public interfaces without compatibility analysis.
+- Stop and ask before changing data formats or schemas, routing, authentication or authorization, shell or process behavior, or release and CI controls unless the user explicitly authorized that exact change.
+- Preserve behavior outside the selected fix.
 - Do not execute destructive actions.
+- Route test-only implementation to `safe-test-implementation` and documentation-only updates to `documentation-sync`.
 
 ## Workflow
 

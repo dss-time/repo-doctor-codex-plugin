@@ -1,5 +1,9 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { compareNames, walkFiles } from "./deterministic-files.mjs";
+import { permissionRiskIssues } from "./skill-metadata.mjs";
+import { discoverActivePackSkills } from "./sync-pack-plugin.mjs";
+import { parseYamlSubset } from "./validate-yaml-schemas.mjs";
 
 const root = process.cwd();
 const packsDir = path.join(root, "packs");
@@ -57,40 +61,21 @@ const sensitiveTerms = [
   "private strategy"
 ];
 
-const readOnlyRiskLevels = new Set(["read_only", "advisory"]);
+const pluginPacks = {
+  "repo-doctor": ["engineering", "repo-doctor"],
+  "productivity-toolkit": ["productivity", "productivity-toolkit"],
+  "skill-maintainer": ["engineering", "skill-maintainer"],
+};
+const pluginSkills = Object.fromEntries(
+  Object.entries(pluginPacks).map(([plugin, segments]) => [
+    plugin,
+    discoverActivePackSkills(path.join(packsDir, ...segments)),
+  ]),
+);
+const conditionallyWritableReviewSkills = new Set(["document-review"]);
 
 function walk(dir, predicate, results = []) {
-  if (!existsSync(dir)) return results;
-  for (const entry of readdirSync(dir)) {
-    const full = path.join(dir, entry);
-    const stat = statSync(full);
-    if (stat.isDirectory()) {
-      walk(full, predicate, results);
-    } else if (predicate(full)) {
-      results.push(full);
-    }
-  }
-  return results;
-}
-
-function getScalar(yaml, key) {
-  const match = yaml.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
-  return match ? match[1].trim() : "";
-}
-
-function hasListItemUnder(yaml, key, item) {
-  const block = yaml.match(new RegExp(`^${key}:\\n([\\s\\S]*?)(?=^[a-zA-Z_][a-zA-Z0-9_]*:|\\Z)`, "m"))?.[1] ?? "";
-  return new RegExp(`^\\s*-\\s*${item}\\s*$`, "m").test(block);
-}
-
-function hasNestedScalar(yaml, parent, key, value) {
-  const block = yaml.match(new RegExp(`^${parent}:\\n([\\s\\S]*?)(?=^[a-zA-Z_][a-zA-Z0-9_]*:|\\Z)`, "m"))?.[1] ?? "";
-  return new RegExp(`^\\s+${key}:\\s*${value}\\s*$`, "m").test(block);
-}
-
-function nestedScalar(yaml, parent, key) {
-  const block = yaml.match(new RegExp(`^${parent}:\\n([\\s\\S]*?)(?=^[a-zA-Z_][a-zA-Z0-9_]*:|\\Z)`, "m"))?.[1] ?? "";
-  return block.match(new RegExp(`^\\s+${key}:\\s*(.+)$`, "m"))?.[1]?.trim() ?? "";
+  return walkFiles(dir, predicate, results);
 }
 
 function validateSkill(skillDir) {
@@ -106,22 +91,37 @@ function validateSkill(skillDir) {
   if (!existsSync(yamlPath)) return errors;
 
   const yaml = readFileSync(yamlPath, "utf8");
+  let metadata;
+  try {
+    metadata = parseYamlSubset(yaml);
+  } catch (error) {
+    errors.push(`${rel}: skill.yaml YAML parse error: ${error.message}`);
+    return errors;
+  }
   for (const field of requiredMetadata) {
-    if (!new RegExp(`^${field}:`, "m").test(yaml)) {
+    if (!Object.hasOwn(metadata, field)) {
       errors.push(`${rel}: skill.yaml missing ${field}`);
     }
   }
 
-  const visibility = getScalar(yaml, "visibility");
+  const visibility = metadata.visibility;
+  const id = metadata.id;
+  const version = metadata.version;
+  const status = metadata.status;
+  if (!/^[a-z0-9]+(?:\.[a-z0-9]+(?:-[a-z0-9]+)*)+$/.test(id)) {
+    errors.push(`${rel}: id must use a lowercase dot namespace`);
+  }
+  if (!/^\d+\.\d+\.\d+$/.test(version)) errors.push(`${rel}: version must be semantic x.y.z`);
+  if (!["draft", "beta", "stable", "deprecated"].includes(status)) errors.push(`${rel}: invalid status ${status}`);
   if (!visibility) errors.push(`${rel}: skill.yaml must declare visibility`);
   if (visibility && visibility !== "public") {
     errors.push(`${rel}: visibility must be public in this repository`);
   }
 
-  if (!hasListItemUnder(yaml, "supported_locales", "en")) {
+  if (!Array.isArray(metadata.supported_locales) || !metadata.supported_locales.includes("en")) {
     errors.push(`${rel}: supported_locales must include en`);
   }
-  if (!hasListItemUnder(yaml, "supported_locales", "zh-CN")) {
+  if (!Array.isArray(metadata.supported_locales) || !metadata.supported_locales.includes("zh-CN")) {
     errors.push(`${rel}: supported_locales must include zh-CN`);
   }
 
@@ -132,19 +132,16 @@ function validateSkill(skillDir) {
     "access_network",
     "destructive_actions_allowed"
   ]) {
-    if (!hasNestedScalar(yaml, "permissions", permission, "true") && !hasNestedScalar(yaml, "permissions", permission, "false")) {
+    if (typeof metadata.permissions?.[permission] !== "boolean") {
       errors.push(`${rel}: permissions.${permission} must be explicitly true or false`);
     }
   }
 
-  const riskDefault = nestedScalar(yaml, "risk_level", "default");
-  const writeFiles = nestedScalar(yaml, "permissions", "write_files");
-  if (readOnlyRiskLevels.has(riskDefault) && writeFiles === "true") {
-    errors.push(`${rel}: ${riskDefault} skill cannot set permissions.write_files: true`);
-  }
+  const permissionAudit = permissionRiskIssues(metadata);
+  for (const issue of permissionAudit.issues) errors.push(`${rel}: ${issue.message}`);
 
   const skillName = path.basename(skillDir);
-  if (skillName.includes("review") && writeFiles === "true") {
+  if (skillName.includes("review") && metadata.permissions?.write_files === true && !conditionallyWritableReviewSkills.has(skillName)) {
     errors.push(`${rel}: review skills must not modify files by default`);
   }
 
@@ -163,11 +160,36 @@ function validateSkill(skillDir) {
   return errors;
 }
 
+function validatePluginSkill(pluginName, skillName) {
+  const errors = [];
+  const skillDir = path.join(root, "plugins", pluginName, "skills", skillName);
+  const skillPath = path.join(skillDir, "SKILL.md");
+  const uiPath = path.join(skillDir, "agents", "openai.yaml");
+  if (!existsSync(skillPath)) return [`plugins/${pluginName}/skills/${skillName}: missing SKILL.md`];
+  if (!existsSync(uiPath)) errors.push(`plugins/${pluginName}/skills/${skillName}: missing agents/openai.yaml`);
+  const content = readFileSync(skillPath, "utf8");
+  const frontmatter = content.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
+  const keys = [...frontmatter.matchAll(/^([a-zA-Z0-9_-]+):/gm)].map((match) => match[1]);
+  if (keys.join(",") !== "name,description") {
+    errors.push(`plugins/${pluginName}/skills/${skillName}: frontmatter must contain only name and description`);
+  }
+  const name = frontmatter.match(/^name:\s*(.+)$/m)?.[1]?.trim() ?? "";
+  if (name !== skillName) errors.push(`plugins/${pluginName}/skills/${skillName}: name must match folder`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    errors.push(`plugins/${pluginName}/skills/${skillName}: name must use lowercase hyphen-case`);
+  }
+  if (content.split("\n").length > 500) errors.push(`plugins/${pluginName}/skills/${skillName}: SKILL.md exceeds 500 lines`);
+  return errors;
+}
+
 const skillYamlFiles = walk(packsDir, (file) => path.basename(file) === "skill.yaml");
 const skillDirs = skillYamlFiles
   .filter((file) => file.includes(`${path.sep}skills${path.sep}`))
   .map((file) => path.dirname(file));
 const errors = skillDirs.flatMap(validateSkill);
+for (const [pluginName, skills] of Object.entries(pluginSkills)) {
+  for (const skillName of skills) errors.push(...validatePluginSkill(pluginName, skillName));
+}
 const activeSkillCount = skillDirs.filter((dir) => !dir.includes(`${path.sep}packs${path.sep}_template${path.sep}`)).length;
 const templateSkillCount = skillDirs.length - activeSkillCount;
 
@@ -177,10 +199,11 @@ if (skillDirs.length === 0) {
 
 if (errors.length > 0) {
   console.error("Skill validation failed:");
-  for (const error of errors) console.error(`- ${error}`);
+  for (const error of errors.sort(compareNames)) console.error(`- ${error}`);
   process.exit(1);
 }
 
 console.log(`Skill validation passed for ${activeSkillCount} active skills and ${templateSkillCount} template skills.`);
 
-// TODO: Replace lightweight text checks with a YAML parser plus JSON Schema validation.
+// Strict YAML parsing and JSON Schema validation run first in validate-yaml-schemas.mjs.
+// This file intentionally keeps repository-specific permission and public-boundary checks.

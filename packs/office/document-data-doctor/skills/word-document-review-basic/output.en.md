@@ -1,8 +1,8 @@
 # Output Format
 
-1. Document overview
-2. Structure findings
-3. Consistency findings
-4. Placeholder or missing-content findings
-5. Evidence references
-6. Manual confirmation items
+1. Text-only scope and access limits
+2. Heading and wording findings
+3. Obvious textual consistency findings
+4. Placeholder findings
+5. Accessible text references
+6. Manual confirmation items and excluded complex features

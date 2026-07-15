@@ -1,160 +1,68 @@
 ---
-name: safe-code-review(审查代码)
-description: Use this skill when the user asks for professional code review, PR review, review current changes, review a file or module, check code quality, find bugs, identify security risks, find performance issues, find redundant code, review types, review API design, or decide whether code should be kept, refactored, merged, renamed, or deleted. Do not use this skill for broad repository onboarding.
+name: safe-code-review
+description: Review a code change or PR broadly for correctness, compatibility, security, maintainability, and tests. Use security-focused-review, performance-regression-analysis, or api-contract-review when the user requests one bounded specialist assessment; do not implement fixes. 广泛审查代码改动或 PR 的正确性、兼容性、安全性、可维护性和测试。用户要求单一安全、性能回归或 API 契约专项时分别使用对应专项 Skill；本 Skill 不实施修复。
 ---
 
-# Safe Code Review Skill
+# Safe Code Review（安全代码审查）
 
-## Language Policy
+Use the section matching the user's language. 使用与用户输入语言一致的章节。
 
-Respond in the same language as the user's request.
+# Safe Code Review
 
-If the user writes in Chinese, respond in Chinese.
-If the user writes in English, respond in English.
-If the user writes in another language, respond in that language when possible.
-If the user's language is mixed or unclear, use the dominant language of the request.
+Review code changes without modifying files by default.
 
-Translate section headings and explanations into the user's language.
-Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
+## Principles
 
-Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
+- Read before judging.
+- Do not invent issues without evidence.
+- Prioritize correctness, compatibility, security, and test coverage over style.
+- Search references before recommending deletion.
+- Do not suggest public interface changes without compatibility analysis.
 
+## Workflow
 
-You are acting as a senior engineer performing a careful code review.
+1. Identify the review scope.
+2. Inspect changed files, related tests, and public interfaces.
+3. Look for correctness, compatibility, security, performance, maintainability, and test risks.
+4. Rank findings as P0/P1/P2/P3.
+5. Provide evidence, risk, suggested fix, and validation method.
 
-The goal is to help the user safely improve existing code without unnecessary rewrites.
+# Output Format
 
-## Core Principles
+1. Overall conclusion
+2. Findings table: priority, location, evidence, problem, risk, suggested fix, validation
+3. File-level review
+4. Security and stability risks
+5. Test suggestions
+6. Final recommendation
 
-1. Read before judging.
-2. Understand behavior before suggesting changes.
-3. Search references before calling code unused.
-4. Do not recommend deletion without verification.
-5. Prefer small, safe improvements.
-6. Do not introduce dependencies unless necessary.
-7. Do not change public APIs unless the user accepts a breaking change.
-8. Prioritize real risks over personal style.
-9. Separate facts from assumptions.
-10. Explain why each recommendation matters.
+---
 
-## Review Scope
+# 安全代码审查
 
-Review:
+默认只审查，不修改文件。
 
-- correctness
-- maintainability
-- type safety
-- security
-- performance
-- API design
-- test coverage
-- dead code
-- duplicated code
-- public API compatibility
+## 原则
 
-## Output Format
+- 先读代码再判断。
+- 没有证据不要编造问题。
+- 优先检查正确性、兼容性、安全性和测试覆盖，而不是只看风格。
+- 建议删除前先搜索引用。
+- 不要在没有兼容性分析的情况下建议修改公共接口。
 
-Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+## 工作流程
 
-### 1. Overall Conclusion
+1. 确定审查范围。
+2. 检查改动文件、相关测试和公共接口。
+3. 检查正确性、兼容性、安全、性能、可维护性和测试风险。
+4. 按 P0/P1/P2/P3 排序。
+5. 给出证据、风险、修复建议和验证方式。
 
-Choose one:
+# 输出格式
 
-- Keep overall, only minor improvements needed
-- Logic is mostly correct, but boundary handling is needed
-- Code works, but has maintainability risk
-- Has security or stability issues and should be fixed first
-- Has clear redundancy and should be merged or removed after verification
-- Structure is problematic and should be refactored in stages
-
-### 2. P0/P1/P2/P3 Issues
-
-| Priority | Location | Problem | Risk | Suggested Fix |
-|---|---|---|---|---|
-
-Priority definitions:
-
-- P0: must fix immediately
-- P1: should fix soon
-- P2: recommended improvement
-- P3: optional cleanup
-
-### 3. File-Level Review
-
-| File | Responsibility | Main Issue | Suggested Action |
-|---|---|---|---|
-
-### 4. Function or Module-Level Review
-
-| Function / Module | Current Problem | Risk | Suggested Action | Reason |
-|---|---|---|---|---|
-
-Suggested action should be one of:
-
-- keep
-- rename
-- simplify
-- refactor
-- split
-- merge
-- delete after verification
-- add tests
-- add error handling
-- strengthen types
-
-### 5. Deletable Code
-
-Only list code that is likely safe to delete.
-
-| Code | Why It May Be Deleted | What To Verify First | Safer Alternative |
-|---|---|---|---|
-
-If uncertain, say: This code may be removable, but reference search or runtime confirmation is needed before deleting it.
-
-### 6. Mergeable or Reusable Code
-
-| Duplicated Logic | Current Locations | Suggested Abstraction | Why |
-|---|---|---|---|
-
-Do not create abstractions for one-time usage.
-
-### 7. Security and Stability Risks
-
-List concrete risks and explain what can go wrong.
-
-### 8. Performance Issues
-
-List only meaningful performance issues.
-
-### 9. Test Suggestions
-
-| Test Case | Purpose | Priority |
-|---|---|---|
-
-### 10. Recommended Change Order
-
-Give a safe sequence:
-
-1. Fix correctness and security issues.
-2. Add missing boundary checks.
-3. Add tests around risky behavior.
-4. Remove confirmed dead code.
-5. Merge duplicated logic.
-6. Improve naming and types.
-7. Run validation commands.
-
-### 11. Final Recommendation
-
-Say whether the code can be kept, should be refactored, should be tested first, or has release risk.
-
-## Code Modification Rules
-
-If the user asks you to modify code:
-
-- make the smallest safe change
-- avoid unrelated files
-- preserve existing behavior
-- do not silently change public APIs
-- explain what changed
-- suggest validation commands
-- do not delete files without confirmation
+1. 整体结论
+2. 问题表：优先级、位置、证据、问题、风险、建议修复、验证方式
+3. 文件级审查
+4. 安全和稳定性风险
+5. 测试建议
+6. 最终建议

@@ -20,7 +20,7 @@ Target output:
 AGENTS.md
 ```
 
-or a plugin/skill document under a compatible plugin structure. This repository keeps the existing `plugins/repo-doctor/.codex-plugin/` path for compatibility while treating `packs/` as the canonical source.
+or a plugin/skill document under a compatible plugin structure. This repository synchronizes plugin distributions under `plugins/` from the only canonical source under `packs/`; generated plugin copies are not an editing surface.
 
 ## Cursor
 

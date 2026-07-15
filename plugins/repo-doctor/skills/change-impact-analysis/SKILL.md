@@ -1,159 +1,76 @@
 ---
-name: change-impact-analysis（改代码看影响）
-description: Use this skill when the user wants to modify, refactor, rename, delete, move, or redesign a file, function, module, package export, component, API, database model, configuration file, or shared utility and wants to understand the impact before editing. Trigger for questions like what will this change affect, is it safe to delete, can I rename this, how should I refactor this safely, or what tests are needed before changing it.
+name: change-impact-analysis
+description: Analyze general dependency and compatibility impact before modifying, renaming, moving, or deleting shared code. Use dependency-upgrade-analysis, api-contract-review, database-migration-review, or dead-code-verification when the core question is that specialized risk; do not modify files. 在修改、重命名、移动或删除共享代码前分析一般依赖关系和兼容性影响。核心问题是依赖升级、API 契约、数据库迁移或死代码可删除性时使用对应专项 Skill；本 Skill 不修改文件。
 ---
 
-# Change Impact Analysis Skill
+# Change Impact Analysis（变更影响分析）
 
-## Language Policy
+Use the section matching the user's language. 使用与用户输入语言一致的章节。
 
-Respond in the same language as the user's request.
+# Change Impact Analysis
 
-If the user writes in Chinese, respond in Chinese.
-If the user writes in English, respond in English.
-If the user writes in another language, respond in that language when possible.
-If the user's language is mixed or unclear, use the dominant language of the request.
+Use this skill before modifying, moving, renaming, deleting, or redesigning shared code.
 
-Translate section headings and explanations into the user's language.
-Do not translate code identifiers, file paths, package names, commands, error messages, API names, or configuration keys.
+## Safety Boundary
 
-Keep technical terms readable. When a translated term may be ambiguous, include the original English term in parentheses.
-
-
-You are helping the user analyze the impact of a proposed change before modifying code.
-
-The goal is to prevent unsafe AI-assisted edits.
-
-## Core Principle
-
-Do not modify code first.
-
-Before changing anything, understand:
-
-- what the target does
-- who depends on it
-- whether it is public API
-- whether it is used dynamically
-- what behavior must be preserved
-- what tests protect it
-- what can break
-- what the safest change plan is
-
-## When To Use
-
-Use this skill when the user wants to:
-
-- refactor a file
-- rename a function
-- delete code
-- move a module
-- change an exported API
-- change a shared utility
-- change request logic
-- change state management
-- change routing
-- change database models
-- change build config
-- change package exports
-- modify a core component
-- simplify legacy code
+- Analyze before editing.
+- Do not modify files by default.
+- Do not assume no references exist without searching.
+- Treat public interfaces as compatibility-sensitive.
 
 ## Workflow
 
-1. Identify the target.
-2. Search references.
-3. Check imports, calls, re-exports, dynamic imports, route references, config references, test references, documentation references, package exports, and CI usage.
-4. Classify dependency risk.
+1. Identify the proposed change target.
+2. Search imports, calls, re-exports, dynamic references, route references, config usage, tests, documentation, package exports, and CI usage.
+3. Determine whether the target is a public interface.
+4. Classify blast radius and compatibility requirements.
 5. Identify behavior that must be preserved.
-6. Identify likely breakage.
-7. Recommend the smallest safe plan.
+6. Recommend the smallest safe change plan.
 
-## Output Format
+# Output Format
 
-Localize all section headings according to the user's language. The following English headings describe the required structure, not the required output language.
+1. Change target
+2. Current responsibility
+3. References and dependencies
+4. Risk level
+5. Affected behavior
+6. Tests needed before changing
+7. Minimum safe change plan
+8. Unsafe actions to avoid
+9. Validation commands
+10. Final decision
 
-### 1. Change Target
+---
 
-| Item | Value |
-|---|---|
-| Target |  |
-| Current Responsibility |  |
-| Proposed Change |  |
-| Exported |  |
-| Public API Risk |  |
-| Confidence |  |
+# 变更影响分析
 
-### 2. Current Responsibility
+用于在修改、移动、重命名、删除或重新设计共享代码前分析影响范围。
 
-Explain what the target currently does. Separate facts from assumptions.
+## 安全边界
 
-### 3. References and Dependencies
+- 先分析，再修改。
+- 默认不修改文件。
+- 没有搜索引用前，不要假设没有调用方。
+- 将公共接口视为兼容性敏感区域。
 
-| Reference Location | Usage Type | Risk If Changed |
-|---|---|---|
+## 工作流程
 
-Usage types can include import, call, re-export, route, config, test, documentation, dynamic usage, package export, or unknown.
+1. 识别拟变更目标。
+2. 搜索 import、调用、re-export、动态引用、路由引用、配置使用、测试、文档、包导出和 CI 使用。
+3. 判断目标是否属于公共接口。
+4. 评估影响范围和兼容性要求。
+5. 识别必须保持的行为。
+6. 给出最小安全修改方案。
 
-### 4. Risk Level
+# 输出格式
 
-Choose one:
-
-- Low: local-only change with clear tests
-- Medium: shared internal change with several references
-- High: public API or cross-module change
-- Critical: release, build, security, data, or external compatibility risk
-
-Explain why.
-
-### 5. Affected Behavior
-
-| Behavior | Why It Matters | How To Protect It |
-|---|---|---|
-
-### 6. Tests Needed Before Changing
-
-| Test | Purpose | Priority |
-|---|---|---|
-
-### 7. Minimum Safe Change Plan
-
-Give a staged plan:
-
-1. Add or identify regression tests.
-2. Introduce the new implementation without removing the old API if public API is involved.
-3. Update internal references.
-4. Run typecheck and tests.
-5. Remove old code only after confirming no external usage.
-
-### 8. Unsafe Actions To Avoid
-
-List unsafe actions, such as deleting files immediately, renaming exported APIs without compatibility layers, changing return shapes without updating consumers, or modifying config without validating build.
-
-### 9. Validation Commands
-
-| Purpose | Command | Confidence |
-|---|---|---|
-
-If commands are inferred, say so.
-
-### 10. Final Decision
-
-Say whether the change is:
-
-- safe to do directly
-- safe only after tests
-- safe only with compatibility layer
-- risky and needs manual confirmation
-- not recommended
-
-## Rules
-
-Do not modify files unless the user explicitly asks.
-
-Do not assume no references exist without searching.
-
-Do not ignore public API compatibility.
-
-Do not recommend deletion when dynamic usage may exist.
-
-If the user asks to proceed with implementation, make the smallest safe change first.
+1. 变更目标
+2. 当前职责
+3. 引用和依赖
+4. 风险等级
+5. 受影响行为
+6. 修改前需要的测试
+7. 最小安全修改方案
+8. 应避免的不安全操作
+9. 验证命令
+10. 最终判断

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Consistency Check（内容一致性检查）"
+  short_description: "核对多个材料中的术语、数字、日期、版本、链接和结论"
+  default_prompt: "使用 $content-consistency-check 对比这些材料并报告冲突两侧和权威证据状态。"

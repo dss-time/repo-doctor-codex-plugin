@@ -5,14 +5,14 @@ name:
 category: engineering
 visibility: public
 version: 0.1.0
-status: draft
+status: beta
 default_locale: zh-CN
 supported_locales:
   - en
   - zh-CN
 description:
-  en: Implement one small, safe, verified fix after a clear diagnosis.
-  zh-CN: 在明确诊断后实施一个小范围、可验证的安全修复。
+  en: Implement one small, safe, verified production fix after a clear diagnosis. Use safe-test-implementation for test-only changes and documentation-sync for documentation-only changes.
+  zh-CN: 在明确诊断后实施一个小范围、可验证的生产代码修复。仅测试修改使用 safe-test-implementation，仅文档修改使用 documentation-sync。
 triggers:
   en:
     - fix the highest priority issue

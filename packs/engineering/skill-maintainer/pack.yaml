@@ -1,0 +1,18 @@
+id: engineering.skill-maintainer
+name:
+  en: Skill Maintainer
+  zh-CN: Skill 维护工具
+category: engineering
+visibility: public
+version: 0.1.0
+status: beta
+default_locale: zh-CN
+supported_locales:
+  - en
+  - zh-CN
+description:
+  en: Public-safe maintainer workflows for engineering new AI Skills and auditing Skill, Pack, plugin, and generated-artifact quality before release.
+  zh-CN: 面向维护者的公开安全工作流，用于工程化创建 AI Skill，并在发布前审计 Skill、Pack、插件和生成物质量。
+skills:
+  - skill-authoring
+  - skill-quality-audit
