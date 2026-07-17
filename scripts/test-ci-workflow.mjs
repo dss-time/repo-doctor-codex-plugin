@@ -5,6 +5,7 @@ import path from "node:path";
 const content = readFileSync(path.join(process.cwd(), ".github", "workflows", "ci.yml"), "utf8");
 const required = [
   /actions\/checkout@v6/,
+  /find scripts -type f -name .*?-print0 \| xargs -0 -n 1 node --check/,
   /actions\/setup-node@v6/,
   /node-version:\s*["']?lts\/\*/,
   /npm run validate/,

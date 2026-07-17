@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Check script syntax
-        run: find scripts -type f -name '*.mjs' -exec node --check {} ;
+        run: find scripts -type f -name '*.mjs' -print0 | xargs -0 -n 1 node --check
 
       - name: Validate schemas, Skills, and workflow registry
         run: npm run validate
