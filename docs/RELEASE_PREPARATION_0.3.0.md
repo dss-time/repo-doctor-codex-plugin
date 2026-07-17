@@ -1,42 +1,47 @@
-# Release Preparation: v0.3.0-rc.1
+# Release Preparation: v0.3.0 Stable
 
 ## Decision
 
-Publish project version `0.3.0-rc.1` as a GitHub prerelease. The next RC number was selected after confirming that no local or remote `v0.3.0*` Tag or GitHub Release existed before preparation.
+Promote the validated `v0.3.0-rc.1` content to project version `0.3.0` as a stable, non-prerelease GitHub Release. No code or public Skill slug changed after the RC. Pack/plugin/Skill component versions remain independent, all active Packs and Skills remain `beta`, and the template remains `draft`.
 
-A stable `v0.3.0` is not eligible because live-model evaluation remains **UNKNOWN**. Deterministic checks, activation contracts, Golden Workflows, and offline evaluation tooling must not be represented as hosted-model accuracy evidence.
+The formal authorization record is intentionally machine-auditable:
+
+- stable release target: 0.3.0
+- live model status: UNKNOWN
+- maintainer waiver: explicitly authorized
+- waiver scope: v0.3.0 only
+
+The waiver scope is `live-model-status-only`. It applies only to the absence of measured hosted-model routing evidence for this project release. It does not and must not waive Schema validation, tests, security checks, permission checks, build reproducibility, CI, artifact integrity, checksums, or post-release verification. It creates no policy precedent for another version.
 
 ## Evidence snapshot
 
-- Previous published prerelease: `v0.2.0`, commit `ce03c3e4989ee1a5e41c71c8826b7c001fd00563`.
-- Development base before release preparation: `28df8f0e771208a68eeba73cde32e91337ebd1d9`.
-- Project candidate: `0.3.0-rc.1`.
-- Candidate date: 2026-07-17.
+- Stable source RC: `v0.3.0-rc.1`, commit `45c2fc46cc824975f6d854939d52deb84381c32b`.
+- RC annotated tag object: `819defefe067d99df2e98ec6523266b7d6403db4`.
+- Stable target: `0.3.0` / `v0.3.0`.
+- Release date: 2026-07-17.
+- RC-to-stable functional diff before preparation: empty.
 - Active inventory: 4 Packs and 38 Skills.
 - Distribution inventory: 7 regular platform targets and 35 ChatGPT ZIPs.
 - Workflow evidence: 11 canonical workflows and 3 Golden Workflows.
 - Activation evidence: 281 cases and 38/38 required Skills.
 - Live-model status: `UNKNOWN`.
+- RC `main` and tag CI: successful.
+- Open repository issues at promotion preflight: none.
 
 ## Compatibility and migration
 
-No public Skill slug is removed. This candidate adds four Repo Doctor workflows and tightens responsibilities:
+No public Skill slug is removed. Consumers upgrading from `v0.3.0-rc.1` need no workflow migration; rebuilding or reinstalling only changes provenance from prerelease to stable. Consumers upgrading from `v0.2.0` should review the new requirements, work-item, routing, testing, and handoff boundaries documented in the stable Release Notes.
 
-- material choices use `requirements-clarification`;
-- settled requirements use `requirements-to-spec`;
-- work-item decomposition remains response-only;
-- test implementation declares test-first, post-fix regression, or characterization mode.
+## Component versions and maturity
 
-Consumers upgrading from `v0.2.0` should rebuild platform outputs and reinstall the relevant plugin or standalone ChatGPT ZIP.
-
-## Component versions
-
-Project, Pack/plugin, and Skill versions remain independent. This project RC does not mechanically change component versions:
+Project, Pack/plugin, Skill versions, and maturity are separate:
 
 - Repo Doctor Pack/plugin: 0.6.0.
 - Productivity Toolkit Pack/plugin: 0.1.0.
 - Skill Maintainer Pack/plugin: 0.2.0.
 - Document Data Doctor Pack: 0.1.0.
+- Active Packs and Skills: `beta`.
+- Template Pack and Skill: `draft`.
 
 ## Required release assets
 
@@ -44,9 +49,9 @@ Project, Pack/plugin, and Skill versions remain independent. This project RC doe
 - 8 versioned `pt-*.zip` files.
 - 2 versioned `sm-*.zip` files.
 - SHA-256 checksum file.
-- Release Notes.
-- Release Manifest tied to the release commit.
+- Stable Release Notes.
+- Release Manifest tied to the stable release commit and annotated tag.
 
 ## Gate conclusion
 
-**GO FOR PRERELEASE** only after validation, tests, repeated deterministic builds, sensitive-content scans, remote `main` CI, immutable annotated Tag creation, GitHub prerelease creation, asset upload, and post-release download verification all succeed.
+**GO FOR STABLE RELEASE** only after all non-waived local gates, repeated deterministic builds, sensitive-content scans, remote `main` CI, immutable annotated tag creation, tag CI, GitHub stable Release creation, asset upload, latest-stable verification, and post-release download verification succeed.

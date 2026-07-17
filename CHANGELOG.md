@@ -8,6 +8,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-17
+
+> Stable project release promoted from `v0.3.0-rc.1` with no functional code drift. Live-model routing accuracy remains UNKNOWN under the explicit, version-scoped maintainer waiver; all other release gates remain mandatory.
+
+### Added
+
+- Published the RC-validated 38-Skill, 11-workflow, and 3-Golden-Workflow inventory through the stable project channel.
+
+### Changed
+
+- Promoted only the project release channel from `0.3.0-rc.1` to `0.3.0`; Pack/plugin/Skill component versions remain independent and all active Pack/Skill maturity statuses remain `beta`.
+
+### Fixed
+
+- Replaced RC-only release metadata with stable-release validation and an auditable `v0.3.0`-only Live-model waiver contract.
+
+### Security
+
+- Preserved every Schema, test, permission, security, build, CI, artifact, and checksum gate; the waiver applies only to the disclosed UNKNOWN Live-model status.
+
+### Documentation
+
+- Added stable Release Notes, upgrade guidance, compatibility disclosure, and preserved the historical `v0.3.0-rc.1` notes unchanged.
+
 ## [0.3.0-rc.1] - 2026-07-17
 
 > Release Candidate published because deterministic gates pass while live-model routing accuracy remains UNKNOWN.
@@ -110,7 +134,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 > Historical note: the GitHub Release used tag `v0.0.1`, while the release name/body and repository release metadata identified the content as 0.1.0. This version-label mismatch is a known historical error; the existing tag remains unchanged. See [Versioning and Lifecycle Policy](docs/VERSIONING.md).
 
-[Unreleased]: https://github.com/dss-time/repo-doctor-skills/compare/v0.3.0-rc.1...HEAD
+[Unreleased]: https://github.com/dss-time/repo-doctor-skills/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/dss-time/repo-doctor-skills/compare/v0.3.0-rc.1...v0.3.0
 [0.3.0-rc.1]: https://github.com/dss-time/repo-doctor-skills/compare/v0.2.0...v0.3.0-rc.1
 [0.2.0]: https://github.com/dss-time/repo-doctor-skills/compare/v0.0.1...v0.2.0
 [0.1.0]: https://github.com/dss-time/repo-doctor-skills/releases/tag/v0.0.1

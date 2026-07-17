@@ -66,7 +66,7 @@ $repo-onboarding
 
 ### 发布版本与成熟度
 
-当前 checkout 是 **v0.3.0-rc.1 Release Candidate**。确定性门禁已通过，但真实模型路由准确率仍为 **UNKNOWN**，因此按 prerelease 发布。项目版本、Pack/插件组件版本、单个 Skill 版本和成熟度状态彼此独立。4 个 active Pack 和 38 个 active Skill 当前均为 `beta`：它们已经通过仓库契约验证，可以用于真实任务，但还没有足够的广泛公开使用或 Live-model 路由证据支持 `stable`。Beta 不等于不可用，Stable 也不等于绝对无 Bug。Live-model 路由准确率仍为 **UNKNOWN**。具体组件版本基线和历史 tag 标签例外见[版本与生命周期策略](VERSIONING.zh-CN.md)。
+当前 checkout 是已授权的 **v0.3.0 项目正式稳定版**，由功能内容不变的 `v0.3.0-rc.1` 晋级。项目版本、Pack/插件组件版本、单个 Skill 版本和成熟度状态彼此独立。4 个 active Pack 和 38 个 active Skill 仍为 `beta`：它们已经通过仓库契约验证，可以用于真实任务，但广泛公开使用和 Live-model 路由证据仍有限。项目 stable 不代表每个组件都已 stable，也不代表绝对无 Bug。Live-model 路由准确率为 **UNKNOWN**；明确授权的豁免仅限 `v0.3.0` 和这一缺失测量，所有其他发布门禁仍为强制。详见[版本与生命周期策略](VERSIONING.zh-CN.md)。
 
 ### 常见选择
 

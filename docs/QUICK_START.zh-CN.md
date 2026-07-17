@@ -11,9 +11,9 @@
 - 需要核对发布、Pack/插件版本或 Skill 成熟度：看[版本与生命周期策略](VERSIONING.zh-CN.md)。
 - 需要新增或维护 Skill：继续看[新增 Skills 指南](ADDING_SKILLS.zh-CN.md)。
 
-## 候选版本说明
+## 正式稳定版说明
 
-当前 checkout 是 **v0.3.0-rc.1 Release Candidate**。确定性门禁已通过，但真实模型路由准确率仍为 **UNKNOWN**，因此它按 prerelease 发布。项目版本、组件版本和成熟度状态彼此独立。4 个 active Pack 和 38 个 active Skill 当前均为 `beta`，表示已经通过仓库验证、可以用于真实任务，但仍缺少广泛公开使用和 Live-model 路由证据。当前 Live-model 路由准确率为 **UNKNOWN**。
+当前 checkout 是已授权的 **v0.3.0 项目正式稳定版**，由功能内容不变的 `v0.3.0-rc.1` 在全部非豁免门禁通过后晋级。项目版本、组件版本和成熟度状态彼此独立。4 个 active Pack 和 38 个 active Skill 仍为 `beta`。Live-model 路由准确率为 **UNKNOWN**；豁免仅限 `v0.3.0` 和这一证据缺口，其他发布门禁全部保持强制。
 
 ## 你正在看的是什么
 

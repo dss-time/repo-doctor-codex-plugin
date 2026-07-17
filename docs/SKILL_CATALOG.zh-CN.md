@@ -2,7 +2,7 @@
 
 > 此文件由 `scripts/generate-skill-catalog.mjs` 基于 `packs/`、activation contracts 和插件 UI 元数据确定性生成。请勿手工编辑；运行 `node scripts/generate-skill-catalog.mjs` 更新。
 
-本目录对应项目 Release Candidate `0.3.0-rc.1`，收录 4 个 active Pack 中的 38 个 active Skill。当前其中 35 个配置了插件兼容产物和独立 ChatGPT ZIP，3 个仅进入常规跨平台构建产物。相邻 Skill 来自 281 条 activation contract 以及 canonical description 中明确提到的 Skill。
+本目录对应项目 Release Candidate `0.3.0`，收录 4 个 active Pack 中的 38 个 active Skill。当前其中 35 个配置了插件兼容产物和独立 ChatGPT ZIP，3 个仅进入常规跨平台构建产物。相邻 Skill 来自 281 条 activation contract 以及 canonical description 中明确提到的 Skill。
 
 这里的 **beta** 表示已经可以公开使用并通过当前仓库的 contract、构建和文档验证，但仍需要真实环境反馈；它不等于在线模型路由已经验证。Live-model 路由准确率仍为 **UNKNOWN**。`stable` 也只表示成熟度更高，不代表绝对无 Bug。
 

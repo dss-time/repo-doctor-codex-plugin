@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { discoverActivePackSkills, discoverPackRoots } from "./sync-pack-plugin.mjs";
 import { sortedDirectoryEntries } from "./deterministic-files.mjs";
 import { parseYamlSubset } from "./validate-yaml-schemas.mjs";
-import { inspectReleaseMetadata } from "./release-metadata.mjs";
+import { inspectReleaseMetadata, releaseContract } from "./release-metadata.mjs";
 import { validateWorkflowRegistry } from "./validate-workflows.mjs";
 
 const scriptRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,7 +41,13 @@ export function inspectDoctor(root = scriptRoot) {
   const branch = git(root, ["branch", "--show-current"]);
   const workspace = git(root, ["status", "--short", "--untracked-files=all"]);
   const head = git(root, ["rev-parse", "HEAD"]);
-  const tagCommit = git(root, ["rev-list", "-n", "1", "v0.2.0"]);
+  const expectedTag = packageJson?.version ? `v${packageJson.version}` : null;
+  const tagExists = expectedTag && git(root, ["tag", "--list", expectedTag]) === expectedTag;
+  const tagCommit = tagExists ? git(root, ["rev-list", "-n", "1", expectedTag]) : null;
+  const sourceRcTag = git(root, ["tag", "--list", "v0.3.0-rc.1"]);
+  const sourceRcCommit = sourceRcTag === "v0.3.0-rc.1"
+    ? git(root, ["rev-list", "-n", "1", "v0.3.0-rc.1"])
+    : null;
 
   record("node-runtime", Number(process.versions.node.split(".")[0]) >= 18, `Node ${process.versions.node}; required >=18`);
   record("git-branch", Boolean(branch), branch ? `branch ${branch}` : "Git branch unavailable", "warning");
@@ -88,8 +94,15 @@ export function inspectDoctor(root = scriptRoot) {
 
   const release = inspectReleaseMetadata(root);
   record("release-metadata", release.errors.length === 0, release.errors.length ? release.errors.join("; ") : `project ${release.summary.projectVersion} metadata consistent`);
-  if (head && tagCommit && head !== tagCommit) record("release-lineage", false, "HEAD is after local v0.2.0; recommend project 0.3.0 in a separately authorized release task", "warning");
-  else record("release-lineage", true, tagCommit ? "HEAD matches local v0.2.0" : "local v0.2.0 relation unavailable");
+  if (head && tagCommit && head !== tagCommit) {
+    record("release-lineage", false, `${expectedTag} does not point to HEAD`, "warning");
+  } else if (head && tagCommit) {
+    record("release-lineage", true, `HEAD matches local ${expectedTag}`);
+  } else if (head && sourceRcCommit && head === sourceRcCommit) {
+    record("release-lineage", false, `${expectedTag} has not been created yet; HEAD still matches v0.3.0-rc.1`, "warning");
+  } else {
+    record("release-lineage", false, `${expectedTag ?? "expected release tag"} relation unavailable`, "warning");
+  }
   record("remote-release-state", false, "not checked: doctor is offline and never calls GitHub", "info");
 
   const nextCommand = errors.some((item) => item.includes("generated") || item.includes("projection") || item.includes("ZIP"))
@@ -107,7 +120,18 @@ export function inspectDoctor(root = scriptRoot) {
     environment: { node: process.versions.node, branch, workspace_clean: workspace === "", head },
     inventory: { packs: packRoots.length, active_skills: activeSkills, repo_doctor_skills: repoSkills, plugin_skills: pluginSkills, expected_chatgpt_zips: 35, actual_chatgpt_zips: zipCount, platform_targets: targets.length },
     workflow: { registry_id: workflow.registry?.registry_id ?? null, version: workflow.registry?.version ?? null, count: workflow.registry ? Object.keys(workflow.registry.workflows).length : 0 },
-    release: { current_project_version: packageJson?.version ?? null, local_release_tag: tagCommit ? "v0.2.0" : null, local_release_commit: tagCommit, current_commit: head, recommended_next_version: head && tagCommit && head !== tagCommit ? "0.3.0" : null, remote_release_status: "UNKNOWN_OFFLINE" },
+    release: {
+      current_project_version: packageJson?.version ?? null,
+      release_channel: releaseContract.releaseChannel,
+      live_model_status: releaseContract.liveModelStatus,
+      maintainer_waiver: releaseContract.liveModelWaiver,
+      local_release_tag: tagCommit ? expectedTag : null,
+      local_release_commit: tagCommit,
+      source_rc_commit: sourceRcCommit,
+      current_commit: head,
+      recommended_next_version: null,
+      remote_release_status: "UNKNOWN_OFFLINE",
+    },
     next_recommended_command: nextCommand,
     checks,
     errors,

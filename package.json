@@ -1,6 +1,6 @@
 {
   "name": "repo-doctor-skills",
-  "version": "0.3.0-rc.1",
+  "version": "0.3.0",
   "private": true,
   "description": "A bilingual, cross-platform AI Skills framework for repository diagnosis, code review, document review, and safe agent workflows.",
   "type": "module",

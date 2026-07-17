@@ -25,6 +25,8 @@ const releaseDocuments = [
   "docs/VERSIONING.md",
   "docs/VERSIONING.zh-CN.md",
   "docs/RELEASE_NOTES_DRAFT.md",
+  "docs/RELEASE_NOTES_0.3.0.md",
+  "docs/RELEASE_PREPARATION_0.3.0.md",
   "CHANGELOG.md",
 ];
 
@@ -168,19 +170,24 @@ for (const relativePath of releaseDocuments) {
   checkMachineSpecificContent(relativePath, content);
 }
 
-const releaseNotes = read("docs/RELEASE_NOTES_DRAFT.md");
+const rcReleaseNotes = read("docs/RELEASE_NOTES_DRAFT.md");
 for (const term of ["0.3.0-rc.1", "Release Candidate", "Live-model", "UNKNOWN"]) {
-  if (!releaseNotes.includes(term)) fail(`docs/RELEASE_NOTES_DRAFT.md: missing Release Candidate term ${term}`);
+  if (!rcReleaseNotes.includes(term)) fail("docs/RELEASE_NOTES_DRAFT.md: missing preserved RC term " + term);
+}
+
+const stableReleaseNotes = read("docs/RELEASE_NOTES_0.3.0.md");
+for (const term of ["0.3.0", "Stable Release", "non-prerelease", "Live-model", "UNKNOWN", "v0.3.0 only"]) {
+  if (!stableReleaseNotes.includes(term)) fail("docs/RELEASE_NOTES_0.3.0.md: missing stable release term " + term);
 }
 
 const changelog = read("CHANGELOG.md");
-for (const heading of ["## [Unreleased]", "## [0.3.0-rc.1] - 2026-07-17", "## [0.2.0] - 2026-07-15", "## [0.1.0] - 2026-07-09"]) {
+for (const heading of ["## [Unreleased]", "## [0.3.0] - 2026-07-17", "## [0.3.0-rc.1] - 2026-07-17", "## [0.2.0] - 2026-07-15", "## [0.1.0] - 2026-07-09"]) {
   if (!changelog.includes(heading)) fail(`CHANGELOG.md: missing heading ${heading}`);
 }
 
 for (const relativePath of ["docs/VERSIONING.md", "docs/VERSIONING.zh-CN.md"]) {
   const content = read(relativePath);
-  for (const term of ["0.1.0", "0.2.0", "0.3.0-rc.1", "v0.0.1", "beta", "stable", "deprecated", "draft"]) {
+  for (const term of ["0.1.0", "0.2.0", "0.3.0", "0.3.0-rc.1", "v0.0.1", "beta", "stable", "deprecated", "draft"]) {
     if (!content.includes(term)) fail(`${relativePath}: missing version-policy term ${term}`);
   }
 }

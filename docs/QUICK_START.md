@@ -11,9 +11,9 @@ This guide is for first-time users.
 - Read [Versioning and Lifecycle Policy](VERSIONING.md) when checking a release, Pack/plugin version, or Skill maturity status.
 - Maintainers should continue with [Adding Skills](ADDING_SKILLS.md).
 
-## Release Candidate Note
+## Stable Release Note
 
-This checkout is the **v0.3.0-rc.1 Release Candidate**. It is intended for prerelease publication because deterministic gates pass while live-model routing accuracy remains **UNKNOWN**. Project, component, and maturity versions are separate. All 4 active Packs and 38 active Skills are `beta`, meaning repository-validated and suitable for real tasks while broad public-use and Live-model routing evidence remains limited. Live-model routing accuracy is currently **UNKNOWN**.
+This checkout is the authorized **v0.3.0 stable project release**, promoted from the unchanged `v0.3.0-rc.1` content after all non-waived gates passed. Project, component, and maturity versions are separate. All 4 active Packs and 38 active Skills remain `beta`. Live-model routing accuracy is **UNKNOWN** under a waiver limited to `v0.3.0` and that evidence gap; every other release gate remains mandatory.
 
 ## What You Are Looking At
 

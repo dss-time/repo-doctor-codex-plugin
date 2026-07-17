@@ -66,7 +66,7 @@ The canonical source currently contains four active Packs. The latest counts, pe
 
 ### Release version and maturity
 
-This checkout is the **v0.3.0-rc.1 Release Candidate**, selected for prerelease publication because deterministic gates pass while live-model routing accuracy remains **UNKNOWN**. Project version, Pack/plugin component versions, individual Skill versions, and maturity status are separate. All 4 active Packs and 38 active Skills use `beta`: they have passed repository contracts and are suitable for real tasks, but they do not yet have enough broad public-use or Live-model routing evidence for `stable`. Beta does not mean unusable; stable would not mean bug-free. Live-model routing accuracy remains **UNKNOWN**. See [Versioning and Lifecycle Policy](VERSIONING.md) for exact component baselines and the historical tag-label exception.
+This checkout is the authorized **v0.3.0 stable project release**, promoted from functionally unchanged `v0.3.0-rc.1` content. Project version, Pack/plugin component versions, individual Skill versions, and maturity status are separate. All 4 active Packs and 38 active Skills remain `beta`: they have passed repository contracts and are suitable for real tasks, while broad public-use and Live-model routing evidence remains limited. Stable project release does not mean every component is stable or bug-free. Live-model routing accuracy is **UNKNOWN** under an explicit waiver limited to `v0.3.0` and that missing measurement; all other release gates remain mandatory. See [Versioning and Lifecycle Policy](VERSIONING.md).
 
 ### Common choices
 

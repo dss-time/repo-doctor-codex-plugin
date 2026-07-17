@@ -243,7 +243,15 @@ assert.deepEqual(
   ["draft", "beta", "stable", "deprecated"],
   "Pack Schema must use the lifecycle status vocabulary",
 );
-assert.equal(releaseContract.projectVersion, "0.3.0-rc.1");
+assert.equal(releaseContract.projectVersion, "0.3.0");
+assert.equal(releaseContract.releaseChannel, "stable");
+assert.equal(releaseContract.liveModelStatus, "UNKNOWN");
+assert.deepEqual(releaseContract.liveModelWaiver, {
+  authorized: true,
+  version: "0.3.0",
+  scope: "live-model-status-only",
+  record: "docs/RELEASE_PREPARATION_0.3.0.md",
+});
 assert.deepEqual(
   Object.fromEntries(releaseContract.packs.map((pack) => [pack.id, pack.version])),
   {
@@ -265,7 +273,7 @@ assert.deepEqual(valid.summary, { projectVersion: "0.2.0", packs: 2, activeSkill
 expectFailure(
   "project-mismatch",
   (root) => replace(root, "package.json", '"version": "0.2.0"', '"version": "0.1.0"'),
-  ["project version mismatch", "regresses below Release Candidate 0.2.0"],
+  ["project version mismatch", "regresses below release contract 0.2.0"],
 );
 expectFailure(
   "pack-regression",
@@ -290,7 +298,7 @@ expectFailure(
 expectFailure(
   "active-draft",
   (root) => replace(root, "packs/engineering/demo/skills/active/skill.yaml", "status: beta", "status: draft"),
-  ["active Release Candidate Skill must not remain draft"],
+  ["active release Skill must not remain draft"],
 );
 expectFailure(
   "unknown-skill-status",
@@ -305,7 +313,7 @@ expectFailure(
 expectFailure(
   "deprecated-pack",
   (root) => replace(root, "packs/engineering/demo/pack.yaml", "status: beta", "status: deprecated"),
-  ["active Release Candidate Pack must be beta or stable"],
+  ["active release Pack must be beta or stable"],
 );
 expectFailure(
   "pack-maturity",
@@ -376,9 +384,23 @@ expectFailure(
   [
     "title must identify project version 0.2.0",
     "must describe the artifact as a Release Candidate",
-    "must keep Live-model routing accuracy UNKNOWN",
-    "must record expected future tag v0.2.0",
+    "must disclose Live-model routing accuracy as UNKNOWN",
+    "must record release tag v0.2.0",
   ],
 );
 
-console.log("Release metadata tests passed for the two-layer version contract, lifecycle rules, templates, deprecations, CHANGELOG, and RC documentation.");
+const missingWaiver = inspectReleaseMetadata(repositoryRoot, { ...releaseContract, liveModelWaiver: null });
+assert.ok(
+  missingWaiver.errors.some((error) => error.includes("requires an explicit maintainer waiver")),
+  "stable UNKNOWN Live-model status must require explicit authorization",
+);
+const broadWaiver = inspectReleaseMetadata(repositoryRoot, {
+  ...releaseContract,
+  liveModelWaiver: { ...releaseContract.liveModelWaiver, scope: "all-release-gates" },
+});
+assert.ok(
+  broadWaiver.errors.some((error) => error.includes("scope must be live-model-status-only")),
+  "Live-model waiver must not suppress other release gates",
+);
+
+console.log("Release metadata tests passed for version contracts, lifecycle rules, stable authorization, templates, deprecations, CHANGELOG, and release documentation.");

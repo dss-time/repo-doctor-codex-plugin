@@ -325,11 +325,11 @@ npm run build
 
 运行 `npm run validate`、`npm test`、`npm run build`、`npm run docs:check`、`npm run quality:check` 和 `npm run release:check`。用 `npm run workflow:validate` 校验机器可读注册表；Golden Workflow 已纳入 `npm run test:workflow`。按[测试与评测说明](docs/TESTING_AND_EVALUATION.zh-CN.md)准备并记录人工真实模型运行。确定性契约测试不等于真实模型路由准确率。
 
-## 候选版本状态
+## 正式稳定版状态
 
-历史 **v0.2.0 预发布**保持不变。当前 checkout 是已授权的 **v0.3.0-rc.1 Release Candidate**；由于真实模型评测仍为 UNKNOWN，本版本按 prerelease 发布。项目发布版本、组件版本和成熟度状态是彼此独立的层次。当前 checkout 的 4 个 active Pack 和 38 个 active Skill 都标记为 `beta`：它们已经通过仓库验证，可以用于真实任务，但仍缺少足够的广泛公开使用和 Live-model 路由证据。Beta 不等于不可用，未来的 `stable` 也不等于绝对无 Bug。
+历史 **v0.2.0 预发布**和 **v0.3.0-rc.1 Release Candidate**保持不变。当前 checkout 是已授权的 **v0.3.0 项目正式稳定版**。项目发布版本、组件版本和成熟度状态彼此独立。4 个 active Pack 和 38 个 active Skill 仍标记为 `beta`：它们已经通过仓库验证，可以用于真实任务，但广泛公开使用和 Live-model 路由证据仍有限。项目 stable 不代表每个组件都已 stable，也不代表绝对无 Bug。
 
-Live-model 路由准确率仍为 **UNKNOWN**。组件版本基线和历史 `v0.0.1` tag 标签例外见[版本与生命周期策略](docs/VERSIONING.zh-CN.md)，候选变更记录见 [CHANGELOG.md](CHANGELOG.md)。
+Live-model 路由准确率仍为 **UNKNOWN**；维护者豁免仅限 `v0.3.0` 和缺失的 Live-model 测量，不豁免 Schema、测试、权限、安全、构建、CI、产物或校验和门禁。详见[版本与生命周期策略](docs/VERSIONING.zh-CN.md)、[正式版发布说明](docs/RELEASE_NOTES_0.3.0.md)和 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 相关文档
 

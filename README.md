@@ -327,11 +327,11 @@ See [docs/PUBLIC_PRIVATE_BOUNDARY.md](docs/PUBLIC_PRIVATE_BOUNDARY.md).
 
 Use `npm run validate`, `npm test`, `npm run build`, `npm run docs:check`, `npm run quality:check`, and `npm run release:check`. Validate the machine-readable registry with `npm run workflow:validate`; Golden Workflows are part of `npm run test:workflow`. Prepare and record manual live-model runs using the [Testing and Evaluation guide](docs/TESTING_AND_EVALUATION.md). Deterministic contract tests are not live-model routing accuracy.
 
-## Release Candidate Status
+## Stable Release Status
 
-The historical **v0.2.0 prerelease** remains unchanged. This checkout is the authorized **v0.3.0-rc.1 Release Candidate**; it is published as a prerelease because live-model evaluation remains UNKNOWN. Project release version, component versions, and maturity status are separate layers. All 4 active Packs and 38 active Skills in the current checkout are marked `beta`: they are repository-validated and suitable for real tasks, but broad public-use and Live-model routing evidence is still limited. Beta does not mean unusable, and a future `stable` label would not mean bug-free.
+The historical **v0.2.0 prerelease** and **v0.3.0-rc.1 Release Candidate** remain unchanged. This checkout is the authorized **v0.3.0 stable project release**. Project release version, component versions, and maturity status are separate layers. All 4 active Packs and 38 active Skills remain `beta`: they are repository-validated and suitable for real tasks, while broad public-use and Live-model routing evidence is still limited. Stable project release does not mean every component is stable or bug-free.
 
-Live-model routing accuracy remains **UNKNOWN**. See [Versioning and Lifecycle Policy](docs/VERSIONING.md) for the component baselines and the historical `v0.0.1` tag-label exception, and [CHANGELOG.md](CHANGELOG.md) for the candidate change record.
+Live-model routing accuracy remains **UNKNOWN** under an explicit waiver limited to `v0.3.0` and the missing Live-model measurement; no Schema, test, permission, security, build, CI, artifact, or checksum gate is waived. See [Versioning and Lifecycle Policy](docs/VERSIONING.md), [stable Release Notes](docs/RELEASE_NOTES_0.3.0.md), and [CHANGELOG.md](CHANGELOG.md).
 
 ## Related Docs
 

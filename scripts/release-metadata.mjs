@@ -22,13 +22,21 @@ const maturityRank = new Map([
   ["stable", 2],
 ]);
 
-// This is the confirmed two-layer Release Candidate contract: one project
-// release version plus independently evolving Pack/plugin/Skill component
-// versions. Skill versions are protected against invalid values and known
-// regressions without being forced to match their Pack.
+// This is the confirmed two-layer release contract: one project release
+// version plus independently evolving Pack/plugin/Skill component versions.
+// Skill versions are protected against invalid values and known regressions
+// without being forced to match their Pack.
 export const releaseContract = Object.freeze({
-  projectVersion: "0.3.0-rc.1",
+  projectVersion: "0.3.0",
   releaseDate: "2026-07-17",
+  releaseChannel: "stable",
+  liveModelStatus: "UNKNOWN",
+  liveModelWaiver: Object.freeze({
+    authorized: true,
+    version: "0.3.0",
+    scope: "live-model-status-only",
+    record: "docs/RELEASE_PREPARATION_0.3.0.md",
+  }),
   historicalProjectVersion: "0.1.0",
   historicalReleaseDate: "2026-07-09",
   historicalTag: "v0.0.1",
@@ -78,7 +86,7 @@ export const releaseContract = Object.freeze({
     skillCount: 1,
   }),
   changelogPath: "CHANGELOG.md",
-  releaseCandidateDocument: "docs/RELEASE_NOTES_DRAFT.md",
+  releaseDocument: "docs/RELEASE_NOTES_0.3.0.md",
   marketplacePath: ".agents/plugins/marketplace.json",
 });
 
@@ -200,7 +208,7 @@ function auditPackage(root, contract, errors) {
     const relation = compareSemver(packageJson.version, contract.projectVersion) < 0
       ? "regresses below"
       : "differs from";
-    errors.push(`package.json: project version mismatch; ${packageJson.version} ${relation} Release Candidate ${contract.projectVersion}`);
+    errors.push(`package.json: project version mismatch; ${packageJson.version} ${relation} release contract ${contract.projectVersion}`);
   }
 
   const lockPath = path.join(root, "package-lock.json");
@@ -252,7 +260,7 @@ function auditPacks(root, contract, errors) {
     if (!knownStatuses.has(actual.metadata.status)) {
       errors.push(`${actual.relative}: unknown Pack status ${JSON.stringify(actual.metadata.status)}`);
     } else if (!releaseEligibleStatuses.has(actual.metadata.status)) {
-      errors.push(`${actual.relative}: active Release Candidate Pack must be beta or stable, found ${actual.metadata.status}`);
+      errors.push(`${actual.relative}: active release Pack must be beta or stable, found ${actual.metadata.status}`);
     }
 
     if (!Array.isArray(actual.metadata.skills)) {
@@ -283,7 +291,7 @@ function auditPacks(root, contract, errors) {
       if (!knownStatuses.has(metadata.status)) {
         errors.push(`${relative}: unknown Skill status ${JSON.stringify(metadata.status)}`);
       } else if (metadata.status === "draft") {
-        errors.push(`${relative}: active Release Candidate Skill must not remain draft`);
+        errors.push(`${relative}: active release Skill must not remain draft`);
       }
     }
 
@@ -303,7 +311,7 @@ function auditPacks(root, contract, errors) {
       errors.push(`${actual.relative}: expected ${expected.activeSkillCount} beta/stable Skills, found ${releaseEligibleSlugs.length}`);
     }
     if (releaseEligibleSlugs.length === 0) {
-      errors.push(`${actual.relative}: active Release Candidate Pack has no beta/stable Skills`);
+      errors.push(`${actual.relative}: active release Pack has no beta/stable Skills`);
     } else if (maturityRank.has(actual.metadata.status)) {
       const lowestSkillRank = Math.min(
         ...releaseEligibleSlugs.map((slug) => maturityRank.get(metadataBySlug.get(slug).status)),
@@ -358,7 +366,7 @@ function auditPluginsAndMarketplace(root, contract, packResults, errors) {
         .map((entry) => entry.name)
     : [];
   for (const name of actualPluginNames) {
-    if (!expectedPlugins.has(name)) errors.push(`plugins/${name}: unexpected Release Candidate plugin manifest`);
+    if (!expectedPlugins.has(name)) errors.push(`plugins/${name}: unexpected release plugin manifest`);
   }
 
   for (const [name, packContract] of expectedPlugins) {
@@ -385,7 +393,7 @@ function auditPluginsAndMarketplace(root, contract, packResults, errors) {
   const names = entries.map((entry) => entry?.name).filter((name) => typeof name === "string");
   if (new Set(names).size !== names.length) errors.push(`${contract.marketplacePath}: duplicate plugin entries`);
   if (!sameNames(names, expectedPlugins.keys())) {
-    errors.push(`${contract.marketplacePath}: plugin entries must exactly match Release Candidate plugins`);
+    errors.push(`${contract.marketplacePath}: plugin entries must exactly match release plugins`);
   }
   for (const entry of entries) {
     if (!entry || typeof entry.name !== "string") continue;
@@ -466,25 +474,73 @@ function auditChangelog(root, contract, errors) {
   }
 }
 
-function auditReleaseCandidateDocument(root, contract, errors) {
-  const absolute = path.join(root, contract.releaseCandidateDocument);
+function auditReleaseDocument(root, contract, errors) {
+  const relative = contract.releaseDocument ?? contract.releaseCandidateDocument;
+  if (!relative) {
+    errors.push("release contract: releaseDocument is required");
+    return;
+  }
+  const absolute = path.join(root, relative);
   if (!existsSync(absolute)) {
-    errors.push(`${contract.releaseCandidateDocument}: missing`);
+    errors.push(`${relative}: missing`);
     return;
   }
   const content = readFileSync(absolute, "utf8");
-  const version = escapeRegExp(contract.projectVersion);
-  if (!new RegExp(`^# .*\\bv?${version}\\b.*$`, "mi").test(content)) {
-    errors.push(`${contract.releaseCandidateDocument}: title must identify project version ${contract.projectVersion}`);
+  const title = content.split("\n", 1)[0];
+  if (!title.includes(contract.projectVersion)) {
+    errors.push(`${relative}: title must identify project version ${contract.projectVersion}`);
   }
-  if (!/(?:release candidate|候选版本|发布候选)/i.test(content)) {
-    errors.push(`${contract.releaseCandidateDocument}: must describe the artifact as a Release Candidate`);
+  if (contract.releaseChannel === "stable") {
+    if (!/(?:stable release|正式稳定|non-prerelease)/i.test(content)) {
+      errors.push(`${relative}: must describe the artifact as a stable non-prerelease`);
+    }
+  } else if (!/(?:release candidate|候选版本|发布候选)/i.test(content)) {
+    errors.push(`${relative}: must describe the artifact as a Release Candidate`);
   }
   if (!/Live-model/i.test(content) || !/UNKNOWN/.test(content)) {
-    errors.push(`${contract.releaseCandidateDocument}: must keep Live-model routing accuracy UNKNOWN`);
+    errors.push(`${relative}: must disclose Live-model routing accuracy as UNKNOWN`);
   }
   if (!content.includes(`v${contract.projectVersion}`)) {
-    errors.push(`${contract.releaseCandidateDocument}: must record expected future tag v${contract.projectVersion}`);
+    errors.push(`${relative}: must record release tag v${contract.projectVersion}`);
+  }
+}
+
+function auditLiveModelWaiver(root, contract, errors) {
+  if (contract.releaseChannel !== "stable" || contract.liveModelStatus !== "UNKNOWN") return;
+  const waiver = contract.liveModelWaiver;
+  if (!waiver || waiver.authorized !== true) {
+    errors.push("release contract: stable release with UNKNOWN Live-model status requires an explicit maintainer waiver");
+    return;
+  }
+  if (waiver.version !== contract.projectVersion) {
+    errors.push(`release contract: Live-model waiver must be limited to ${contract.projectVersion}`);
+  }
+  if (waiver.scope !== "live-model-status-only") {
+    errors.push("release contract: Live-model waiver scope must be live-model-status-only");
+  }
+  if (typeof waiver.record !== "string" || !waiver.record) {
+    errors.push("release contract: Live-model waiver must name an auditable record");
+    return;
+  }
+  const absolute = path.join(root, waiver.record);
+  if (!existsSync(absolute)) {
+    errors.push(`${waiver.record}: Live-model waiver record is missing`);
+    return;
+  }
+  const content = readFileSync(absolute, "utf8");
+  const requiredStatements = [
+    `stable release target: ${contract.projectVersion}`,
+    `live model status: ${contract.liveModelStatus}`,
+    "maintainer waiver: explicitly authorized",
+    `waiver scope: v${contract.projectVersion} only`,
+  ];
+  for (const statement of requiredStatements) {
+    if (!content.toLowerCase().includes(statement.toLowerCase())) {
+      errors.push(`${waiver.record}: missing auditable waiver statement ${statement}`);
+    }
+  }
+  if (!/(?:must not|does not|不得|不能).{0,80}(?:schema|test|security|permission|build)/is.test(content)) {
+    errors.push(`${waiver.record}: waiver must explicitly preserve non-Live-model release gates`);
   }
 }
 
@@ -496,7 +552,8 @@ export function inspectReleaseMetadata(root = scriptRoot, contract = releaseCont
   auditTemplate(resolvedRoot, contract, errors);
   auditPluginsAndMarketplace(resolvedRoot, contract, packResults, errors);
   auditChangelog(resolvedRoot, contract, errors);
-  auditReleaseCandidateDocument(resolvedRoot, contract, errors);
+  auditReleaseDocument(resolvedRoot, contract, errors);
+  auditLiveModelWaiver(resolvedRoot, contract, errors);
   return {
     errors: errors.sort(compareNames),
     summary: {
